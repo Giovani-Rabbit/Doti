@@ -10,7 +10,7 @@ const SideNav = () => {
                 className="h-16 text-lg flex items-center justify-start font-semibold pb-6"
                 href="/"
             >
-                <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-indigo-500">
+                <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-violet-500">
                     <AlarmClockCheck className="text-white" />
                 </div>
             </Link>
@@ -20,7 +20,7 @@ const SideNav = () => {
                 <div className="hidden h-auto w-full grow rounded-md md:block" />
 
                 <div className="py-4 flex flex-col items-center justify-center gap-4">
-                    <Link className="p-2 rounded-lg text-zinc-400 hover:text-indigo-500 hover:bg-indigo-50" href="/config">
+                    <Link className="p-2 rounded-lg text-zinc-400 hover:text-violet-500 hover:bg-violet-50" href="/config">
                         <Settings />
                     </Link>
                     <Separator.SeparatorHorizontal />

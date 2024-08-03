@@ -9,7 +9,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             </div>
             <div className="flex flex-col flex-grow md:overflow-y-auto">
                 <HeaderLayout />
-                <div className="p-8 flex-grow overflow-hidden">
+                <div className="flex-grow overflow-hidden">
                     {children}
                 </div>
             </div>

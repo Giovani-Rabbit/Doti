@@ -12,7 +12,7 @@ const HeaderLayout = () => {
                 </div>
                 <div className="flex items-center justify-end gap-4">
                     <Bell className="text-zinc-400" />
-                    <div className="w-10 h-10 bg-indigo-500 rounded-full"></div>
+                    <div className="w-10 h-10 bg-violet-500 rounded-full"></div>
                 </div>
             </div>
         </>
