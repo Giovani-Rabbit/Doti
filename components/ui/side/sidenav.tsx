@@ -1,22 +1,33 @@
 import Link from "next/link";
 import NavLinks from "./navLinks";
+import { AlarmClockCheck, LogOut, Settings } from "lucide-react";
+import Separator from "../widgets/separator";
 
 const SideNav = () => {
     return (
-        <div className="flex h-full flex-col py-6 px-8">
+        <div className="flex h-full flex-col items-center justify-center py-3">
             <Link
-                className="h-16 text-lg flex items-center justify-start space-x-4 font-semibold pb-6 border-b"
+                className="h-16 text-lg flex items-center justify-start font-semibold pb-6"
                 href="/"
             >
-                <div className="w-10 h-10 rounded-xl bg-violet-500" />
-                <div className="flex flex-col items-start justify-center">
-                    <p>Giovani Coelho</p>
-                    <p className="text-xs font-medium text-zinc-500">@desenvolvedor</p>
+                <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-indigo-500">
+                    <AlarmClockCheck className="text-white" />
                 </div>
             </Link>
             <div className="mt-6 flex grow flex-col justify-between space-y-4">
                 <NavLinks />
-                <div className="hidden h-auto w-full grow rounded-md md:block"></div>
+
+                <div className="hidden h-auto w-full grow rounded-md md:block" />
+
+                <div className="py-4 flex flex-col items-center justify-center gap-4">
+                    <Link className="p-2 rounded-lg text-zinc-400 hover:text-indigo-500 hover:bg-indigo-50" href="/config">
+                        <Settings />
+                    </Link>
+                    <Separator.SeparatorHorizontal />
+                    <Link className="p-2 rounded-lg text-zinc-400 hover:text-rose-500 hover:bg-rose-50" href="/">
+                        <LogOut />
+                    </Link>
+                </div>
             </div>
         </div>
     );
