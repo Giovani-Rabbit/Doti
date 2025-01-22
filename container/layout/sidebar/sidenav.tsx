@@ -1,7 +1,7 @@
 import Link from "next/link";
 import NavLinks from "./navLinks";
 import { AlarmClockCheck, LogOut, Settings } from "lucide-react";
-import Separator from "../widgets/separator";
+import Separator from "../../../components/ui/widgets/separator";
 
 const SideNav = () => {
     return (

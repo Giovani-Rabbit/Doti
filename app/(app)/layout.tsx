@@ -1,5 +1,5 @@
-import HeaderLayout from "@/components/ui/side/header/headerLayout";
-import SideNav from "@/components/ui/side/sidenav";
+import HeaderLayout from "@/container/layout/header/headerLayout";
+import SideNav from "@/container/layout/sidebar/sidenav";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
     return (

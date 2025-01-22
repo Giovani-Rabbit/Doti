@@ -23,12 +23,16 @@ const NavLinks = () => {
                     <Link
                         key={link.name}
                         href={link.href}
-                        className={clsx(
-                            "flex p-2 rounded-lg grow items-center text-zinc-400 hover:text-violet-300 hover:bg-violet-50 md:flex-none",
-                            { 'bg-violet-50': path === link.href }
-                        )
+                        className={
+                            clsx(
+                                "flex p-2 rounded-lg grow items-center text-zinc-400 hover:text-violet-300 hover:bg-violet-50 md:flex-none",
+                                { 'bg-violet-50': path === link.href }
+                            )
                         }>
-                        <LinkIcon className={clsx({ 'text-violet-500': path === link.href })} />
+                        <LinkIcon
+                            className={
+                                clsx({ 'text-violet-500': path === link.href })}
+                        />
                     </Link>
                 )
             })}
