@@ -63,7 +63,28 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 20px;
+  }
+
+  ::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    /* background: ; */
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #bbbbbb57;
+    border-radius: 100vh;
+    /* border: 3px solid #ad79c5; */
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #f0d0e9;
   }
 }

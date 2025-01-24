@@ -1,5 +1,6 @@
-import HeaderLayout from "@/container/layout/header/headerLayout";
-import SideNav from "@/container/layout/sidebar/sidenav";
+import HeaderLayout from "@/components/layout/header/headerLayout";
+import ProjectListLayout from "@/components/layout/projectList/projectListLayout";
+import SideNav from "@/components/layout/sidebar/sidenav";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
     return (
@@ -8,7 +9,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 <SideNav />
             </div>
             <div className="flex flex-col flex-grow md:overflow-y-auto">
-                <HeaderLayout />
+                <div className="flex h-full">
+                    <ProjectListLayout />
+                    <HeaderLayout />
+                </div>
                 <div className="flex-grow overflow-hidden">
                     {children}
                 </div>

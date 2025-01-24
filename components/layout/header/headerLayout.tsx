@@ -4,7 +4,7 @@ import { Bell } from "lucide-react";
 const HeaderLayout = () => {
     return (
         <>
-            <div className="w-full h-16 px-4 flex items-center justify-between">
+            <div className="w-full h-16 px-4 flex items-center justify-between border-b border-zinc-300">
                 <div className="h-full p-4 gap-4 flex items-center justify-start">
                     <span className="font-semibold">My Projects</span>
                     <Separator.SeparatorVertical />
