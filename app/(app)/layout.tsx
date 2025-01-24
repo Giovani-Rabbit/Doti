@@ -8,12 +8,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             <div className="w-full flex-none md:w-16 border-r border-zinc-300">
                 <SideNav />
             </div>
-            <div className="flex flex-col flex-grow md:overflow-y-auto">
-                <div className="flex h-full">
-                    <ProjectListLayout />
+            <div className="flex w-full h-screen md:overflow-y-auto">
+                <ProjectListLayout />
+
+                <div className="flex flex-col h-screen w-full">
                     <HeaderLayout />
-                </div>
-                <div className="flex-grow overflow-hidden">
                     {children}
                 </div>
             </div>

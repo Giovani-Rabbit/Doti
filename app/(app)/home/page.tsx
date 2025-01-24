@@ -1,7 +1,9 @@
 
 const Page = () => {
     return (
-        <main></main>
+        <main className="flex-grow overflow-auto">
+
+        </main>
     );
 }
 
