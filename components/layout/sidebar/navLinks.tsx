@@ -6,7 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const links = [
-    { name: 'Home', href: '/home', icon: HomeIcon },
+    { name: 'Home', href: '/projeto', icon: HomeIcon },
     { name: 'Projetos', href: '/projects', icon: LayoutGrid },
     { name: 'Chat', href: '/chat', icon: MessageSquareMore },
     { name: 'People', href: '/people', icon: Users }
@@ -26,12 +26,12 @@ const NavLinks = () => {
                         className={
                             clsx(
                                 "flex p-2 rounded-lg grow items-center text-zinc-400 hover:text-violet-300 hover:bg-violet-50 md:flex-none",
-                                { 'bg-violet-50': path === link.href }
+                                { 'bg-zinc-100': path === link.href }
                             )
                         }>
                         <LinkIcon
                             className={
-                                clsx({ 'text-violet-500': path === link.href })}
+                                clsx({ 'text-zinc-700': path === link.href })}
                         />
                     </Link>
                 )

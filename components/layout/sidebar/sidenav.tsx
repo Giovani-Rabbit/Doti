@@ -10,8 +10,8 @@ const SideNav = () => {
                 className="h-16 text-lg flex items-center justify-start font-semibold pb-6"
                 href="/"
             >
-                <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-violet-500">
-                    <AlarmClockCheck className="text-white" />
+                <div className="flex items-center justify-center">
+                    <AlarmClockCheck className="text-zinc-700" />
                 </div>
             </Link>
             <div className="mt-6 flex grow flex-col justify-between space-y-4">
