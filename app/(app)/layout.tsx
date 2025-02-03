@@ -5,7 +5,7 @@ import SideNav from "@/components/layout/sidebar/sidenav";
 const Layout = ({ children }: { children: React.ReactNode }) => {
     return (
         <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
-            <div className="w-full flex-none md:w-16 border-r border-zinc-300">
+            <div className="w-full flex-none md:w-16 border-r border-zinc-200">
                 <SideNav />
             </div>
             <div className="flex w-full h-screen md:overflow-y-auto">
