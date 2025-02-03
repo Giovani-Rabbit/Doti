@@ -20,7 +20,7 @@ const SideNav = () => {
                 <div className="hidden h-auto w-full grow rounded-md md:block" />
 
                 <div className="py-4 flex flex-col items-center justify-center gap-4">
-                    <Link className="p-2 rounded-lg text-zinc-400 hover:text-violet-500 hover:bg-violet-50" href="/config">
+                    <Link className="p-2 rounded-lg text-zinc-400 hover:text-zinc-500 hover:bg-zinc-50" href="/config">
                         <Settings />
                     </Link>
                     <Separator.SeparatorHorizontal />

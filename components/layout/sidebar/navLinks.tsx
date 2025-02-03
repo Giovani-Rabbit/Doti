@@ -25,7 +25,7 @@ const NavLinks = () => {
                         href={link.href}
                         className={
                             clsx(
-                                "flex p-2 rounded-lg grow items-center text-zinc-400 hover:text-violet-300 hover:bg-violet-50 md:flex-none",
+                                "flex p-2 rounded-lg grow items-center text-zinc-400 hover:text-zinc-300 hover:bg-zinc-50 md:flex-none",
                                 { 'bg-zinc-100': path === link.href }
                             )
                         }>
