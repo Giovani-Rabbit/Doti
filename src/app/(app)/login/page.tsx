@@ -2,7 +2,7 @@ import { AlarmClockCheckIcon } from "lucide-react";
 
 export default function Login() {
     return (
-        <div className="flex min-h-screen flex-col justify-center px-6 py-12 lg:px-8">
+        <main className="flex min-h-screen flex-col justify-center px-6 py-12 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                 <AlarmClockCheckIcon className="mx-auto h-14 w-auto p-2 bg-zinc-900 stroke-white rounded-lg" />
 
@@ -84,6 +84,6 @@ export default function Login() {
                     </a>
                 </p>
             </div>
-        </div>
+        </main>
     );
 }
