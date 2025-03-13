@@ -14,7 +14,8 @@ const handler = NextAuth({
                 password: { label: "password", type: "password" }
             },
 
-            async authorize(credentials, req) {
+            async authorize(credentials) {
+                console.log("Ta passando AQUI -------------------------------");
                 if (!credentials) return null;
 
                 const requestCredentials = {

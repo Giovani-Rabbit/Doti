@@ -1,25 +1,7 @@
-"use client";
-
+import LoginForm from "@/modules/auth/login/components/login_form";
 import { AlarmClockCheckIcon } from "lucide-react";
-import { signIn } from "next-auth/react";
-import { FormEvent } from "react";
 
 export default function Login() {
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        const formData = new FormData(e.currentTarget);
-
-        const credentials = {
-            email: formData.get("email"),
-            password: formData.get("password")
-        }
-
-        signIn("credentials", {
-            ...credentials,
-            callbackUrl: "/"
-        });
-    }
-
     return (
         <main className="flex min-h-screen flex-col justify-center px-6 py-12 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -31,65 +13,7 @@ export default function Login() {
             </div>
 
             <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-sm">
-                <form
-                    className="space-y-6"
-                    onSubmit={handleSubmit}
-                    method="POST"
-                >
-                    <div>
-                        <label
-                            htmlFor="email"
-                            className="block text-sm/6 font-medium text-zinc-900"
-                        >
-                            Email
-                        </label>
-                        <div>
-                            <input
-                                type="email"
-                                name="email"
-                                id="email"
-                                required
-                                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-zinc-900 outline-1 -outline-offset-1 outline-zinc-300 placeholder:text-zinc-400 focus:outline-2 focus:-outline-offset-2 focus:outline-zinc-600 sm:text-sm/6"
-                            />
-                        </div>
-                    </div>
-
-                    <div>
-                        <div className="flex items-center justify-between">
-                            <label
-                                htmlFor="password"
-                                className="block text-sm/6 font-medium text-zinc-900"
-                            >
-                                Senha
-                            </label>
-                            <div className="text-sm">
-                                <a
-                                    href="#"
-                                    className="font-semibold text-zinc-600 hover:text-zinc-500"
-                                >
-                                    Esqueceu a senha?
-                                </a>
-                            </div>
-                        </div>
-                        <div>
-                            <input
-                                type="password"
-                                name="password"
-                                id="password"
-                                required
-                                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-zinc-900 outline-1 -outline-offset-1 outline-zinc-300 placeholder:text-zinc-400 focus:outline-2 focus:-outline-offset-2 focus:outline-zinc-600 sm:text-sm/6" />
-                        </div>
-                    </div>
-
-                    <div>
-                        <button
-                            type="submit"
-                            className="flex w-full justify-center rounded-md bg-zinc-800 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-zinc-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                        >
-                            Entrar
-                        </button>
-                    </div>
-                </form>
+                <LoginForm />
 
                 <p className="mt-10 text-center text-sm/6 text-gray-500">
                     Não tem uma conta?
