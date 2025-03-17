@@ -4,6 +4,7 @@ import { useCallback } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AuthenticationFormDTO, signinFormSchema } from "../../interfaces/dto/signin_form_dto";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "@/components/ui/input";
 
 export default function SigninForm() {
     const {
@@ -34,12 +35,12 @@ export default function SigninForm() {
                     Email
                 </label>
                 <div>
-                    <input
+                    <Input
                         {...register("email", { required: "Insira um endereço de e-mail" })}
                         type="email"
+                        placeholder="Insira seu email"
                         name="email"
                         id="email"
-                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-zinc-900 outline-1 -outline-offset-1 outline-zinc-300 placeholder:text-zinc-400 focus:outline-2 focus:-outline-offset-2 focus:outline-zinc-600 sm:text-sm/6"
                     />
                 </div>
             </div>
@@ -62,12 +63,12 @@ export default function SigninForm() {
                     </div>
                 </div>
                 <div>
-                    <input
+                    <Input
                         {...register("password", { required: "Insira uma senha" })}
+                        placeholder="Insira sua senha"
                         type="password"
                         name="password"
                         id="password"
-                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-zinc-900 outline-1 -outline-offset-1 outline-zinc-300 placeholder:text-zinc-400 focus:outline-2 focus:-outline-offset-2 focus:outline-zinc-600 sm:text-sm/6"
                     />
                 </div>
             </div>
