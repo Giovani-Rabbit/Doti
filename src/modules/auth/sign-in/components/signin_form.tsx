@@ -1,30 +1,31 @@
 "use client";
 
-import { signIn } from "next-auth/react";
-import { FormEvent } from "react";
+import { useCallback } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { AuthenticationFormDTO, signinFormSchema } from "../../interfaces/dto/signin_form_dto";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-const LoginForm = () => {
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        const formData = new FormData(e.currentTarget);
+export default function SigninForm() {
+    const {
+        register,
+        handleSubmit,
+        // watch,
+        formState: { errors }
+    } = useForm<AuthenticationFormDTO>({
+        resolver: zodResolver(signinFormSchema)
+    });
 
-        const credentials = {
-            email: formData.get("email"),
-            password: formData.get("password")
-        }
-
-        signIn("credentials", {
-            ...credentials,
-            callbackUrl: "/"
-        });
-    }
+    const onSubmit: SubmitHandler<AuthenticationFormDTO> = useCallback(() => {
+        console.log("A");
+    }, []);
 
     return (
         <form
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmit)}
             className="space-y-6"
-            method="POST"
         >
+            {errors && <p className="text-red-500">{errors.password?.message}</p>}
+
             <div>
                 <label
                     htmlFor="email"
@@ -34,10 +35,10 @@ const LoginForm = () => {
                 </label>
                 <div>
                     <input
+                        {...register("email", { required: "Insira um endereço de e-mail" })}
                         type="email"
                         name="email"
                         id="email"
-                        required
                         className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-zinc-900 outline-1 -outline-offset-1 outline-zinc-300 placeholder:text-zinc-400 focus:outline-2 focus:-outline-offset-2 focus:outline-zinc-600 sm:text-sm/6"
                     />
                 </div>
@@ -62,10 +63,10 @@ const LoginForm = () => {
                 </div>
                 <div>
                     <input
+                        {...register("password", { required: "Insira uma senha" })}
                         type="password"
                         name="password"
                         id="password"
-                        required
                         className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-zinc-900 outline-1 -outline-offset-1 outline-zinc-300 placeholder:text-zinc-400 focus:outline-2 focus:-outline-offset-2 focus:outline-zinc-600 sm:text-sm/6"
                     />
                 </div>
@@ -82,5 +83,3 @@ const LoginForm = () => {
         </form>
     );
 }
-
-export default LoginForm;

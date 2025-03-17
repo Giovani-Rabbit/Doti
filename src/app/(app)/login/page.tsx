@@ -1,4 +1,4 @@
-import LoginForm from "@/modules/auth/login/components/login_form";
+import SigninForm from "@/modules/auth/sign-in/components/signin_form";
 import { AlarmClockCheckIcon } from "lucide-react";
 
 export default function Login() {
@@ -13,7 +13,7 @@ export default function Login() {
             </div>
 
             <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-sm">
-                <LoginForm />
+                <SigninForm />
 
                 <p className="mt-10 text-center text-sm/6 text-gray-500">
                     Não tem uma conta?
