@@ -5,19 +5,27 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { AuthenticationFormDTO, signinFormSchema } from "../../interfaces/dto/signin_form_dto";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
+import { signIn } from "next-auth/react";
 
 export default function SigninForm() {
     const {
         register,
         handleSubmit,
-        // watch,
         formState: { errors }
     } = useForm<AuthenticationFormDTO>({
         resolver: zodResolver(signinFormSchema)
     });
 
-    const onSubmit: SubmitHandler<AuthenticationFormDTO> = useCallback(() => {
-        console.log("A");
+    const onSubmit: SubmitHandler<AuthenticationFormDTO> = useCallback((data) => {
+        const credentials = {
+            email: data.email,
+            password: data.password
+        };
+
+        signIn("credentials", {
+            ...credentials,
+            callbackUrl: "/"
+        });
     }, []);
 
     return (
@@ -25,8 +33,6 @@ export default function SigninForm() {
             onSubmit={handleSubmit(onSubmit)}
             className="space-y-6"
         >
-            {errors && <p className="text-red-500">{errors.password?.message}</p>}
-
             <div>
                 <label
                     htmlFor="email"
@@ -37,7 +43,8 @@ export default function SigninForm() {
                 <div>
                     <Input
                         {...register("email", { required: "Insira um endereço de e-mail" })}
-                        type="email"
+                        error={errors.email?.message}
+                        type="text"
                         placeholder="Insira seu email"
                         name="email"
                         id="email"
@@ -65,6 +72,7 @@ export default function SigninForm() {
                 <div>
                     <Input
                         {...register("password", { required: "Insira uma senha" })}
+                        error={errors.password?.message}
                         placeholder="Insira sua senha"
                         type="password"
                         name="password"
@@ -78,7 +86,7 @@ export default function SigninForm() {
                     type="submit"
                     className="flex w-full justify-center rounded-md bg-zinc-800 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-zinc-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                    Entrar
+                    Enviar
                 </button>
             </div>
         </form>
