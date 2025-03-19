@@ -43,7 +43,7 @@ export default function SigninForm() {
             className="space-y-6"
         >
             {errors.root && (
-                <p className="text-sm p-2 rounded-md bg-red-50 text-red-500 ring-1 ring-red-500">
+                <p className="text-sm p-2 px-3 rounded-md bg-red-50 text-red-500 ring-1 ring-red-500">
                     {errors.root?.message}
                 </p>
             )}
