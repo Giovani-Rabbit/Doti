@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials"
 
 const handler = NextAuth({
     pages: {
-        signIn: "/login"
+        signIn: "/sign-in"
     },
     providers: [
         CredentialsProvider({
@@ -15,7 +15,6 @@ const handler = NextAuth({
             },
 
             async authorize(credentials) {
-                console.log("Ta passando AQUI -------------------------------");
                 if (!credentials) return null;
 
                 const requestCredentials = {

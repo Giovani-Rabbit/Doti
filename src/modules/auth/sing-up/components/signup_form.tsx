@@ -1,14 +1,13 @@
 "use client";
 
-import { useCallback } from "react";
+import { Input } from "@/components/ui/input";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AuthenticationFormDTO, signinFormSchema } from "../../interfaces/dto/signin_form_dto";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "@/components/ui/input";
-import { signIn } from "next-auth/react";
+import { useCallback } from "react";
 import { LoaderCircle } from "lucide-react";
 
-export default function SigninForm() {
+export default function SignupForm() {
     const {
         register,
         handleSubmit,
@@ -19,22 +18,7 @@ export default function SigninForm() {
     });
 
     const onSubmit: SubmitHandler<AuthenticationFormDTO> = useCallback(async (data) => {
-        const credentials = {
-            email: data.email,
-            password: data.password
-        };
 
-        const response = await signIn("credentials", {
-            ...credentials,
-            redirect: false
-        });
-
-        if (response?.error == "CredentialsSignin") {
-            setError("root", {
-                type: "manual",
-                message: "e-mail ou senha incorretos."
-            });
-        }
     }, []);
 
     return (
@@ -66,29 +50,34 @@ export default function SigninForm() {
             </div>
 
             <div>
-                <div className="flex items-center justify-between">
-                    <label
-                        htmlFor="password"
-                        className="block text-sm/6 font-medium text-zinc-900"
-                    >
-                        Senha
-                    </label>
-                    <a
-                        href="#"
-                        className="text-sm font-semibold text-zinc-600 hover:text-zinc-500"
-                    >
-                        Esqueceu a senha?
-                    </a>
+                <label
+                    htmlFor="password"
+                    className="block text-sm/6 font-medium text-zinc-900"
+                >
+                    Senha
+                </label>
+                <div className="space-y-2">
+                    <Input
+                        {...register("password", { required: "Insira uma senha" })}
+                        error={errors.password?.message}
+                        placeholder="Criar senha"
+                        type="password"
+                        name="password"
+                        id="password"
+                    />
+                    <Input
+                        {...register("confirmPassword", { required: "Confirme uma senha" })}
+                        error={errors.password?.message}
+                        placeholder="Confirmar senha"
+                        type="password"
+                        name="confirmPassword"
+                        id="confirmPassword"
+                    />
                 </div>
-                <Input
-                    {...register("password", { required: "Insira uma senha" })}
-                    error={errors.password?.message}
-                    placeholder="Insira sua senha"
-                    type="password"
-                    name="password"
-                    id="password"
-                />
             </div>
+
+
+
 
             <button
                 type="submit"
@@ -97,7 +86,7 @@ export default function SigninForm() {
                 {
                     isSubmitting
                         ? <LoaderCircle className="animate-spin" />
-                        : "Enviar"
+                        : "Criar"
                 }
             </button>
         </form>
