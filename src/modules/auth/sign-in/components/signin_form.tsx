@@ -6,26 +6,35 @@ import { AuthenticationFormDTO, signinFormSchema } from "../../interfaces/dto/si
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { signIn } from "next-auth/react";
+import { LoaderCircle } from "lucide-react";
 
 export default function SigninForm() {
     const {
         register,
         handleSubmit,
-        formState: { errors }
+        setError,
+        formState: { errors, isSubmitting }
     } = useForm<AuthenticationFormDTO>({
         resolver: zodResolver(signinFormSchema)
     });
 
-    const onSubmit: SubmitHandler<AuthenticationFormDTO> = useCallback((data) => {
+    const onSubmit: SubmitHandler<AuthenticationFormDTO> = useCallback(async (data) => {
         const credentials = {
             email: data.email,
             password: data.password
         };
 
-        signIn("credentials", {
+        const response = await signIn("credentials", {
             ...credentials,
-            callbackUrl: "/"
+            redirect: false
         });
+
+        if (response?.error == "CredentialsSignin") {
+            setError("root", {
+                type: "manual",
+                message: "e-mail ou senha incorretos."
+            });
+        }
     }, []);
 
     return (
@@ -33,6 +42,12 @@ export default function SigninForm() {
             onSubmit={handleSubmit(onSubmit)}
             className="space-y-6"
         >
+            {errors.root && (
+                <p className="text-sm p-2 rounded-md bg-red-50 text-red-500 ring-1 ring-red-500">
+                    {errors.root?.message}
+                </p>
+            )}
+
             <div>
                 <label
                     htmlFor="email"
@@ -86,7 +101,11 @@ export default function SigninForm() {
                     type="submit"
                     className="flex w-full justify-center rounded-md bg-zinc-800 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-zinc-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                    Enviar
+                    {
+                        isSubmitting
+                            ? <LoaderCircle className="animate-spin" />
+                            : "Enviar"
+                    }
                 </button>
             </div>
         </form>
