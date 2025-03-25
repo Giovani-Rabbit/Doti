@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { signIn } from "next-auth/react";
 import { LoaderCircle } from "lucide-react";
+import { redirect } from "next/navigation";
 
 export default function SigninForm() {
     const {
@@ -34,7 +35,11 @@ export default function SigninForm() {
                 type: "manual",
                 message: "e-mail ou senha incorretos."
             });
+
+            return;
         }
+
+        redirect("/");
     }, []);
 
     return (
