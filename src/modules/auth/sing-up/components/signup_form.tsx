@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { AuthenticationFormDTO, signinFormSchema } from "../../interfaces/dto/signin_form_dto";
+import { AccountFormDTO, createAccountFormSchema } from "../../interfaces/dto/authentication_dto";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback } from "react";
 import { LoaderCircle } from "lucide-react";
@@ -13,11 +13,11 @@ export default function SignupForm() {
         handleSubmit,
         setError,
         formState: { errors, isSubmitting }
-    } = useForm<AuthenticationFormDTO>({
-        resolver: zodResolver(signinFormSchema)
+    } = useForm<AccountFormDTO>({
+        resolver: zodResolver(createAccountFormSchema)
     });
 
-    const onSubmit: SubmitHandler<AuthenticationFormDTO> = useCallback(async (data) => {
+    const onSubmit: SubmitHandler<AccountFormDTO> = useCallback(async (data) => {
 
     }, []);
 
@@ -31,6 +31,24 @@ export default function SignupForm() {
                     {errors.root?.message}
                 </p>
             )}
+
+            <div>
+                <label
+                    htmlFor="name"
+                    className="block text-sm/6 font-medium text-zinc-900"
+                >
+                    Nome
+                </label>
+                <Input
+                    {...register("name", { required: "Insira um nome de usuário" })}
+                    error={errors.email?.message}
+                    type="text"
+                    placeholder="Insira um nome"
+                    name="name"
+                    id="name"
+                />
+            </div>
+
 
             <div>
                 <label
@@ -60,15 +78,15 @@ export default function SignupForm() {
                     <Input
                         {...register("password", { required: "Insira uma senha" })}
                         error={errors.password?.message}
-                        placeholder="Criar senha"
+                        placeholder="Crie uma senha"
                         type="password"
                         name="password"
                         id="password"
                     />
                     <Input
                         {...register("confirmPassword", { required: "Confirme uma senha" })}
-                        error={errors.password?.message}
-                        placeholder="Confirmar senha"
+                        error={errors.confirmPassword?.message}
+                        placeholder="Confirme a senha"
                         type="password"
                         name="confirmPassword"
                         id="confirmPassword"

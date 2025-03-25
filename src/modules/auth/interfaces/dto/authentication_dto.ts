@@ -1,0 +1,27 @@
+import { z } from "zod";
+
+export interface AuthenticationDTO {
+    email: string,
+    password: string,
+}
+
+export interface AccountFormDTO {
+    name: string,
+    email: string,
+    password: string,
+    confirmPassword: string
+}
+
+export const authenticationFormSchema: z.ZodType<AuthenticationDTO> = z.object({
+    email: z.string().email("Insira um e-mail válido"),
+    password: z.string().min(4, "A senha deve conter pelo menos 4 caracteres."),
+})
+
+export const createAccountFormSchema: z.ZodType<AccountFormDTO> = z.object({
+    name: z.string(),
+    email: z.string().email("Insira um e-mail válido"),
+    password: z.string().min(4, "A senha deve conter pelo menos 4 caracteres."),
+    confirmPassword: z.string()
+        .min(4, "A senha deve conter pelo menos 4 caracteres.")
+        .nonempty("A confirmação de senha não pode estar vazia."),
+});

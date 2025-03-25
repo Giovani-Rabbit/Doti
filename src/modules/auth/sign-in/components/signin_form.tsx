@@ -2,7 +2,7 @@
 
 import { useCallback } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { AuthenticationFormDTO, signinFormSchema } from "../../interfaces/dto/signin_form_dto";
+import { AuthenticationDTO, authenticationFormSchema } from "../../interfaces/dto/authentication_dto";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { signIn } from "next-auth/react";
@@ -15,11 +15,11 @@ export default function SigninForm() {
         handleSubmit,
         setError,
         formState: { errors, isSubmitting }
-    } = useForm<AuthenticationFormDTO>({
-        resolver: zodResolver(signinFormSchema)
+    } = useForm<AuthenticationDTO>({
+        resolver: zodResolver(authenticationFormSchema)
     });
 
-    const onSubmit: SubmitHandler<AuthenticationFormDTO> = useCallback(async (data) => {
+    const onSubmit: SubmitHandler<AuthenticationDTO> = useCallback(async (data) => {
         const credentials = {
             email: data.email,
             password: data.password
