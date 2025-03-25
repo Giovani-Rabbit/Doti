@@ -1,0 +1,76 @@
+import { AxiosRequestConfig } from 'axios';
+import { IHttpRequestParams } from './type/http_request_params';
+
+class HttpService {
+    private baseUrl: string;
+    private path: string;
+
+    constructor(path: string) {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+        if (!apiUrl) throw new Error(
+            "API_URL Enviroment variable not found"
+        );
+
+        this.baseUrl = apiUrl.trim();
+        this.path = path;
+    }
+
+    public getFullUrl(url: string): string {
+        if (
+            url.startsWith('http://') ||
+            url.startsWith('https://')
+        ) return url;
+
+        const pathWithoutSlash = this.removeExtraSlashes(this.path);
+        const urlWithoutSlash = this.removeExtraSlashes(url);
+
+        return new URL(
+            `${pathWithoutSlash}/${urlWithoutSlash}`,
+            this.baseUrl
+        ).toString();
+    }
+
+    public async get<T>(params: IHttpRequestParams<null>): Promise<T> {
+        return this.request<T, null>({
+            ...params,
+            url: this.getFullUrl(params.url),
+            method: "GET"
+        });
+    }
+
+    public async post<T, P>(params: IHttpRequestParams<P>): Promise<T> {
+        return this.request<T, P>({
+            ...params,
+            url: this.getFullUrl(params.url),
+            method: "POST"
+        });
+    }
+
+    public async put<T, P>(params: IHttpRequestParams<P>): Promise<T> {
+        return this.request<T, P>({
+            ...params,
+            url: this.getFullUrl(params.url),
+            method: "PUT"
+        });
+    }
+
+    public async delete<T>(params: IHttpRequestParams<null>): Promise<T> {
+        return this.request<T, null>({
+            ...params,
+            url: this.getFullUrl(params.url),
+            method: "DELETE"
+        });
+    }
+
+    private async request<T, P>(params: IHttpRequestParams<P>): Promise<T> {
+
+    }
+
+    private removeExtraSlashes(url: string): string {
+        // remove the slash from the beginning and end
+        return url.replace(/^\/+|\/+$/g, '');
+    }
+}
+
+export default HttpService;
