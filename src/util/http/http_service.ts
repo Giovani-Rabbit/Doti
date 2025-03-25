@@ -1,4 +1,4 @@
-import { AxiosRequestConfig } from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { IHttpRequestParams } from './type/http_request_params';
 
 class HttpService {
@@ -64,11 +64,16 @@ class HttpService {
     }
 
     private async request<T, P>(params: IHttpRequestParams<P>): Promise<T> {
+        const requestParam: AxiosRequestConfig = {
+            ...params,
+            withCredentials: true,
+        };
 
+        return await axios.request(requestParam);
     }
 
+    // remove the slash from the beginning and end
     private removeExtraSlashes(url: string): string {
-        // remove the slash from the beginning and end
         return url.replace(/^\/+|\/+$/g, '');
     }
 }
