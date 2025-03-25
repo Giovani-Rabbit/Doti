@@ -9,26 +9,11 @@ class HttpService {
         const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
         if (!apiUrl) throw new Error(
-            "API_URL Enviroment variable not found"
+            "API_URL Environment variable not found"
         );
 
         this.baseUrl = apiUrl.trim();
         this.path = path;
-    }
-
-    public getFullUrl(url: string): string {
-        if (
-            url.startsWith('http://') ||
-            url.startsWith('https://')
-        ) return url;
-
-        const pathWithoutSlash = this.removeExtraSlashes(this.path);
-        const urlWithoutSlash = this.removeExtraSlashes(url);
-
-        return new URL(
-            `${pathWithoutSlash}/${urlWithoutSlash}`,
-            this.baseUrl
-        ).toString();
     }
 
     public async get<T>(params: IHttpRequestParams<null>): Promise<T> {
@@ -70,6 +55,21 @@ class HttpService {
         };
 
         return await axios.request(requestParam);
+    }
+
+    private getFullUrl(url: string): string {
+        if (
+            url.startsWith('http://') ||
+            url.startsWith('https://')
+        ) return url;
+
+        const pathWithoutSlash = this.removeExtraSlashes(this.path);
+        const urlWithoutSlash = this.removeExtraSlashes(url);
+
+        return new URL(
+            `${pathWithoutSlash}/${urlWithoutSlash}`,
+            this.baseUrl
+        ).toString();
     }
 
     // remove the slash from the beginning and end
