@@ -40,15 +40,14 @@ export default function SignupForm() {
                     Nome
                 </label>
                 <Input
-                    {...register("name", { required: "Insira um nome de usuário" })}
-                    error={errors.email?.message}
+                    {...register("name")}
+                    error={errors.name?.message}
                     type="text"
                     placeholder="Insira um nome"
                     name="name"
                     id="name"
                 />
             </div>
-
 
             <div>
                 <label
@@ -58,7 +57,7 @@ export default function SignupForm() {
                     Email
                 </label>
                 <Input
-                    {...register("email", { required: "Insira um endereço de e-mail" })}
+                    {...register("email")}
                     error={errors.email?.message}
                     type="text"
                     placeholder="Insira seu email"
@@ -76,7 +75,7 @@ export default function SignupForm() {
                 </label>
                 <div className="space-y-2">
                     <Input
-                        {...register("password", { required: "Insira uma senha" })}
+                        {...register("password")}
                         error={errors.password?.message}
                         placeholder="Crie uma senha"
                         type="password"
@@ -84,7 +83,7 @@ export default function SignupForm() {
                         id="password"
                     />
                     <Input
-                        {...register("confirmPassword", { required: "Confirme uma senha" })}
+                        {...register("confirmPassword")}
                         error={errors.confirmPassword?.message}
                         placeholder="Confirme a senha"
                         type="password"

@@ -18,7 +18,7 @@ export const authenticationFormSchema: z.ZodType<AuthenticationDTO> = z.object({
 })
 
 export const createAccountFormSchema: z.ZodType<AccountFormDTO> = z.object({
-    name: z.string(),
+    name: z.string().nonempty("O nome não pode estar vazio."),
     email: z.string().email("Insira um e-mail válido"),
     password: z.string().min(4, "A senha deve conter pelo menos 4 caracteres."),
     confirmPassword: z.string()
