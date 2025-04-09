@@ -51,7 +51,7 @@ class HttpService {
     private async request<T, P>(params: IHttpRequestParams<P>): Promise<T> {
         const requestParam: AxiosRequestConfig = {
             ...params,
-            withCredentials: true,
+            // withCredentials: true,
         };
 
         return await axios.request(requestParam);
@@ -64,12 +64,13 @@ class HttpService {
         ) return url;
 
         const pathWithoutSlash = this.removeExtraSlashes(this.path);
-        const urlWithoutSlash = this.removeExtraSlashes(url);
+        const urlWithoutSlash = url ? this.removeExtraSlashes(url) : '';
 
-        return new URL(
-            `${pathWithoutSlash}/${urlWithoutSlash}`,
-            this.baseUrl
-        ).toString();
+        const finalPath = urlWithoutSlash
+            ? `${pathWithoutSlash}/${urlWithoutSlash}`
+            : pathWithoutSlash;
+
+        return new URL(finalPath, this.baseUrl).toString();
     }
 
     // remove the slash from the beginning and end

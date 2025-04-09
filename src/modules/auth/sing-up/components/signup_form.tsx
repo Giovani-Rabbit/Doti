@@ -2,10 +2,12 @@
 
 import { Input } from "@/components/ui/input";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { AccountFormDTO, createAccountFormSchema } from "../../interfaces/dto/authentication_dto";
+import { CreateAccountFormDTO, createAccountFormSchema } from "../../interfaces/dto/authentication_dto";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback } from "react";
 import { LoaderCircle } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
+import AccountService from "@/services/account/http/account_service";
 
 export default function SignupForm() {
     const {
@@ -13,12 +15,28 @@ export default function SignupForm() {
         handleSubmit,
         setError,
         formState: { errors, isSubmitting }
-    } = useForm<AccountFormDTO>({
+    } = useForm<CreateAccountFormDTO>({
         resolver: zodResolver(createAccountFormSchema)
     });
 
-    const onSubmit: SubmitHandler<AccountFormDTO> = useCallback(async (data) => {
+    const { mutateAsync: createAccount } = useMutation({
+        mutationFn: AccountService().createAccount
+    })
 
+    const onSubmit: SubmitHandler<CreateAccountFormDTO> = useCallback(async (data) => {
+        if (data.password !== data.confirmPassword) {
+            return setError("confirmPassword", {
+                message: "As senhas não coincidem. Tente novamente."
+            });
+        }
+
+        const { message } = await createAccount({
+            name: data.name,
+            email: data.email,
+            password: data.password
+        });
+
+        console.log(message);
     }, []);
 
     return (
