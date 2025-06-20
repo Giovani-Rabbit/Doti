@@ -1,5 +1,10 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios from 'axios';
 import { IHttpRequestParams } from './type/http_request_params';
+
+export type IHttpResult<T, S> = {
+    data: T | null;
+    error: { message: string; status: S; } | null;
+};
 
 class HttpService {
     private baseUrl: string;
@@ -16,45 +21,48 @@ class HttpService {
         this.path = path;
     }
 
-    public async get<T>(params: IHttpRequestParams<null>): Promise<T> {
-        return this.request<T, null>({
+    public async get<O>(params: IHttpRequestParams<null>): Promise<O> {
+        return await this.request<O, null>({
             ...params,
             url: this.getFullUrl(params.url),
             method: "GET"
         });
     }
 
-    public async post<T, P>(params: IHttpRequestParams<P>): Promise<T> {
-        return this.request<T, P>({
+    public async post<O, I>(params: IHttpRequestParams<I>): Promise<O> {
+        return await this.request<O, I>({
             ...params,
             url: this.getFullUrl(params.url),
             method: "POST"
         });
     }
 
-    public async put<T, P>(params: IHttpRequestParams<P>): Promise<T> {
-        return this.request<T, P>({
+    public async put<O, I>(params: IHttpRequestParams<I>): Promise<O> {
+        return await this.request<O, I>({
             ...params,
             url: this.getFullUrl(params.url),
             method: "PUT"
         });
     }
 
-    public async delete<T>(params: IHttpRequestParams<null>): Promise<T> {
-        return this.request<T, null>({
+    public async delete<O>(params: IHttpRequestParams<null>): Promise<O> {
+        return await this.request<O, null>({
             ...params,
             url: this.getFullUrl(params.url),
             method: "DELETE"
         });
     }
 
-    private async request<T, P>(params: IHttpRequestParams<P>): Promise<T> {
-        const requestParam: AxiosRequestConfig = {
-            ...params,
-            // withCredentials: true,
-        };
+    private async request<O, I>(params: IHttpRequestParams<I>): Promise<O> {
+        try {
+            const response = await axios.request(params);
+            return { data: response.data, error: null } as O;
+        } catch (err: any) {
+            const message = err?.response?.data?.message || "Erro desconhecido";
+            const status = err?.response?.data?.status || "UNKNOWN";
 
-        return await axios.request(requestParam);
+            return { data: null, error: { message, status } } as O;
+        }
     }
 
     private getFullUrl(url: string): string {

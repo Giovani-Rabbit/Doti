@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback } from "react";
 import { LoaderCircle } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
-import AccountService from "@/services/account/http/account_service";
+import AccountService from "@/services/account/service/account_service";
 
 export default function SignupForm() {
     const {
@@ -19,24 +19,31 @@ export default function SignupForm() {
         resolver: zodResolver(createAccountFormSchema)
     });
 
-    const { mutateAsync: createAccount } = useMutation({
+    const { mutateAsync: handleCreateAccount } = useMutation({
         mutationFn: AccountService().createAccount
     })
 
-    const onSubmit: SubmitHandler<CreateAccountFormDTO> = useCallback(async (data) => {
-        if (data.password !== data.confirmPassword) {
+    const onSubmit: SubmitHandler<CreateAccountFormDTO> = useCallback(async (formData) => {
+        if (formData.password !== formData.confirmPassword) {
             return setError("confirmPassword", {
                 message: "As senhas não coincidem. Tente novamente."
             });
         }
 
-        const { message } = await createAccount({
-            name: data.name,
-            email: data.email,
-            password: data.password
+        const { data, error } = await handleCreateAccount({
+            name: formData.name,
+            email: formData.email,
+            password: formData.password
         });
 
-        console.log(message);
+        console.log(data, error);
+
+        if (error) {
+            setError("root", {
+                type: "manual",
+                message: "ocorreu um erro ao criar o usuário"
+            });
+        }
     }, []);
 
     return (
