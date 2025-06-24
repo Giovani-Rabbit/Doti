@@ -8,6 +8,7 @@ import { useCallback } from "react";
 import { LoaderCircle } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import AccountService from "@/services/account/service/account_service";
+import { mapUserErrorCodeToMessage } from "@/services/account/domain/user_exceptions";
 
 export default function SignupForm() {
     const {
@@ -30,18 +31,16 @@ export default function SignupForm() {
             });
         }
 
-        const { data, error } = await handleCreateAccount({
+        const { error } = await handleCreateAccount({
             name: formData.name,
             email: formData.email,
             password: formData.password
         });
 
-        console.log(data, error);
-
         if (error) {
             setError("root", {
                 type: "manual",
-                message: "ocorreu um erro ao criar o usuário"
+                message: mapUserErrorCodeToMessage(error.status)
             });
         }
     }, []);

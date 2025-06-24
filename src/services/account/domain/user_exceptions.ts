@@ -6,10 +6,10 @@ export type UserErrorStatus =
     | "INVALID_PASSWORD"
     | "UNKNOWN";
 
-export function mapErrorCodeToMessage(code: UserErrorStatus): string {
+export function mapUserErrorCodeToMessage(code: UserErrorStatus): string {
     switch (code) {
         case "USER_ALREADY_EXISTS":
-            return "Este e-mail já está em uso. Tente fazer login ou recupere sua senha.";
+            return "Este e-mail já está em uso.";
         case "INVALID_CREDENTIALS":
             return "E-mail ou senha incorretos.";
         case "EMAIL_REQUIRED":
