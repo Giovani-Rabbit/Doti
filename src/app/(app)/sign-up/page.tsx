@@ -16,7 +16,7 @@ export default function SignUp() {
             <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-sm">
                 <SignupForm />
 
-                <p className="mt-10 text-center text-sm/6 text-gray-500">
+                <p className="mt-10 text-center text-sm/6 text-zinc-600">
                     Já tem uma conta?
                     <Link
                         href="/sign-in"
