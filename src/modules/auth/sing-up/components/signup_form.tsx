@@ -9,6 +9,7 @@ import { LoaderCircle } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import AccountService from "@/services/account/service/account_service";
 import { mapUserErrorCodeToMessage } from "@/services/account/domain/user_exceptions";
+import { redirect } from "next/navigation";
 
 export default function SignupForm() {
     const {
@@ -38,11 +39,13 @@ export default function SignupForm() {
         });
 
         if (error) {
-            setError("root", {
+            return setError("root", {
                 type: "manual",
                 message: mapUserErrorCodeToMessage(error.status)
             });
         }
+
+        redirect("/sign-in");
     }, []);
 
     return (
@@ -93,7 +96,7 @@ export default function SignupForm() {
             <div>
                 <label
                     htmlFor="password"
-                    className="block text-sm/6 font-medium text-zinc-800"
+                    className={"block text-sm/6 font-medium text-zinc-800"}
                 >
                     Senha
                 </label>
