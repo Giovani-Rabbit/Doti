@@ -76,7 +76,7 @@ export default function SignupForm() {
             <div>
                 <label
                     htmlFor="email"
-                    className="block text-sm/6 font-medium text-zinc-900"
+                    className="block text-sm/6 font-medium text-zinc-800"
                 >
                     Email
                 </label>
@@ -93,7 +93,7 @@ export default function SignupForm() {
             <div>
                 <label
                     htmlFor="password"
-                    className="block text-sm/6 font-medium text-zinc-900"
+                    className="block text-sm/6 font-medium text-zinc-800"
                 >
                     Senha
                 </label>
