@@ -22,7 +22,7 @@ const handler = NextAuth({
                     password: credentials.password
                 }
 
-                const res = await fetch("http://localhost:8080/login", {
+                const res = await fetch("http://localhost:8080/sign-in", {
                     method: 'POST',
                     body: JSON.stringify(requestCredentials),
                     headers: { "Content-Type": "application/json" }
