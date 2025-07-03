@@ -20,13 +20,9 @@ export default function SigninForm() {
     });
 
     const onSubmit: SubmitHandler<AuthenticationDTO> = useCallback(async (data) => {
-        const credentials = {
-            email: data.email,
-            password: data.password
-        };
-
         const response = await signIn("credentials", {
-            ...credentials,
+            email: data.email,
+            password: data.password,
             redirect: false
         });
 

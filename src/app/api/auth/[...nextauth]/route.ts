@@ -15,6 +15,8 @@ const handler = NextAuth({
             },
 
             async authorize(credentials) {
+                const apiURL = process.env.NEXT_PUBLIC_API_URL;
+
                 if (!credentials) return null;
 
                 const requestCredentials = {
@@ -22,7 +24,7 @@ const handler = NextAuth({
                     password: credentials.password
                 }
 
-                const res = await fetch("http://localhost:8080/sign-in", {
+                const res = await fetch(`${apiURL}/sign-in`, {
                     method: 'POST',
                     body: JSON.stringify(requestCredentials),
                     headers: { "Content-Type": "application/json" }
@@ -32,9 +34,17 @@ const handler = NextAuth({
 
                 const jwtToken = res.headers.get("authorization");
 
-                if (!jwtToken) return null;
+                if (!jwtToken) {
+                    console.log("Nao foi possivel pegar o token da requisicao");
+                    return null;
+                }
 
                 const account = await res.json();
+
+                if (!account) {
+                    console.log("Nao foi possivel pegar o usuario do body da requisicao");
+                    return null;
+                }
 
                 return { ...account, accessToken: jwtToken };
             }
@@ -42,6 +52,7 @@ const handler = NextAuth({
     ],
     callbacks: {
         async jwt({ token, account }) {
+            console.log(token, account)
             if (account) {
                 token.accessToken = account.access_token;
                 token.id = account.id;
