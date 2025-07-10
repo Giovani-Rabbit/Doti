@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import QueryProvider from "@/components/provider/query/query_provider";
+import NextSessionProvider from "@/components/provider/auth/next-session-provider";
 
 const interSans = Inter({
   display: "swap",
@@ -23,9 +24,11 @@ export default function RootLayout({
       <body
         className={`${interSans.className}  antialiased`}
       >
-        <QueryProvider>
-          {children}
-        </QueryProvider>
+        <NextSessionProvider>
+          <QueryProvider>
+            {children}
+          </QueryProvider>
+        </NextSessionProvider>
       </body>
     </html>
   );
