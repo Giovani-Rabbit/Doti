@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import QueryProvider from "@/components/provider/query/query_provider";
 import NextSessionProvider from "@/components/provider/auth/next-session-provider";
+import SideberBody from "@/components/sidebar/sidebar-body";
 
 const interSans = Inter({
   display: "swap",
@@ -26,7 +27,9 @@ export default function RootLayout({
       >
         <NextSessionProvider>
           <QueryProvider>
-            {children}
+            <SideberBody>
+              {children}
+            </SideberBody>
           </QueryProvider>
         </NextSessionProvider>
       </body>
