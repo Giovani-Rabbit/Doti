@@ -45,7 +45,7 @@ export default function SignupForm() {
             });
         }
 
-        redirect("/api/auth/sign-in");
+        redirect("/sign-in");
     }, []);
 
     return (
