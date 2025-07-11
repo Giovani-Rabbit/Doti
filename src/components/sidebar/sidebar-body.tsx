@@ -3,7 +3,6 @@
 import { AlarmClockCheckIcon, BookOpen, Bot, Frame, InboxIcon, KanbanIcon, PieChart, Settings2, SquareTerminal, TimerIcon } from "lucide-react";
 import { SidebarProvider } from "../ui/sidebar";
 import { NavMain } from "./sidebar-collapse";
-import { Input } from "../ui/input";
 
 export default function SideberBody({
     children,
@@ -28,7 +27,7 @@ export default function SideberBody({
                         <NavMain items={data.navMain} />
                     </SidebarProvider>
                 </div>
-                <div className="p-4">
+                <div className="p-8 grow">
                     {children}
                 </div>
             </div>
