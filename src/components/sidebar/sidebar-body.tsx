@@ -3,6 +3,7 @@
 import { AlarmClockCheckIcon, BookOpen, Bot, Frame, InboxIcon, KanbanIcon, PieChart, Settings2, SquareTerminal, TimerIcon } from "lucide-react";
 import { SidebarProvider } from "../ui/sidebar";
 import { NavMain } from "./sidebar-collapse";
+import { Input } from "../ui/input";
 
 export default function SideberBody({
     children,
@@ -22,7 +23,7 @@ export default function SideberBody({
             </nav>
 
             <div className="grow flex">
-                <div className="w-[250px] h-screen bg-zinc-50">
+                <div className="w-[250px] h-screen border-r">
                     <SidebarProvider>
                         <NavMain items={data.navMain} />
                     </SidebarProvider>
