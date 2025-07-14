@@ -1,33 +1,18 @@
-"use client"
+import { AlarmClockCheckIcon, InboxIcon, KanbanIcon, TimerIcon } from "lucide-react";
 
-import {
-    SidebarGroup,
-    SidebarGroupLabel,
-    SidebarMenu,
-    SidebarProvider,
-} from "@/components/ui/sidebar"
-import SidebarModules, { Module } from "./sidebar-modules"
-import SidebarModuleTopic from "./sidebar-module-topic"
-import { SquareTerminal } from "lucide-react"
 
-export function SidebarNav({ modules }: { modules: Module[] }) {
+
+export default function SidebarNav() {
     return (
-        <div className="w-[250px] h-screen border-r">
-            <SidebarProvider>
-                <SidebarGroup>
-                    <SidebarGroupLabel>Modules</SidebarGroupLabel>
-                    <SidebarMenu>
-                        {modules.map((item, idx) => (
-                            <SidebarModules key={idx} module={item} />
-                        ))}
-                        <SidebarModuleTopic topic={{
-                            title: "Algebra",
-                            url: "#",
-                            icon: SquareTerminal,
-                        }} />
-                    </SidebarMenu>
-                </SidebarGroup>
-            </SidebarProvider>
-        </div>
+        <nav className="w-12 py-2 gap-1 h-screen flex flex-col items-center justify-start border-r border-zinc-200">
+            <AlarmClockCheckIcon className="h-8 w-auto p-1.5 bg-zinc-800 rounded-lg stroke-zinc-100" />
+
+            <div className="h-4" />
+
+            <InboxIcon className="h-8 w-8 p-2 rounded-lg hover:bg-zinc-50 stroke-zinc-800" />
+            <KanbanIcon className="h-8 w-8 p-2 rounded-lg hover:bg-zinc-50 stroke-zinc-800" />
+            <TimerIcon className="h-8 w-8 p-2 rounded-lg hover:bg-zinc-50 stroke-zinc-800" />
+        </nav>
+
     )
 }

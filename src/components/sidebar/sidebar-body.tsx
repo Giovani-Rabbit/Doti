@@ -1,8 +1,8 @@
 "use client"
 
-import { AlarmClockCheckIcon, BookOpen, Bot, Frame, InboxIcon, KanbanIcon, PieChart, Settings2, SquareTerminal, TimerIcon } from "lucide-react";
-import { SidebarNav } from "./sidebar-nav";
-import { Module } from "./sidebar-modules";
+import { BookOpen, Bot, Settings2, SquareTerminal } from "lucide-react";
+import { Module, SidebarModule } from "./sidebar-module";
+import SidebarNav from "./sidebar-nav";
 
 export default function SideberBody({
     children,
@@ -11,18 +11,10 @@ export default function SideberBody({
 }>) {
     return (
         <div className="w-full h-screen flex">
-            <nav className="w-12 py-2 gap-1 h-screen flex flex-col items-center justify-start border-r border-zinc-200">
-                <AlarmClockCheckIcon className="h-8 w-auto p-1.5 bg-zinc-800 rounded-lg stroke-zinc-100" />
-
-                <div className="h-4" />
-
-                <InboxIcon className="h-8 w-8 p-2 rounded-lg hover:bg-zinc-50 stroke-zinc-800" />
-                <KanbanIcon className="h-8 w-8 p-2 rounded-lg hover:bg-zinc-50 stroke-zinc-800" />
-                <TimerIcon className="h-8 w-8 p-2 rounded-lg hover:bg-zinc-50 stroke-zinc-800" />
-            </nav>
+            <SidebarNav />
 
             <div className="grow flex">
-                <SidebarNav modules={data} />
+                <SidebarModule modules={data} />
 
                 <div className="p-8 grow">
                     {children}
@@ -39,7 +31,7 @@ const data: Module[] = [
         url: "#",
         icon: SquareTerminal,
         isActive: true,
-        items: [
+        topics: [
             {
                 title: "History",
                 url: "#",
@@ -58,7 +50,7 @@ const data: Module[] = [
         title: "Models",
         url: "#",
         icon: Bot,
-        items: [
+        topics: [
             {
                 title: "Genesis",
                 url: "#",
@@ -77,7 +69,7 @@ const data: Module[] = [
         title: "Documentation",
         url: "#",
         icon: BookOpen,
-        items: [
+        topics: [
             {
                 title: "Introduction",
                 url: "#",
@@ -100,7 +92,7 @@ const data: Module[] = [
         title: "Settings",
         url: "#",
         icon: Settings2,
-        items: [
+        topics: [
             {
                 title: "General",
                 url: "#",
