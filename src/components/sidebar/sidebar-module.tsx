@@ -35,41 +35,40 @@ export function SidebarModule({ modules }: { modules: Module[] }) {
                 <SidebarGroup>
                     <SidebarGroupLabel>Modules</SidebarGroupLabel>
                     <SidebarMenu>
-                        {modules.map((module) => {
-                            return (
-                                <Collapsible
-                                    key={module.title}
-                                    asChild
-                                    defaultOpen={module.isActive}
-                                    className="group/collapsible"
-                                >
-                                    <SidebarMenuItem>
-                                        <CollapsibleTrigger asChild>
-                                            <SidebarMenuButton tooltip={module.title}>
-                                                {module.icon && <module.icon />}
-                                                <span>{module.title}</span>
-                                                <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                                            </SidebarMenuButton>
-                                        </CollapsibleTrigger>
+                        {modules.map((module) => (
+                            <Collapsible
+                                key={module.title}
+                                asChild
+                                defaultOpen={module.isActive}
+                                className="group/collapsible"
+                            >
+                                <SidebarMenuItem>
+                                    <CollapsibleTrigger asChild>
+                                        <SidebarMenuButton tooltip={module.title}>
+                                            {module.icon && <module.icon />}
+                                            <span>{module.title}</span>
+                                            <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                                        </SidebarMenuButton>
+                                    </CollapsibleTrigger>
 
-                                        <CollapsibleContent>
-                                            <SidebarMenuSub>
-                                                {module.topics?.map((topic) => (
-                                                    <SidebarMenuSubItem key={topic.title}>
-                                                        <SidebarMenuSubButton asChild>
-                                                            <a href={topic.url}>
-                                                                {topic.icon && <topic.icon />}
-                                                                <span>{topic.title}</span>
-                                                            </a>
-                                                        </SidebarMenuSubButton>
-                                                    </SidebarMenuSubItem>
-                                                ))}
-                                            </SidebarMenuSub>
-                                        </CollapsibleContent>
-                                    </SidebarMenuItem>
-                                </Collapsible>
-                            )
-                        })}
+                                    <CollapsibleContent>
+                                        <SidebarMenuSub>
+                                            {module.topics?.map((topic) => (
+                                                <SidebarMenuSubItem key={topic.title}>
+                                                    <SidebarMenuSubButton asChild>
+                                                        <a href={topic.url}>
+                                                            {topic.icon && <topic.icon />}
+                                                            <span>{topic.title}</span>
+                                                        </a>
+                                                    </SidebarMenuSubButton>
+                                                </SidebarMenuSubItem>
+                                            ))}
+                                        </SidebarMenuSub>
+                                    </CollapsibleContent>
+                                </SidebarMenuItem>
+                            </Collapsible>
+                        )
+                        )}
                     </SidebarMenu>
                 </SidebarGroup>
             </SidebarProvider>

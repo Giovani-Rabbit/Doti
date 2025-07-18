@@ -2,14 +2,14 @@
 
 import { Input } from "@/components/ui/input";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { CreateAccountFormDTO, createAccountFormSchema } from "../../interfaces/dto/authentication_dto";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback } from "react";
 import { LoaderCircle } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
-import AccountService from "@/services/account/service/account_service";
-import { mapUserErrorCodeToMessage } from "@/services/account/domain/user_exceptions";
+import { mapUserErrorCodeToMessage } from "@/modules/account/user_exceptions";
 import { redirect } from "next/navigation";
+import AccountService from "@/modules/account/account_service";
+import { CreateAccountFormDTO, createAccountFormSchema } from "@/modules/account/account_dto";
 
 export default function SignupForm() {
     const {
