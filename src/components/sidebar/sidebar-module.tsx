@@ -13,8 +13,7 @@ import {
     SidebarMenuSubItem,
     SidebarProvider,
 } from "@/components/ui/sidebar"
-import { ChevronRight, Ellipsis, FolderPlusIcon, LucideIcon } from "lucide-react"
-import { ContextMenu, ContextMenuCheckboxItem, ContextMenuContent, ContextMenuItem, ContextMenuLabel, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSeparator, ContextMenuShortcut, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger } from "../ui/context-menu"
+import { ChevronRight, LucideIcon, PlusIcon } from "lucide-react"
 import SidebarModuleContextMenu from "./sidebar-module-context-menu"
 
 export type Module = {
@@ -37,7 +36,7 @@ export function SidebarModule({ modules }: { modules: Module[] }) {
             <SidebarProvider>
                 <SidebarGroup>
                     <SidebarGroupLabel>Modules</SidebarGroupLabel>
-                    <SidebarGroupAction><Ellipsis /></SidebarGroupAction>
+                    <SidebarGroupAction><PlusIcon /></SidebarGroupAction>
                     <SidebarMenu>
                         {modules.map((module) =>
                             <SidebarModulesMenu
