@@ -3,6 +3,7 @@
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@radix-ui/react-collapsible"
 import {
     SidebarGroup,
+    SidebarGroupAction,
     SidebarGroupLabel,
     SidebarMenu,
     SidebarMenuButton,
@@ -12,7 +13,9 @@ import {
     SidebarMenuSubItem,
     SidebarProvider,
 } from "@/components/ui/sidebar"
-import { ChevronRight, LucideIcon } from "lucide-react"
+import { ChevronRight, Ellipsis, FolderPlusIcon, LucideIcon } from "lucide-react"
+import { ContextMenu, ContextMenuCheckboxItem, ContextMenuContent, ContextMenuItem, ContextMenuLabel, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSeparator, ContextMenuShortcut, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger } from "../ui/context-menu"
+import SidebarModuleContextMenu from "./sidebar-module-context-menu"
 
 export type Module = {
     name: string
@@ -34,6 +37,7 @@ export function SidebarModule({ modules }: { modules: Module[] }) {
             <SidebarProvider>
                 <SidebarGroup>
                     <SidebarGroupLabel>Modules</SidebarGroupLabel>
+                    <SidebarGroupAction><Ellipsis /></SidebarGroupAction>
                     <SidebarMenu>
                         {modules.map((module) =>
                             <SidebarModulesMenu
@@ -57,22 +61,24 @@ function SidebarModulesMenu({ module }: { module: Module }) {
             className="group/collapsible"
         >
             <SidebarMenuItem>
-                <CollapsibleTrigger asChild>
-                    <SidebarMenuButton tooltip={module.name}>
-                        {module.icon && <module.icon />}
+                <SidebarModuleContextMenu>
+                    <CollapsibleTrigger asChild>
+                        <SidebarMenuButton tooltip={module.name}>
+                            {module.icon && <module.icon />}
 
-                        <span>{module.name}</span>
+                            <span>{module.name}</span>
 
-                        {module.topics && module.topics.length > 0 && (
-                            <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                        )}
-                    </SidebarMenuButton>
-                </CollapsibleTrigger>
+                            {module.topics && module.topics.length > 0 && (
+                                <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                            )}
+                        </SidebarMenuButton>
+                    </CollapsibleTrigger>
+                </SidebarModuleContextMenu>
 
                 <CollapsibleContent>
                     <SidebarMenuSub>
                         {module.topics && module.topics.map((topic) => (
-                            <SidebarTopicSubMenu topic={topic} />
+                            <SidebarTopicSubMenu key={topic.name} topic={topic} />
                         ))}
                     </SidebarMenuSub>
                 </CollapsibleContent>

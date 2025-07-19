@@ -92,6 +92,23 @@ const data: Module[] = [
         name: "Settings",
         url: "#",
         icon: Settings2,
-        topics: [],
+        topics: [
+            {
+                name: "General",
+                url: "#",
+            },
+            {
+                name: "Team",
+                url: "#",
+            },
+            {
+                name: "Billing",
+                url: "#",
+            },
+            {
+                name: "Limits",
+                url: "#",
+            },
+        ],
     },
 ]
