@@ -15,7 +15,7 @@ import {
 import { ChevronRight, LucideIcon } from "lucide-react"
 
 export type Module = {
-    title: string
+    name: string
     url: string
     icon?: LucideIcon
     isActive?: boolean
@@ -23,7 +23,7 @@ export type Module = {
 }
 
 export type Topic = {
-    title: string,
+    name: string,
     url: string,
     icon?: LucideIcon
 };
@@ -35,43 +35,61 @@ export function SidebarModule({ modules }: { modules: Module[] }) {
                 <SidebarGroup>
                     <SidebarGroupLabel>Modules</SidebarGroupLabel>
                     <SidebarMenu>
-                        {modules.map((module) => (
-                            <Collapsible
-                                key={module.title}
-                                asChild
-                                defaultOpen={module.isActive}
-                                className="group/collapsible"
-                            >
-                                <SidebarMenuItem>
-                                    <CollapsibleTrigger asChild>
-                                        <SidebarMenuButton tooltip={module.title}>
-                                            {module.icon && <module.icon />}
-                                            <span>{module.title}</span>
-                                            <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                                        </SidebarMenuButton>
-                                    </CollapsibleTrigger>
-
-                                    <CollapsibleContent>
-                                        <SidebarMenuSub>
-                                            {module.topics?.map((topic) => (
-                                                <SidebarMenuSubItem key={topic.title}>
-                                                    <SidebarMenuSubButton asChild>
-                                                        <a href={topic.url}>
-                                                            {topic.icon && <topic.icon />}
-                                                            <span>{topic.title}</span>
-                                                        </a>
-                                                    </SidebarMenuSubButton>
-                                                </SidebarMenuSubItem>
-                                            ))}
-                                        </SidebarMenuSub>
-                                    </CollapsibleContent>
-                                </SidebarMenuItem>
-                            </Collapsible>
-                        )
+                        {modules.map((module) =>
+                            <SidebarModulesMenu
+                                key={module.name}
+                                module={module}
+                            />
                         )}
                     </SidebarMenu>
                 </SidebarGroup>
             </SidebarProvider>
         </div>
+    )
+}
+
+function SidebarModulesMenu({ module }: { module: Module }) {
+    return (
+        <Collapsible
+            key={module.name}
+            asChild
+            defaultOpen={module.isActive}
+            className="group/collapsible"
+        >
+            <SidebarMenuItem>
+                <CollapsibleTrigger asChild>
+                    <SidebarMenuButton tooltip={module.name}>
+                        {module.icon && <module.icon />}
+
+                        <span>{module.name}</span>
+
+                        {module.topics && module.topics.length > 0 && (
+                            <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                        )}
+                    </SidebarMenuButton>
+                </CollapsibleTrigger>
+
+                <CollapsibleContent>
+                    <SidebarMenuSub>
+                        {module.topics && module.topics.map((topic) => (
+                            <SidebarTopicSubMenu topic={topic} />
+                        ))}
+                    </SidebarMenuSub>
+                </CollapsibleContent>
+            </SidebarMenuItem>
+        </Collapsible >
+    )
+}
+
+function SidebarTopicSubMenu({ topic }: { topic: Topic }) {
+    return (
+        <SidebarMenuSubItem key={topic.name}>
+            <SidebarMenuSubButton asChild>
+                <a href={topic.url}>
+                    {topic.icon && <topic.icon />}
+                    <span>{topic.name}</span>
+                </a>
+            </SidebarMenuSubButton>
+        </SidebarMenuSubItem>
     )
 }

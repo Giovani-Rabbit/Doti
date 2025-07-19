@@ -27,88 +27,71 @@ export default function SideberBody({
 // This is sample data.
 const data: Module[] = [
     {
-        title: "Playground",
+        name: "Playground",
         url: "#",
         icon: SquareTerminal,
         isActive: true,
         topics: [
             {
-                title: "History",
+                name: "History",
                 url: "#",
             },
             {
-                title: "Starred",
+                name: "Starred",
                 url: "#",
             },
             {
-                title: "Settings",
+                name: "Settings",
                 url: "#",
             },
         ],
     },
     {
-        title: "Models",
+        name: "Models",
         url: "#",
         icon: Bot,
         topics: [
             {
-                title: "Genesis",
+                name: "Genesis",
                 url: "#",
             },
             {
-                title: "Explorer",
+                name: "Explorer",
                 url: "#",
             },
             {
-                title: "Quantum",
+                name: "Quantum",
                 url: "#",
             },
         ],
     },
     {
-        title: "Documentation",
+        name: "Documentation",
         url: "#",
         icon: BookOpen,
         topics: [
             {
-                title: "Introduction",
+                name: "Introduction",
                 url: "#",
             },
             {
-                title: "Get Started",
+                name: "Get Started",
                 url: "#",
             },
             {
-                title: "Tutorials",
+                name: "Tutorials",
                 url: "#",
             },
             {
-                title: "Changelog",
+                name: "Changelog",
                 url: "#",
             },
         ],
     },
     {
-        title: "Settings",
+        name: "Settings",
         url: "#",
         icon: Settings2,
-        topics: [
-            {
-                title: "General",
-                url: "#",
-            },
-            {
-                title: "Team",
-                url: "#",
-            },
-            {
-                title: "Billing",
-                url: "#",
-            },
-            {
-                title: "Limits",
-                url: "#",
-            },
-        ],
+        topics: [],
     },
 ]
