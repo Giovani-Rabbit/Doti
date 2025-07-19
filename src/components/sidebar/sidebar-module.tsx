@@ -13,8 +13,9 @@ import {
     SidebarMenuSubItem,
     SidebarProvider,
 } from "@/components/ui/sidebar"
-import { ChevronRight, LucideIcon, PlusIcon } from "lucide-react"
+import { ChevronRight, LucideIcon } from "lucide-react"
 import SidebarModuleContextMenu from "./sidebar-module-context-menu"
+import SidebarModuleEllipsis from "./buttons/sidebar-module-ellipsis-button"
 
 export type Module = {
     name: string
@@ -35,8 +36,10 @@ export function SidebarModule({ modules }: { modules: Module[] }) {
         <div className="w-[250px] h-screen border-r">
             <SidebarProvider>
                 <SidebarGroup>
-                    <SidebarGroupLabel>Modules</SidebarGroupLabel>
-                    <SidebarGroupAction><PlusIcon /></SidebarGroupAction>
+                    <SidebarGroupLabel>Módulos</SidebarGroupLabel>
+                    <SidebarGroupAction>
+                        <SidebarModuleEllipsis />
+                    </SidebarGroupAction>
                     <SidebarMenu>
                         {modules.map((module) =>
                             <SidebarModulesMenu

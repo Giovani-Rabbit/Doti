@@ -14,8 +14,12 @@ export default function SidebarModuleContextMenu(
                 {children}
             </ContextMenuTrigger>
             <ContextMenuContent>
-                <ContextMenuItem>Icone</ContextMenuItem>
-                <ContextMenuItem>Renomear</ContextMenuItem>
+                <ContextMenuItem>
+                    Ícone
+                </ContextMenuItem>
+                <ContextMenuItem>
+                    Renomear
+                </ContextMenuItem>
                 <ContextMenuItem variant="destructive">
                     Excluir
                 </ContextMenuItem>
