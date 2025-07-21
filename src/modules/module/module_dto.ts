@@ -1,9 +1,9 @@
-import { LucideIcon } from "lucide-react"
+import { ComponentIcon, LucideIcon } from "lucide-react"
 
-export interface ModuleDTO {
+export type ModuleDTO = {
     id: string
     name: string
-    is_opne: boolean
+    is_open: boolean
     icon: LucideIcon
     created_at: string
     updated_at: string
@@ -12,4 +12,9 @@ export interface ModuleDTO {
 export type CreateModuleDTO = {
     Name: string
     Icon: LucideIcon
+}
+
+export const CreateModuleGeneric: CreateModuleDTO = {
+    Name: "Sem Nome",
+    Icon: ComponentIcon
 }

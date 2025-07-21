@@ -13,25 +13,16 @@ import {
     SidebarMenuSubItem,
     SidebarProvider,
 } from "@/components/ui/sidebar"
-import { ChevronRight, LucideIcon } from "lucide-react"
+import { ChevronRight } from "lucide-react"
 import SidebarModuleContextMenu from "./sidebar-module-context-menu"
 import SidebarModuleEllipsis from "./buttons/sidebar-module-ellipsis-button"
+import { useModuleStore } from "@/modules/module/module_store"
+import { Module } from "@/modules/module/module_interface"
+import { Topic } from "@/modules/topic/topic_interface"
 
-export type Module = {
-    name: string
-    url: string
-    icon?: LucideIcon
-    isActive?: boolean
-    topics?: Topic[]
-}
+export function SidebarModule() {
+    const { modules } = useModuleStore();
 
-export type Topic = {
-    name: string,
-    url: string,
-    icon?: LucideIcon
-};
-
-export function SidebarModule({ modules }: { modules: Module[] }) {
     return (
         <div className="w-[250px] h-screen border-r">
             <SidebarProvider>
@@ -43,7 +34,7 @@ export function SidebarModule({ modules }: { modules: Module[] }) {
                     <SidebarMenu>
                         {modules.map((module) =>
                             <SidebarModulesMenu
-                                key={module.name}
+                                key={module.id}
                                 module={module}
                             />
                         )}
@@ -57,9 +48,9 @@ export function SidebarModule({ modules }: { modules: Module[] }) {
 function SidebarModulesMenu({ module }: { module: Module }) {
     return (
         <Collapsible
-            key={module.name}
+            key={module.id}
             asChild
-            defaultOpen={module.isActive}
+            defaultOpen={module.isOpen}
             className="group/collapsible"
         >
             <SidebarMenuItem>
@@ -93,7 +84,7 @@ function SidebarTopicSubMenu({ topic }: { topic: Topic }) {
     return (
         <SidebarMenuSubItem key={topic.name}>
             <SidebarMenuSubButton asChild>
-                <a href={topic.url}>
+                <a href={"#"}>
                     {topic.icon && <topic.icon />}
                     <span>{topic.name}</span>
                 </a>
