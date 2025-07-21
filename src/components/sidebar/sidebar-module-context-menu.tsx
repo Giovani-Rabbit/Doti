@@ -1,15 +1,20 @@
 import { ReactNode } from "react";
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "../ui/context-menu"
+import { useModuleStore } from "@/modules/module/module_store";
+import { Module } from "@/modules/module/module_interface";
 
 type SidebarModuleContextMenuProps = {
     children: ReactNode;
+    targetModule: Module
 };
 
 export default function SidebarModuleContextMenu(
-    { children }: SidebarModuleContextMenuProps
+    { children, targetModule }: SidebarModuleContextMenuProps
 ) {
+    const { remove } = useModuleStore();
+
     return (
-        <ContextMenu>
+        <ContextMenu >
             <ContextMenuTrigger>
                 {children}
             </ContextMenuTrigger>
@@ -20,7 +25,10 @@ export default function SidebarModuleContextMenu(
                 <ContextMenuItem>
                     Renomear
                 </ContextMenuItem>
-                <ContextMenuItem variant="destructive">
+                <ContextMenuItem
+                    variant="destructive"
+                    onClick={() => remove(targetModule.id)}
+                >
                     Excluir
                 </ContextMenuItem>
             </ContextMenuContent>

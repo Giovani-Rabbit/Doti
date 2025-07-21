@@ -1,23 +1,24 @@
 
 import { create } from "zustand"
-import { ModuleDTO } from "./module_dto"
 import { Module } from "./module_interface"
 
-type ModuleStore = Module
-
 type IModuleStore = {
-    modules: ModuleStore[]
-    create: (module: ModuleStore) => void
+    modules: Module[]
+    create: (module: Module) => void
+    remove: (id: string) => void
 }
 
 const useModuleStore = create<IModuleStore>((set) => ({
     modules: [],
-    create: (module) => (
+    create: (module) =>
         set((state) => ({
-            modules: [...state.modules, module],
+            modules: [...state.modules, module]
+        })),
+
+    remove: (id) =>
+        set(state => ({
+            modules: state.modules.filter(mod => mod.id != id)
         }))
-    )
 }))
 
 export { useModuleStore }
-export type { ModuleStore }

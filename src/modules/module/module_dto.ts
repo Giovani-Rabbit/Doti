@@ -13,8 +13,3 @@ export type CreateModuleDTO = {
     Name: string
     Icon: LucideIcon
 }
-
-export const CreateModuleGeneric: CreateModuleDTO = {
-    Name: "Sem Nome",
-    Icon: ComponentIcon
-}

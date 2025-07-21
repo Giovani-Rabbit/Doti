@@ -54,7 +54,7 @@ function SidebarModulesMenu({ module }: { module: Module }) {
             className="group/collapsible"
         >
             <SidebarMenuItem>
-                <SidebarModuleContextMenu>
+                <SidebarModuleContextMenu targetModule={module}>
                     <CollapsibleTrigger asChild>
                         <SidebarMenuButton tooltip={module.name}>
                             {module.icon && <module.icon />}
