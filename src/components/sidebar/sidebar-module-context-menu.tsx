@@ -1,28 +1,45 @@
-import { ReactNode } from "react";
+import { ReactNode, RefObject } from "react";
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "../ui/context-menu"
 import { useModuleStore } from "@/modules/module/module_store";
 import { Module } from "@/modules/module/module_interface";
 
 type SidebarModuleContextMenuProps = {
     children: ReactNode;
-    targetModule: Module
+    targetModule: Module;
+    isRemaning: boolean;
+    handleIsRenaming: () => void;
+    inputRenaming: RefObject<HTMLInputElement | null>;
 };
 
-export default function SidebarModuleContextMenu(
-    { children, targetModule }: SidebarModuleContextMenuProps
-) {
+export default function SidebarModuleContextMenu({
+    children,
+    targetModule,
+    isRemaning,
+    handleIsRenaming,
+    inputRenaming
+}: SidebarModuleContextMenuProps) {
     const { remove } = useModuleStore();
 
+    function handleOnClose(e: Event) {
+        if (isRemaning) {
+            // it was necessary because the input was not focusing
+            // REF: https://github.com/radix-ui/primitives/discussions/1447
+            e.preventDefault();
+            inputRenaming.current?.focus();
+            inputRenaming.current?.select()
+        }
+    }
+
     return (
-        <ContextMenu >
+        <ContextMenu>
             <ContextMenuTrigger>
                 {children}
             </ContextMenuTrigger>
-            <ContextMenuContent>
+            <ContextMenuContent onCloseAutoFocus={handleOnClose}>
                 <ContextMenuItem>
                     Ícone
                 </ContextMenuItem>
-                <ContextMenuItem>
+                <ContextMenuItem onClick={handleIsRenaming}>
                     Renomear
                 </ContextMenuItem>
                 <ContextMenuItem
@@ -33,5 +50,5 @@ export default function SidebarModuleContextMenu(
                 </ContextMenuItem>
             </ContextMenuContent>
         </ContextMenu>
-    )
+    );
 }

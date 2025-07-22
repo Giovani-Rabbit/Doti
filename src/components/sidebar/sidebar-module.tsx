@@ -19,6 +19,8 @@ import SidebarModuleEllipsis from "./buttons/sidebar-module-ellipsis-button"
 import { useModuleStore } from "@/modules/module/module_store"
 import { Module } from "@/modules/module/module_interface"
 import { Topic } from "@/modules/topic/topic_interface"
+import RenameableText from "../ui/renameable-text"
+import useRenaming from "@/hooks/useModuleRenaming"
 
 export function SidebarModule() {
     const { modules } = useModuleStore();
@@ -46,6 +48,8 @@ export function SidebarModule() {
 }
 
 function SidebarModulesMenu({ module }: { module: Module }) {
+    const { inputRef, isRenaming, open, close, confirm } = useRenaming();
+
     return (
         <Collapsible
             key={module.id}
@@ -54,12 +58,25 @@ function SidebarModulesMenu({ module }: { module: Module }) {
             className="group/collapsible"
         >
             <SidebarMenuItem>
-                <SidebarModuleContextMenu targetModule={module}>
+                <SidebarModuleContextMenu
+                    inputRenaming={inputRef}
+                    targetModule={module}
+                    isRemaning={isRenaming}
+                    handleIsRenaming={open}
+                >
                     <CollapsibleTrigger asChild>
                         <SidebarMenuButton tooltip={module.name}>
                             {module.icon && <module.icon />}
 
-                            <span>{module.name}</span>
+                            <RenameableText
+                                ref={inputRef}
+                                text={module.name}
+                                isRenaming={isRenaming}
+                                onConfirm={() => confirm(
+                                    module.id, inputRef.current?.value as string
+                                )}
+                                onCancel={close}
+                            />
 
                             {module.topics && module.topics.length > 0 && (
                                 <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />

@@ -6,6 +6,7 @@ type IModuleStore = {
     modules: Module[]
     create: (module: Module) => void
     remove: (id: string) => void
+    rename: (id: string, newName: string) => void
 }
 
 const useModuleStore = create<IModuleStore>((set) => ({
@@ -18,6 +19,13 @@ const useModuleStore = create<IModuleStore>((set) => ({
     remove: (id) =>
         set(state => ({
             modules: state.modules.filter(mod => mod.id != id)
+        })),
+
+    rename: (id, newName) =>
+        set(state => ({
+            modules: state.modules.map(mod =>
+                mod.id === id ? { ...mod, name: newName } : mod
+            )
         }))
 }))
 
