@@ -26,7 +26,7 @@ export default function SidebarModuleContextMenu({
             // REF: https://github.com/radix-ui/primitives/discussions/1447
             e.preventDefault();
             inputRenaming.current?.focus();
-            inputRenaming.current?.select()
+            inputRenaming.current?.select();
         }
     }
 
