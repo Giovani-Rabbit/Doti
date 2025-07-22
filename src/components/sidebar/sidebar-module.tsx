@@ -64,24 +64,31 @@ function SidebarModulesMenu({ module }: { module: Module }) {
                     isRemaning={isRenaming}
                     handleIsRenaming={open}
                 >
-                    <CollapsibleTrigger asChild>
-                        <SidebarMenuButton tooltip={module.name}>
-                            {module.icon && <module.icon />}
+                    <CollapsibleTrigger asChild >
+                        <div onClick={(e) => {
+                            if (isRenaming) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                            }
+                        }}>
+                            <SidebarMenuButton tooltip={module.name}>
+                                {module.icon && <module.icon />}
 
-                            <RenameableText
-                                ref={inputRef}
-                                text={module.name}
-                                isRenaming={isRenaming}
-                                onConfirm={() => confirm(
-                                    module.id, inputRef.current?.value as string
+                                <RenameableText
+                                    ref={inputRef}
+                                    text={module.name}
+                                    isRenaming={isRenaming}
+                                    onConfirm={() => confirm(
+                                        module.id, inputRef.current?.value as string
+                                    )}
+                                    onCancel={close}
+                                />
+
+                                {module.topics && module.topics.length > 0 && (
+                                    <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                                 )}
-                                onCancel={close}
-                            />
-
-                            {module.topics && module.topics.length > 0 && (
-                                <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                            )}
-                        </SidebarMenuButton>
+                            </SidebarMenuButton>
+                        </div>
                     </CollapsibleTrigger>
                 </SidebarModuleContextMenu>
 
