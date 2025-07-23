@@ -21,6 +21,7 @@ import { Module } from "@/modules/module/module_interface"
 import { Topic } from "@/modules/topic/topic_interface"
 import RenameableText from "../ui/renameable-text"
 import useRenaming from "@/hooks/useModuleRenaming"
+import SidebarMenuButtonMimic from "./buttons/SidebarMenuButtonMimic"
 
 export function SidebarModule() {
     const { modules } = useModuleStore();
@@ -50,6 +51,24 @@ export function SidebarModule() {
 function SidebarModulesMenu({ module }: { module: Module }) {
     const { inputRef, isRenaming, open, close, confirm } = useRenaming();
 
+    const sidebarButtonContent = (
+        <>
+            {module.icon && <module.icon />}
+            <RenameableText
+                ref={inputRef}
+                text={module.name}
+                isRenaming={isRenaming}
+                onConfirm={() => confirm(
+                    module.id, inputRef.current?.value as string
+                )}
+                onCancel={close}
+            />
+            {module.topics && module.topics.length > 0 && (
+                <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+            )}
+        </>
+    )
+
     return (
         <Collapsible
             key={module.id}
@@ -64,32 +83,17 @@ function SidebarModulesMenu({ module }: { module: Module }) {
                     isRemaning={isRenaming}
                     handleIsRenaming={open}
                 >
-                    <CollapsibleTrigger asChild >
-                        <div onClick={(e) => {
-                            if (isRenaming) {
-                                e.preventDefault();
-                                e.stopPropagation();
-                            }
-                        }}>
+                    {isRenaming ? (
+                        <SidebarMenuButtonMimic>
+                            {sidebarButtonContent}
+                        </SidebarMenuButtonMimic>
+                    ) : (
+                        <CollapsibleTrigger asChild>
                             <SidebarMenuButton tooltip={module.name}>
-                                {module.icon && <module.icon />}
-
-                                <RenameableText
-                                    ref={inputRef}
-                                    text={module.name}
-                                    isRenaming={isRenaming}
-                                    onConfirm={() => confirm(
-                                        module.id, inputRef.current?.value as string
-                                    )}
-                                    onCancel={close}
-                                />
-
-                                {module.topics && module.topics.length > 0 && (
-                                    <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                                )}
+                                {sidebarButtonContent}
                             </SidebarMenuButton>
-                        </div>
-                    </CollapsibleTrigger>
+                        </CollapsibleTrigger>
+                    )}
                 </SidebarModuleContextMenu>
 
                 <CollapsibleContent>

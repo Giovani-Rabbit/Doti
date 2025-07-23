@@ -1,4 +1,4 @@
-import { forwardRef, useEffect } from "react"
+import { forwardRef, KeyboardEvent, useEffect } from "react"
 
 type IRenameableText = {
     text: string
@@ -16,7 +16,7 @@ export const RenameableText = forwardRef<HTMLInputElement, IRenameableText>(
             }
         }, [isRenaming, ref])
 
-        const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
             if (e.key === "Enter") onConfirm();
             if (e.key === "Escape") onCancel();
         }
