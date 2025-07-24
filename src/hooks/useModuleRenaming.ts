@@ -1,7 +1,7 @@
 import { useModuleStore } from "@/modules/module/module_store";
 import { RefObject, useRef, useState } from "react";
 
-export type RenamingState = {
+export type ModuleRenamingState = {
     module: { id: string; name: string };
     isRenaming: boolean;
     startRenaming: () => void;
@@ -10,7 +10,7 @@ export type RenamingState = {
     inputRef: RefObject<HTMLInputElement | null>;
 };
 
-export default function useRenaming(id: string, name: string): RenamingState {
+export default function useModuleRenaming(id: string, name: string): ModuleRenamingState {
     const inputRef = useRef<HTMLInputElement>(null);
     const [isRenaming, setIsRenaming] = useState(false);
     const { rename } = useModuleStore();

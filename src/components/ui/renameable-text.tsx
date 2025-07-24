@@ -1,4 +1,4 @@
-import { RenamingState } from "@/hooks/useModuleRenaming"
+import { ModuleRenamingState } from "@/hooks/useModuleRenaming"
 import { KeyboardEvent, useEffect } from "react"
 
 export const RenameableText = ({
@@ -7,7 +7,7 @@ export const RenameableText = ({
     confirmRenaming,
     inputRef,
     module: { name },
-}: RenamingState) => {
+}: ModuleRenamingState) => {
 
     useEffect(() => {
         if (isRenaming && inputRef?.current) {
