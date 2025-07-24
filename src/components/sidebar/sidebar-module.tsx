@@ -49,20 +49,12 @@ export function SidebarModule() {
 }
 
 function SidebarModulesMenu({ module }: { module: Module }) {
-    const { inputRef, isRenaming, open, close, confirm } = useRenaming();
+    const renamingnHook = useRenaming(module.id, module.name);
 
     const sidebarButtonContent = (
         <>
             {module.icon && <module.icon />}
-            <RenameableText
-                ref={inputRef}
-                text={module.name}
-                isRenaming={isRenaming}
-                onConfirm={() => confirm(
-                    module.id, inputRef.current?.value as string
-                )}
-                onCancel={close}
-            />
+            <RenameableText {...renamingnHook} />
             {module.topics && module.topics.length > 0 && (
                 <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
             )}
@@ -77,13 +69,8 @@ function SidebarModulesMenu({ module }: { module: Module }) {
             className="group/collapsible"
         >
             <SidebarMenuItem>
-                <SidebarModuleContextMenu
-                    inputRenaming={inputRef}
-                    targetModule={module}
-                    isRemaning={isRenaming}
-                    handleIsRenaming={open}
-                >
-                    {isRenaming ? (
+                <SidebarModuleContextMenu {...renamingnHook}>
+                    {renamingnHook.isRenaming ? (
                         <SidebarMenuButtonMimic>
                             {sidebarButtonContent}
                         </SidebarMenuButtonMimic>
@@ -95,7 +82,6 @@ function SidebarModulesMenu({ module }: { module: Module }) {
                         </CollapsibleTrigger>
                     )}
                 </SidebarModuleContextMenu>
-
                 <CollapsibleContent>
                     <SidebarMenuSub>
                         {module.topics && module.topics.map((topic) => (

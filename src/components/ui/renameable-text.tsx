@@ -1,38 +1,37 @@
-import { forwardRef, KeyboardEvent, useEffect } from "react"
+import { RenamingState } from "@/hooks/useModuleRenaming"
+import { KeyboardEvent, useEffect } from "react"
 
-type IRenameableText = {
-    text: string
-    isRenaming: boolean
-    onConfirm: () => void
-    onCancel: () => void
-}
+export const RenameableText = ({
+    isRenaming,
+    cancelRenaming,
+    confirmRenaming,
+    inputRef,
+    module: { name },
+}: RenamingState) => {
 
-export const RenameableText = forwardRef<HTMLInputElement, IRenameableText>(
-    ({ text, isRenaming, onConfirm, onCancel }, ref) => {
-        useEffect(() => {
-            if (isRenaming && ref && typeof ref !== "function") {
-                ref.current?.focus();
-                ref.current?.select();
-            }
-        }, [isRenaming, ref])
-
-        const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-            if (e.key === "Enter") onConfirm();
-            if (e.key === "Escape") onCancel();
+    useEffect(() => {
+        if (isRenaming && inputRef?.current) {
+            inputRef.current.focus();
+            inputRef.current.select();
         }
+    }, [isRenaming, inputRef]);
 
-        if (!isRenaming) return <span>{text}</span>
+    const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") confirmRenaming();
+        if (e.key === "Escape") cancelRenaming();
+    };
 
-        return (
-            <input
-                ref={ref}
-                className="w-[90%] bg-transparent border-none shadow-none focus:outline-none focus:ring-0 focus:border-none focus:shadow-none text-inherit p-0 m-0"
-                defaultValue={text}
-                onKeyDown={handleKeyDown}
-                onBlur={onCancel}
-            />
-        )
-    }
-)
+    if (!isRenaming) return <span>{name}</span>;
+
+    return (
+        <input
+            ref={inputRef}
+            className="w-[90%] bg-transparent border-none shadow-none focus:outline-none focus:ring-0 focus:border-none focus:shadow-none text-inherit p-0 m-0"
+            defaultValue={name}
+            onKeyDown={handleKeyDown}
+            onBlur={close}
+        />
+    );
+};
 
 export default RenameableText;

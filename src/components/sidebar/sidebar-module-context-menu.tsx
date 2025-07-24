@@ -1,32 +1,29 @@
-import { ReactNode, RefObject } from "react";
+import { ReactNode } from "react";
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "../ui/context-menu"
 import { useModuleStore } from "@/modules/module/module_store";
-import { Module } from "@/modules/module/module_interface";
+import { RenamingState } from "@/hooks/useModuleRenaming";
 
 type SidebarModuleContextMenuProps = {
     children: ReactNode;
-    targetModule: Module;
-    isRemaning: boolean;
-    handleIsRenaming: () => void;
-    inputRenaming: RefObject<HTMLInputElement | null>;
-};
+} & RenamingState;
 
 export default function SidebarModuleContextMenu({
     children,
-    targetModule,
-    isRemaning,
-    handleIsRenaming,
-    inputRenaming
-}: SidebarModuleContextMenuProps) {
+    startRenaming,
+    module: { id },
+    isRenaming,
+    inputRef
+}: SidebarModuleContextMenuProps
+) {
     const { remove } = useModuleStore();
 
     function handleOnClose(e: Event) {
-        if (isRemaning) {
+        if (isRenaming) {
             // it was necessary because the input was not focusing
             // REF: https://github.com/radix-ui/primitives/discussions/1447
             e.preventDefault();
-            inputRenaming.current?.focus();
-            inputRenaming.current?.select();
+            inputRef.current?.focus();
+            inputRef.current?.select();
         }
     }
 
@@ -39,12 +36,12 @@ export default function SidebarModuleContextMenu({
                 <ContextMenuItem>
                     Ícone
                 </ContextMenuItem>
-                <ContextMenuItem onClick={handleIsRenaming}>
+                <ContextMenuItem onClick={startRenaming}>
                     Renomear
                 </ContextMenuItem>
                 <ContextMenuItem
                     variant="destructive"
-                    onClick={() => remove(targetModule.id)}
+                    onClick={() => remove(id)}
                 >
                     Excluir
                 </ContextMenuItem>
