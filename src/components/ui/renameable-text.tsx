@@ -29,7 +29,7 @@ export const RenameableText = ({
             className="w-[90%] bg-transparent border-none shadow-none focus:outline-none focus:ring-0 focus:border-none focus:shadow-none text-inherit p-0 m-0"
             defaultValue={name}
             onKeyDown={handleKeyDown}
-            onBlur={close}
+            onBlur={cancelRenaming}
         />
     );
 };
