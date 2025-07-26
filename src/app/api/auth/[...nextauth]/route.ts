@@ -1,4 +1,5 @@
 import NextAuth from "next-auth"
+import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials"
 
 const handler = NextAuth({
@@ -39,8 +40,6 @@ const handler = NextAuth({
                     return null;
                 }
 
-                console.log("authorization: ", account)
-
                 return {
                     id: account.id,
                     name: account.name,
@@ -51,22 +50,19 @@ const handler = NextAuth({
             }
         })
     ],
-    session: {
-        strategy: "jwt"
-    },
     callbacks: {
         async jwt({ token, user, account }) {
-            console.log(user, account)
             if (user && account) {
-                console.debug("PRIMEIRO LOGIN");
                 return { ...token, data: user };
             }
 
-            return token;
+            return { ...token, error: "RefreshTokenExpired" } as JWT;
         },
         async session({ session, token }) {
-            session.user.id = token.id
-            return session
+            session.user = token.data.user;
+            session.expires = token.data.accessTokenExpires;
+            session.error = token.error;
+            return session;
         },
     }
 })
