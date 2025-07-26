@@ -7,11 +7,9 @@ export default withAuth(
         const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
         const baseUrl = req.nextUrl.origin;
 
-        console.log("CHECANDO-----------------------------")
-        console.log(Date.now(), token?.data.accessTokenExpires)
-        if (token && Date.now() >= token.data.accessTokenExpires) {
+        if (token && Date.now() >= token.data.user.exp * 1000) {
             const response = NextResponse.redirect(`${baseUrl}/api/auth/signin`);
-            // Clear the session cookies
+
             response.cookies.set("next-auth.session-token", "", { maxAge: 0 });
             response.cookies.set("next-auth.csrf-token", "", { maxAge: 0 });
 

@@ -1,6 +1,7 @@
-import NextAuth from "next-auth"
+import NextAuth, { UserObject } from "next-auth"
 import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials"
+import { jwtDecode } from "jwt-decode";
 
 const handler = NextAuth({
     pages: {
@@ -33,19 +34,25 @@ const handler = NextAuth({
 
                 if (!res.ok) return null;
 
-                const account = await res.json();
+                const jwtToken = res.headers.get("authorization");
 
-                if (!account) {
-                    console.log("Nao foi possivel pegar o usuario do body da requisicao");
+                if (!jwtToken) {
+                    console.log("Could not get request Token");
+                    return null;
+                }
+
+                const user: UserObject = jwtDecode(jwtToken);
+
+                if (!user) {
+                    console.log("Could not get JWT user");
                     return null;
                 }
 
                 return {
-                    id: account.id,
-                    name: account.name,
-                    email: account.email,
-                    accessToken: account.accessToken,
-                    accessTokenExpires: Date.now() + (account.expires_in * 1000)
+                    id: jwtToken,
+                    user: user,
+                    accessToken: jwtToken,
+                    validity: user.exp
                 };
             }
         })
@@ -56,11 +63,11 @@ const handler = NextAuth({
                 return { ...token, data: user };
             }
 
-            return { ...token, error: "RefreshTokenExpired" } as JWT;
+            return { ...token, error: "AccessTokenError" } as JWT;
         },
         async session({ session, token }) {
             session.user = token.data.user;
-            session.expires = token.data.accessTokenExpires;
+            session.expires = token.data.validity;
             session.error = token.error;
             return session;
         },

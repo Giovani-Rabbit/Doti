@@ -1,6 +1,13 @@
 import NextAuth from "next-auth";
 
 declare module "next-auth" {
+    export interface UserObject {
+        id: number;
+        email: string;
+        name: string;
+        exp: number;
+    }
+
     interface Session {
         user: {
             id: string;
@@ -12,17 +19,15 @@ declare module "next-auth" {
     }
 
     interface User {
-        id: string;
-        name: string;
-        email: string;
+        user: UserObject;
         accessToken: string;
-        accessTokenExpires: number;
+        validity: number;
     }
 }
 
 declare module "next-auth/jwt" {
     export interface JWT {
         data: User;
-        error: "RefreshTokenExpired" | "RefreshAccessTokenError";
+        error: "AccessTokenError";
     }
 }
