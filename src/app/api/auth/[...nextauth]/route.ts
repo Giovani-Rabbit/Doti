@@ -32,13 +32,6 @@ const handler = NextAuth({
 
                 if (!res.ok) return null;
 
-                const jwtToken = res.headers.get("authorization");
-
-                if (!jwtToken) {
-                    console.log("Nao foi possivel pegar o token da requisicao");
-                    return null;
-                }
-
                 const account = await res.json();
 
                 if (!account) {
@@ -46,19 +39,34 @@ const handler = NextAuth({
                     return null;
                 }
 
-                return { ...account, accessToken: jwtToken };
+                console.log("authorization: ", account)
+
+                return {
+                    id: account.id,
+                    name: account.name,
+                    email: account.email,
+                    accessToken: account.accessToken,
+                    accessTokenExpires: Date.now() + (account.expires_in * 1000)
+                };
             }
         })
     ],
+    session: {
+        strategy: "jwt"
+    },
     callbacks: {
-        async jwt({ token, account }) {
-            console.log(token, account)
-            if (account) {
-                token.accessToken = account.access_token;
-                token.id = account.id;
+        async jwt({ token, user, account }) {
+            console.log(user, account)
+            if (user && account) {
+                console.debug("PRIMEIRO LOGIN");
+                return { ...token, data: user };
             }
 
             return token;
+        },
+        async session({ session, token }) {
+            session.user.id = token.id
+            return session
         },
     }
 })
