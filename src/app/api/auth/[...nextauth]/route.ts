@@ -67,6 +67,7 @@ const handler = NextAuth({
         },
         async session({ session, token }) {
             session.user = token.data.user;
+            session.accessToken = token.data.accessToken;
             session.expires = token.data.validity;
             session.error = token.error;
             return session;

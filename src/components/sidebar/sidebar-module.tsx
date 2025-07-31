@@ -22,6 +22,7 @@ import { Topic } from "@/modules/topic/topic_interface"
 import RenameableText from "../ui/renameable-text"
 import useRenaming from "@/hooks/useModuleRenaming"
 import SidebarMenuButtonMimic from "./buttons/SidebarMenuButtonMimic"
+import { LucideIcon } from "../icon/LucideIcon"
 
 export function SidebarModule() {
     const { modules } = useModuleStore();
@@ -53,7 +54,7 @@ function SidebarModulesMenu({ module }: { module: Module }) {
 
     const sidebarButtonContent = (
         <>
-            {module.icon && <module.icon />}
+            {module.icon && <LucideIcon name={module.icon} />}
             <RenameableText {...renamingnHook} />
             {module.topics && module.topics.length > 0 && (
                 <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />

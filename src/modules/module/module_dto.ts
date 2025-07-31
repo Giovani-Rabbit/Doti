@@ -11,5 +11,5 @@ export type ModuleDTO = {
 
 export type CreateModuleDTO = {
     Name: string
-    Icon: LucideIcon
+    Icon: string
 }

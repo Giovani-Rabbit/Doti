@@ -1,20 +1,18 @@
-import { ComponentIcon, LucideIcon } from "lucide-react"
+import { LucideIconName } from "@/components/icon/LucideIcon"
 import { Topic } from "../topic/topic_interface"
+import { CreateModuleDTO } from "./module_dto"
 
 export type Module = {
     id: string
     name: string
     isOpen: boolean
-    icon: LucideIcon
+    icon: LucideIconName
     topics?: Topic[]
 }
 
-export const CreateGenericModule = (): Module => {
+export const CreateGenericModule = (): CreateModuleDTO => {
     return {
-        id: crypto.randomUUID(),
-        name: "Sem Nome",
-        isOpen: false,
-        icon: ComponentIcon,
-        topics: []
+        Name: "Sem Nome",
+        Icon: "ComponentIcon"
     }
 }

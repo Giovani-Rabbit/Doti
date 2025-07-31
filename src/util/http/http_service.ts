@@ -2,15 +2,17 @@ import axios from 'axios';
 import { IHttpRequestParams } from './type/http_request_params';
 
 export type IHttpResult<T, S> = {
-    data: T | null;
+    data: T;
     error: { message: string; status: S; } | null;
 };
 
 class HttpService {
     private baseUrl: string;
-    private path: string;
 
-    constructor(path: string) {
+    constructor(
+        private path: string,
+        private accessToken: string
+    ) {
         const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
         if (!apiUrl) throw new Error(
@@ -18,7 +20,6 @@ class HttpService {
         );
 
         this.baseUrl = apiUrl.trim();
-        this.path = path;
     }
 
     public async get<O>(params: IHttpRequestParams<null>): Promise<O> {
@@ -55,7 +56,13 @@ class HttpService {
 
     private async request<O, I>(params: IHttpRequestParams<I>): Promise<O> {
         try {
-            const response = await axios.request(params);
+            const response = await axios.request({
+                ...params,
+                headers: {
+                    Authorization: this.accessToken,
+                }
+            });
+
             return { data: response.data, error: null } as O;
         } catch (err: any) {
             const message = err?.response?.data?.message || "Erro desconhecido";

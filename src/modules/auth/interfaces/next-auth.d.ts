@@ -13,8 +13,8 @@ declare module "next-auth" {
             id: string;
             name: string;
             email: string;
-            accessToken: string;
         };
+        accessToken: string;
         error?: string;
     }
 
