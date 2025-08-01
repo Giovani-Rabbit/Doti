@@ -10,17 +10,22 @@ import { SidebarModules } from "./sidebar-module"
 
 export function SidebarModuleBody() {
     return (
-        <SidebarProvider>
-            <SidebarGroup className="w-[250px] h-screen border-r overflow-y-auto">
-                <SidebarGroupLabel>Módulos</SidebarGroupLabel>
-                <SidebarGroupAction>
-                    <SidebarModuleEllipsis />
-                </SidebarGroupAction>
-                <SidebarMenu className="flex-grow overflow-y-auto">
-                    <SidebarModules />
-                </SidebarMenu>
-            </SidebarGroup>
-        </SidebarProvider >
+        <nav>
+            <SidebarProvider>
+                <div className="w-[250px] h-screen border-r flex flex-col">
+                    <SidebarGroup>
+                        <SidebarGroupLabel>Módulos</SidebarGroupLabel>
+                        <SidebarGroupAction>
+                            <SidebarModuleEllipsis />
+                        </SidebarGroupAction>
+                    </SidebarGroup>
+
+                    <SidebarMenu className="px-2 flex-grow overflow-y-auto min-h-0">
+                        <SidebarModules />
+                    </SidebarMenu>
+                </div>
+            </SidebarProvider>
+        </nav>
     )
 }
 

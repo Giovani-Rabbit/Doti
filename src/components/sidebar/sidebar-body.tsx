@@ -1,4 +1,3 @@
-import { SidebarProvider } from "../ui/sidebar";
 import { SidebarModuleBody } from "./sidebar-module-body";
 import SidebarNav from "./sidebar-nav";
 
@@ -12,11 +11,7 @@ export default function SideberBody({
             <SidebarNav />
 
             <div className="grow flex">
-                <SidebarProvider>
-
-                    <SidebarModuleBody />
-                </SidebarProvider>
-
+                <SidebarModuleBody />
 
                 <div className="p-8 grow">
                     {children}
