@@ -1,6 +1,5 @@
-"use client"
-
-import { SidebarModule } from "./sidebar-module";
+import { SidebarProvider } from "../ui/sidebar";
+import { SidebarModuleBody } from "./sidebar-module-body";
 import SidebarNav from "./sidebar-nav";
 
 export default function SideberBody({
@@ -13,7 +12,11 @@ export default function SideberBody({
             <SidebarNav />
 
             <div className="grow flex">
-                <SidebarModule />
+                <SidebarProvider>
+
+                    <SidebarModuleBody />
+                </SidebarProvider>
+
 
                 <div className="p-8 grow">
                     {children}

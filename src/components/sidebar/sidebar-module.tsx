@@ -2,51 +2,48 @@
 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@radix-ui/react-collapsible"
 import {
-    SidebarGroup,
-    SidebarGroupAction,
-    SidebarGroupLabel,
-    SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
     SidebarMenuSub,
     SidebarMenuSubButton,
     SidebarMenuSubItem,
-    SidebarProvider,
 } from "@/components/ui/sidebar"
 import { ChevronRight } from "lucide-react"
 import SidebarModuleContextMenu from "./sidebar-module-context-menu"
-import SidebarModuleEllipsis from "./buttons/sidebar-module-ellipsis-button"
-import { useModuleStore } from "@/modules/module/module_store"
 import { Module } from "@/modules/module/module_interface"
 import { Topic } from "@/modules/topic/topic_interface"
 import RenameableText from "../ui/renameable-text"
 import useRenaming from "@/hooks/useModuleRenaming"
 import SidebarMenuButtonMimic from "./buttons/SidebarMenuButtonMimic"
 import { LucideIcon } from "../icon/LucideIcon"
+import { useSession } from "next-auth/react"
+import useModuleService from "@/modules/module/module_serivce"
+import { useQuery } from "@tanstack/react-query"
+import { SidebarModuleSkeleton } from "./skeleton/sidebar-module-skeleton"
 
-export function SidebarModule() {
-    const { modules } = useModuleStore();
+export function SidebarModules() {
+    const { data: session, status } = useSession();
+    const { fetchModules } = useModuleService(session?.accessToken!);
+
+    const { data, isFetching } = useQuery({
+        queryKey: ["module"],
+        queryFn: fetchModules,
+        enabled: !!session?.accessToken
+    });
+
+    const modules = data?.data.modules || [];
 
     return (
-        <div className="w-[250px] h-screen border-r">
-            <SidebarProvider>
-                <SidebarGroup>
-                    <SidebarGroupLabel>Módulos</SidebarGroupLabel>
-                    <SidebarGroupAction>
-                        <SidebarModuleEllipsis />
-                    </SidebarGroupAction>
-                    <SidebarMenu>
-                        {modules.map((module) =>
-                            <SidebarModulesMenu
-                                key={module.id}
-                                module={module}
-                            />
-                        )}
-                    </SidebarMenu>
-                </SidebarGroup>
-            </SidebarProvider>
-        </div>
-    )
+        <>
+            {(status == "loading" || isFetching) && <SidebarModuleSkeleton />}
+            {modules.map((module) =>
+                <SidebarModulesMenu
+                    key={module.id}
+                    module={module}
+                />
+            )}
+        </>
+    );
 }
 
 function SidebarModulesMenu({ module }: { module: Module }) {

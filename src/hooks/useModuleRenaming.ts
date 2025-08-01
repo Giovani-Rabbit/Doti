@@ -1,3 +1,5 @@
+"use client"
+
 import { useModuleStore } from "@/modules/module/module_store";
 import { RefObject, useRef, useState } from "react";
 

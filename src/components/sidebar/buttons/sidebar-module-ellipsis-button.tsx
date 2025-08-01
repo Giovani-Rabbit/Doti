@@ -1,3 +1,5 @@
+"use client"
+
 import { EllipsisIcon, FolderPlusIcon, PlusIcon } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useModuleStore } from "@/modules/module/module_store";

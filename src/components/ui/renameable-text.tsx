@@ -1,3 +1,5 @@
+"use client"
+
 import { ModuleRenamingState } from "@/hooks/useModuleRenaming"
 import { KeyboardEvent, useEffect } from "react"
 

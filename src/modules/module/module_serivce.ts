@@ -1,20 +1,17 @@
+"use client"
+
 import HttpService, { IHttpResult } from "@/util/http/http_service";
 import { CreateModuleDTO } from "./module_dto";
-import { useSession } from "next-auth/react";
 import { Module } from "./module_interface";
-import { useCallback, useMemo } from "react";
 
-export type ModuleErrorStatus = {}
+export type ModuleErrorStatus = {
+    modules: Module[];
+}
 
-function useModuleService() {
-    const session = useSession();
-    const accessToken = session.data?.accessToken as string;
+function useModuleService(token: string) {
+    const httpService = new HttpService("module", token);
 
-    const httpService = useMemo(() => {
-        return new HttpService("module", accessToken);
-    }, [accessToken]);
-
-    const createModule = useCallback(async (module: CreateModuleDTO) => {
+    async function createModule(module: CreateModuleDTO) {
         // await new Promise(resolve => setTimeout(resolve, 2000));
 
         return await httpService.post<
@@ -24,9 +21,20 @@ function useModuleService() {
             url: "/",
             data: module,
         });
-    }, [httpService]);
+    }
 
-    return { createModule };
+    async function fetchModules() {
+        // await new Promise(resolve => setTimeout(resolve, 2000));
+
+        return await httpService.get<
+            IHttpResult<ModuleErrorStatus, null>
+        >({
+            url: "/",
+            data: null,
+        });
+    }
+
+    return { createModule, fetchModules };
 }
 
 export default useModuleService
