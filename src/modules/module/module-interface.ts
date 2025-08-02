@@ -1,6 +1,6 @@
 import { LucideIconName } from "@/components/icon/LucideIcon"
 import { Topic } from "../topic/topic_interface"
-import { CreateModuleDTO } from "./module_dto"
+import { CreateModuleDTO } from "./module-dto"
 
 export type Module = {
     id: string
@@ -12,7 +12,15 @@ export type Module = {
 
 export const CreateGenericModule = (): CreateModuleDTO => {
     return {
-        Name: "Sem Nome",
-        Icon: "ComponentIcon"
+        name: "Sem Nome",
+        icon: "ComponentIcon"
     }
+}
+
+export const fakeModule: Module = {
+    id: Math.random().toString(),
+    name: "Sem Nome",
+    icon: "ComponentIcon",
+    isOpen: false,
+    topics: []
 }

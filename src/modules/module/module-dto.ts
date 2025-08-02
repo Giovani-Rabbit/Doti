@@ -10,6 +10,6 @@ export type ModuleDTO = {
 }
 
 export type CreateModuleDTO = {
-    Name: string
-    Icon: string
+    name: string
+    icon: string
 }

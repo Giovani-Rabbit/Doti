@@ -8,5 +8,10 @@ export default function NextSessionProvider({
 }: {
     children: ReactNode;
 }) {
-    return <SessionProvider>{children}</SessionProvider>;
+    return <SessionProvider
+        refetchInterval={0}
+        refetchOnWindowFocus={false}
+    >
+        {children}
+    </SessionProvider>;
 }

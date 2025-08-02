@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "../ui/context-menu"
-import { useModuleStore } from "@/modules/module/module_store";
+import { useModuleStore } from "@/modules/module/module-store";
 import { ModuleRenamingState } from "@/hooks/useModuleRenaming";
 
 type SidebarModuleContextMenuProps = {

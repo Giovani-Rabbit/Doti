@@ -1,6 +1,6 @@
 "use client"
 
-import { useModuleStore } from "@/modules/module/module_store";
+import { useModuleStore } from "@/modules/module/module-store";
 import { RefObject, useRef, useState } from "react";
 
 export type ModuleRenamingState = {

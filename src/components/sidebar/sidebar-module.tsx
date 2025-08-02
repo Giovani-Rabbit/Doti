@@ -10,36 +10,29 @@ import {
 } from "@/components/ui/sidebar"
 import { ChevronRight } from "lucide-react"
 import SidebarModuleContextMenu from "./sidebar-module-context-menu"
-import { Module } from "@/modules/module/module_interface"
+import { Module } from "@/modules/module/module-interface"
 import { Topic } from "@/modules/topic/topic_interface"
 import RenameableText from "../ui/renameable-text"
 import useRenaming from "@/hooks/useModuleRenaming"
 import SidebarMenuButtonMimic from "./buttons/SidebarMenuButtonMimic"
 import { LucideIcon } from "../icon/LucideIcon"
-import useModuleService from "@/modules/module/module_serivce"
-import { useQuery } from "@tanstack/react-query"
+import { moduleOptions } from "@/modules/module/module-query"
 import { SidebarModuleSkeleton } from "./skeleton/sidebar-module-skeleton"
+import { useQuery } from "@tanstack/react-query"
 
 export function SidebarModules() {
-    const { fetchModules } = useModuleService();
+    const { data, isLoading, error } = useQuery(moduleOptions);
 
-    const { data, isFetching } = useQuery({
-        queryKey: ["module"],
-        queryFn: fetchModules,
-    });
+    if (isLoading) return <SidebarModuleSkeleton />;
+    if (error) return <p>Error loading modules.</p>;
 
-    const modules = data && data.data ? data.data.modules : [];
-
-    if (isFetching) return <SidebarModuleSkeleton />
+    const modules = data?.data?.modules ?? [];
 
     return (
         <>
-            {modules.map((module) =>
-                <SidebarModulesMenu
-                    key={module.id}
-                    module={module}
-                />
-            )}
+            {modules.map(module => (
+                <SidebarModulesMenu key={module.id} module={module} />
+            ))}
         </>
     );
 }

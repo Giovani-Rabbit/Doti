@@ -1,6 +1,6 @@
 
 import { create } from "zustand"
-import { Module } from "./module_interface"
+import { Module } from "./module-interface"
 
 type IModuleStore = {
     modules: Module[]
