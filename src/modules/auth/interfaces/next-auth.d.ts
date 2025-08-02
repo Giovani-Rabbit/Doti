@@ -9,17 +9,18 @@ declare module "next-auth" {
     }
 
     interface Session {
-        user: {
-            id: string;
-            name: string;
-            email: string;
-        };
+        id: string;
+        name: string;
+        email: string;
         accessToken: string;
+        exp: number;
         error?: string;
     }
 
     interface User {
-        user: UserObject;
+        id: string;
+        name: string;
+        email: string;
         accessToken: string;
         validity: number;
     }
@@ -27,7 +28,11 @@ declare module "next-auth" {
 
 declare module "next-auth/jwt" {
     export interface JWT {
-        data: User;
+        id: string;
+        name: string;
+        email: string;
+        accessToken: string;
+        validity: number;
         error: "AccessTokenError";
     }
 }

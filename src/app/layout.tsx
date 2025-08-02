@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import QueryProvider from "@/components/provider/query/query_provider";
-import NextSessionProvider from "@/components/provider/auth/next-session-provider";
+import NextSessionProvider from "@/components/provider/next-session-provider";
+import QueryProvider from "@/components/provider/query-provider";
 
 const interSans = Inter({
   display: "swap",

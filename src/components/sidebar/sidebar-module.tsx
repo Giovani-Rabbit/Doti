@@ -16,26 +16,24 @@ import RenameableText from "../ui/renameable-text"
 import useRenaming from "@/hooks/useModuleRenaming"
 import SidebarMenuButtonMimic from "./buttons/SidebarMenuButtonMimic"
 import { LucideIcon } from "../icon/LucideIcon"
-import { useSession } from "next-auth/react"
 import useModuleService from "@/modules/module/module_serivce"
 import { useQuery } from "@tanstack/react-query"
 import { SidebarModuleSkeleton } from "./skeleton/sidebar-module-skeleton"
 
 export function SidebarModules() {
-    const { data: session, status } = useSession();
-    const { fetchModules } = useModuleService(session?.accessToken!);
+    const { fetchModules } = useModuleService();
 
     const { data, isFetching } = useQuery({
         queryKey: ["module"],
         queryFn: fetchModules,
-        enabled: !!session?.accessToken
     });
 
-    const modules = data?.data.modules || [];
+    const modules = data && data.data ? data.data.modules : [];
+
+    if (isFetching) return <SidebarModuleSkeleton />
 
     return (
         <>
-            {(status == "loading" || isFetching) && <SidebarModuleSkeleton />}
             {modules.map((module) =>
                 <SidebarModulesMenu
                     key={module.id}

@@ -26,6 +26,8 @@ export default function SigninForm() {
             redirect: false
         });
 
+        await fetch("/api/auth/set-cookie")
+
         if (response?.error == "CredentialsSignin") {
             setError("root", {
                 type: "manual",

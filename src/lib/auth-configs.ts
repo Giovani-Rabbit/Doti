@@ -49,8 +49,9 @@ export const authOptions: AuthOptions = {
                 }
 
                 return {
-                    id: jwtToken,
-                    user: user,
+                    id: user.id.toString(),
+                    name: user.name,
+                    email: user.email,
                     accessToken: jwtToken,
                     validity: user.exp
                 };
@@ -60,18 +61,29 @@ export const authOptions: AuthOptions = {
     callbacks: {
         async jwt({ token, user, account }) {
             if (user && account) {
-                return { ...token, data: user };
+                return {
+                    ...token,
+                    accessToken: user.accessToken,
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                    validity: user.validity,
+                };
             }
 
             return { ...token, error: "AccessTokenError" } as JWT;
         },
         async session({ session, token }) {
-            session.user = token.data.user;
-            session.accessToken = token.data.accessToken;
-            session.expires = token.data.validity;
+            session.name = token.name;
+            session.accessToken = token.accessToken;
             session.error = token.error;
             return session;
         },
     },
-    secret: process.env.NEXTAUTH_SECRET,
+    session: {
+        strategy: "jwt",
+    },
+    jwt: {
+        secret: process.env.NEXTAUTH_SECRET,
+    },
 } 

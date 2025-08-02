@@ -8,8 +8,8 @@ export type ModuleErrorStatus = {
     modules: Module[];
 }
 
-function useModuleService(token: string) {
-    const httpService = new HttpService("module", token);
+function useModuleService(token?: string) {
+    const httpService = new HttpService("module", token ? token : null);
 
     async function createModule(module: CreateModuleDTO) {
         // await new Promise(resolve => setTimeout(resolve, 2000));

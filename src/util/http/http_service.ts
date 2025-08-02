@@ -11,7 +11,7 @@ class HttpService {
 
     constructor(
         private path: string,
-        private accessToken: string
+        private accessToken?: string | null
     ) {
         const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -60,7 +60,8 @@ class HttpService {
                 ...params,
                 headers: {
                     Authorization: this.accessToken,
-                }
+                },
+                withCredentials: true,
             });
 
             return { data: response.data, error: null } as O;
