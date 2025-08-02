@@ -4,18 +4,16 @@ import HttpService, { IHttpResult } from "@/util/http/http_service";
 import { CreateModuleDTO } from "./module_dto";
 import { Module } from "./module_interface";
 
-export type ModuleErrorStatus = {
+export type ModulesResponse = {
     modules: Module[];
 }
 
-function useModuleService(token?: string) {
-    const httpService = new HttpService("module", token ? token : null);
+function useModuleService() {
+    const httpService = new HttpService("module");
 
     async function createModule(module: CreateModuleDTO) {
-        // await new Promise(resolve => setTimeout(resolve, 2000));
-
         return await httpService.post<
-            IHttpResult<Module, ModuleErrorStatus>,
+            IHttpResult<Module, null>,
             CreateModuleDTO
         >({
             url: "/",
@@ -24,10 +22,8 @@ function useModuleService(token?: string) {
     }
 
     async function fetchModules() {
-        // await new Promise(resolve => setTimeout(resolve, 2000));
-
         return await httpService.get<
-            IHttpResult<ModuleErrorStatus, null>
+            IHttpResult<ModulesResponse, null>
         >({
             url: "/",
             data: null,

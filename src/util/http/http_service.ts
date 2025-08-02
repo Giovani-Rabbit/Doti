@@ -9,10 +9,7 @@ export type IHttpResult<T, S> = {
 class HttpService {
     private baseUrl: string;
 
-    constructor(
-        private path: string,
-        private accessToken?: string | null
-    ) {
+    constructor(private path: string) {
         const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
         if (!apiUrl) throw new Error(
@@ -58,9 +55,6 @@ class HttpService {
         try {
             const response = await axios.request({
                 ...params,
-                headers: {
-                    Authorization: this.accessToken,
-                },
                 withCredentials: true,
             });
 
