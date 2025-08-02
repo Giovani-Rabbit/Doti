@@ -17,10 +17,9 @@ export const CreateGenericModule = (): CreateModuleDTO => {
     }
 }
 
-export const fakeModule: Module = {
+export const fakeModuleObject: Module = {
     id: Math.random().toString(),
     name: "Sem Nome",
     icon: "ComponentIcon",
     isOpen: false,
-    topics: []
 }

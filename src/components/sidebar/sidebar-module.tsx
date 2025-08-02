@@ -23,10 +23,12 @@ import { useQuery } from "@tanstack/react-query"
 export function SidebarModules() {
     const { data, isLoading, error } = useQuery(moduleOptions);
 
+    // TODO: Adicionar feedback de erro
+
     if (isLoading) return <SidebarModuleSkeleton />;
     if (error) return <p>Error loading modules.</p>;
 
-    const modules = data?.data?.modules ?? [];
+    const modules = data ?? [];
 
     return (
         <>

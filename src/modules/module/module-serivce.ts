@@ -1,15 +1,15 @@
-import HttpService, { IHttpResult } from "@/util/http/http_service";
+import HttpService from "@/util/http/http_service";
 import { CreateModuleDTO } from "./module-dto";
 import { Module } from "./module-interface";
+import { HttpResponse } from "@/util/http/type/http_message_response";
 
 export type ModulesResponse = { modules: Module[] };
 
 const httpService = new HttpService("module");
 
 export async function createModule(module: CreateModuleDTO) {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
     return await httpService.post<
-        IHttpResult<Module, null>,
+        HttpResponse<Module>,
         CreateModuleDTO
     >({
         url: "/",
@@ -18,10 +18,12 @@ export async function createModule(module: CreateModuleDTO) {
 }
 
 export async function fetchModules() {
-    return await httpService.get<
-        IHttpResult<ModulesResponse, null>
+    const res = await httpService.get<
+        HttpResponse<ModulesResponse>
     >({
         url: "/",
         data: null,
     });
+
+    return res.data.modules;
 }

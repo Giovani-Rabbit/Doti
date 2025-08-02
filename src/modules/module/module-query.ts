@@ -1,6 +1,6 @@
 import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query";
 import { createModule, fetchModules } from "./module-serivce";
-import { fakeModule } from "./module-interface";
+import { fakeModuleObject, Module } from "./module-interface";
 
 export const moduleOptions = queryOptions({
     queryKey: ["module"],
@@ -18,23 +18,21 @@ export function useAddModule() {
             const previousModules = queryClient.getQueryData(moduleOptions.queryKey);
 
             if (previousModules) {
-                const oldModules = previousModules.data.modules
+                const updatedModules = [...previousModules, fakeModuleObject]
 
-                const updatedModules = [...oldModules, fakeModule]
-
-                queryClient.setQueryData(moduleOptions.queryKey, {
-                    ...previousModules,
-                    data: { modules: updatedModules }
-                })
+                queryClient.setQueryData(moduleOptions.queryKey, updatedModules)
             }
 
             return { previousModules }
         },
-        // onError: (err, newModule, context) => {
-        //     if (context?.previousModules) {
-        //         queryClient.setQueryData<IHttpResult<ModulesResponse, null>>(['module'], context.previousModules)
-        //     }
-        // },
+        onError: (_, __, context) => {
+            if (context?.previousModules) {
+                queryClient.setQueryData<Module[]>(
+                    moduleOptions.queryKey,
+                    context.previousModules
+                )
+            }
+        },
         onSettled: () => {
             queryClient.invalidateQueries({ queryKey: ['module'] });
         },

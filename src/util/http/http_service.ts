@@ -1,11 +1,6 @@
 import axios from 'axios';
 import { IHttpRequestParams } from './type/http_request_params';
 
-export type IHttpResult<T, S> = {
-    data: T;
-    error: { message: string; status: S; } | null;
-};
-
 class HttpService {
     private baseUrl: string;
 
