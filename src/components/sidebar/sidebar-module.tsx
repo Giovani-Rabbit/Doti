@@ -13,12 +13,12 @@ import SidebarModuleContextMenu from "./sidebar-module-context-menu"
 import { Module } from "@/modules/module/module-interface"
 import { Topic } from "@/modules/topic/topic_interface"
 import RenameableText from "../ui/renameable-text"
-import useRenaming from "@/hooks/useModuleRenaming"
 import SidebarMenuButtonMimic from "./buttons/SidebarMenuButtonMimic"
 import { LucideIcon } from "../icon/LucideIcon"
 import { moduleOptions } from "@/modules/module/module-query"
 import { SidebarModuleSkeleton } from "./skeleton/sidebar-module-skeleton"
 import { useQuery } from "@tanstack/react-query"
+import { useModuleRenaming } from "@/hooks/useModuleRenaming"
 
 export function SidebarModules() {
     const { data, isLoading, error } = useQuery(moduleOptions);
@@ -40,7 +40,7 @@ export function SidebarModules() {
 }
 
 function SidebarModulesMenu({ module }: { module: Module }) {
-    const renamingnHook = useRenaming(module.id, module.name);
+    const renamingnHook = useModuleRenaming(module.id, module.name);
 
     const sidebarButtonContent = (
         <>

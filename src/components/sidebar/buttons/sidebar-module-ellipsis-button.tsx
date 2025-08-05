@@ -3,10 +3,10 @@
 import { EllipsisIcon, FolderPlusIcon, PlusIcon } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { CreateGenericModule } from "@/modules/module/module-interface";
-import { useAddModule } from "@/modules/module/module-query";
+import { useCreateModuleMut } from "@/modules/module/module-query";
 
 export default function SidebarModuleEllipsisButton() {
-    const addModuleMutation = useAddModule();
+    const addModuleMutation = useCreateModuleMut();
 
     function handleNewModule() {
         addModuleMutation.mutate(CreateGenericModule());

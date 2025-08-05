@@ -10,5 +10,18 @@ export function showCreateModuleErrToast(
         action: { label: "Retry", onClick: retryCallback },
         position: "top-center",
         ...toastExternal
-    })
+    });
+}
+
+export function showRenameModuleErrToast(
+    err: Error,
+    retryCallback: () => void,
+    toastExternal?: ExternalToast
+) {
+    toast.error("Error renaming a module", {
+        description: err.message,
+        action: { label: "Retry", onClick: retryCallback },
+        position: "top-center",
+        ...toastExternal
+    });
 }

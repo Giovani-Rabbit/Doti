@@ -37,15 +37,15 @@ export async function fetchModules() {
     return res.data.modules;
 }
 
-type NewModuleName = { moduleName: string }
+type NewModuleName = { name: string }
 
-export async function renameModule(moduleId: string, newName: string) {
+export async function renameModule(id: string, name: string) {
     const res = await httpService.patch<
         NewModuleName,
         null
     >({
-        url: `/${moduleId}`,
-        data: { moduleName: newName }
+        url: `/${id}`,
+        data: { name: name }
     })
 
     if (res.error != null) {

@@ -1,6 +1,6 @@
 "use client"
 
-import { useModuleStore } from "@/modules/module/module-store";
+import { useRenameModuleMut } from "@/modules/module/module-query";
 import { RefObject, useRef, useState } from "react";
 
 export type ModuleRenamingState = {
@@ -12,15 +12,20 @@ export type ModuleRenamingState = {
     inputRef: RefObject<HTMLInputElement | null>;
 };
 
-export default function useModuleRenaming(id: string, name: string): ModuleRenamingState {
+export function useModuleRenaming(id: string, name: string): ModuleRenamingState {
+    const renameModuleMutation = useRenameModuleMut();
+
     const inputRef = useRef<HTMLInputElement>(null);
     const [isRenaming, setIsRenaming] = useState(false);
-    const { rename } = useModuleStore();
 
     const startRenaming = () => setIsRenaming(true);
     const cancelRenaming = () => setIsRenaming(false);
+
     const confirmRenaming = () => {
-        rename(id, inputRef.current?.value as string);
+        const newName = inputRef.current?.value as string;
+
+        if (newName) renameModuleMutation.mutate({ id, newName });
+
         setIsRenaming(false);
     };
 
