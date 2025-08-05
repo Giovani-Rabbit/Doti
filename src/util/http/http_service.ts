@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { IHttpRequestParams } from './type/http_request_params';
+import { HttpResponse } from './type/http_message_response';
 
 class HttpService {
     private baseUrl: string;
@@ -14,47 +15,47 @@ class HttpService {
         this.baseUrl = apiUrl.trim();
     }
 
-    public async get<O>(params: IHttpRequestParams<null>): Promise<O> {
-        return await this.request<O, null>({
+    public async get<O>(params: IHttpRequestParams<null>): Promise<HttpResponse<O>> {
+        return await this.request<null, HttpResponse<O>>({
             ...params,
             url: this.getFullUrl(params.url),
             method: "GET"
         });
     }
 
-    public async post<O, I>(params: IHttpRequestParams<I>): Promise<O> {
-        return await this.request<O, I>({
+    public async post<I, O>(params: IHttpRequestParams<I>): Promise<HttpResponse<O>> {
+        return await this.request<I, HttpResponse<O>>({
             ...params,
             url: this.getFullUrl(params.url),
             method: "POST"
         });
     }
 
-    public async put<O, I>(params: IHttpRequestParams<I>): Promise<O> {
-        return await this.request<O, I>({
+    public async put<I, O>(params: IHttpRequestParams<I>): Promise<HttpResponse<O>> {
+        return await this.request<I, HttpResponse<O>>({
             ...params,
             url: this.getFullUrl(params.url),
             method: "PUT"
         });
     }
 
-    public async patch<O, I>(params: IHttpRequestParams<I>): Promise<O> {
-        return await this.request<O, I>({
+    public async patch<I, O>(params: IHttpRequestParams<I>): Promise<HttpResponse<O>> {
+        return await this.request<I, HttpResponse<O>>({
             ...params,
             url: this.getFullUrl(params.url),
             method: "PATCH"
         })
     }
 
-    public async delete<O>(params: IHttpRequestParams<null>): Promise<O> {
-        return await this.request<O, null>({
+    public async delete<O>(params: IHttpRequestParams<null>): Promise<HttpResponse<O>> {
+        return await this.request<null, HttpResponse<O>>({
             ...params,
             url: this.getFullUrl(params.url),
             method: "DELETE"
         });
     }
 
-    private async request<O, I>(params: IHttpRequestParams<I>): Promise<O> {
+    private async request<I, O>(params: IHttpRequestParams<I>): Promise<O> {
         try {
             const response = await axios.request({
                 ...params,

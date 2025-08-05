@@ -1,5 +1,4 @@
-import HttpService, { IHttpResult } from "@/util/http/http_service";
-import { UserErrorStatus } from "./user_exceptions";
+import HttpService from "@/util/http/http_service";
 import { AccountDTO } from "./account_dto";
 
 function AccountService() {
@@ -7,7 +6,7 @@ function AccountService() {
 
     async function createAccount(account: AccountDTO) {
         const res = await httpService.post<
-            IHttpResult<AccountDTO[], UserErrorStatus>,
+            AccountDTO,
             AccountDTO
         >({
             url: "/",

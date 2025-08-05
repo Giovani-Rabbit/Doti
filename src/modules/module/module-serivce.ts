@@ -1,7 +1,6 @@
 import HttpService from "@/util/http/http_service";
 import { CreateModuleDTO } from "./module-dto";
 import { Module } from "./module-interface";
-import { HttpResponse } from "@/util/http/type/http_message_response";
 
 export type ModulesResponse = { modules: Module[] };
 
@@ -9,8 +8,8 @@ const httpService = new HttpService("module");
 
 export async function createModule(module: CreateModuleDTO) {
     const res = await httpService.post<
-        HttpResponse<Module>,
-        CreateModuleDTO
+        CreateModuleDTO,
+        Module
     >({
         url: "/",
         data: module,
@@ -25,7 +24,7 @@ export async function createModule(module: CreateModuleDTO) {
 
 export async function fetchModules() {
     const res = await httpService.get<
-        HttpResponse<ModulesResponse>
+        ModulesResponse
     >({
         url: "/",
         data: null,
@@ -36,4 +35,22 @@ export async function fetchModules() {
     }
 
     return res.data.modules;
+}
+
+type NewModuleName = { moduleName: string }
+
+export async function renameModule(moduleId: string, newName: string) {
+    const res = await httpService.patch<
+        NewModuleName,
+        null
+    >({
+        url: `/${moduleId}`,
+        data: { moduleName: newName }
+    })
+
+    if (res.error != null) {
+        throw new Error(res.error.message);
+    }
+
+    return res.data;
 }
