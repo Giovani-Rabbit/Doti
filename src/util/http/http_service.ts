@@ -38,6 +38,14 @@ class HttpService {
         });
     }
 
+    public async patch<O, I>(params: IHttpRequestParams<I>): Promise<O> {
+        return await this.request<O, I>({
+            ...params,
+            url: this.getFullUrl(params.url),
+            method: "PATCH"
+        })
+    }
+
     public async delete<O>(params: IHttpRequestParams<null>): Promise<O> {
         return await this.request<O, null>({
             ...params,
