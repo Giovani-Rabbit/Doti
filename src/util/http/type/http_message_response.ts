@@ -1,12 +1,11 @@
 
-export interface HttpResponse<T> {
+export interface HttpResponse<T> extends ErrorResponseObject {
     data: T;
-    error: ErrorResponseObject
 }
 
 interface ErrorResponseObject { error: ErrorResponse | null };
 
 interface ErrorResponse {
-    error: string
+    message: string
     status: string
 }

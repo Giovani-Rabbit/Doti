@@ -8,13 +8,19 @@ export type ModulesResponse = { modules: Module[] };
 const httpService = new HttpService("module");
 
 export async function createModule(module: CreateModuleDTO) {
-    return await httpService.post<
+    const res = await httpService.post<
         HttpResponse<Module>,
         CreateModuleDTO
     >({
         url: "/",
         data: module,
     });
+
+    if (res.error != null) {
+        throw new Error(res.error.message);
+    }
+
+    return res.data;
 }
 
 export async function fetchModules() {
@@ -24,6 +30,10 @@ export async function fetchModules() {
         url: "/",
         data: null,
     });
+
+    if (res.error != null) {
+        throw new Error(res.error.message);
+    }
 
     return res.data.modules;
 }
