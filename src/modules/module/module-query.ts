@@ -1,6 +1,7 @@
 import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query";
 import { createModule, fetchModules } from "./module-serivce";
-import { fakeModuleObject, Module } from "./module-interface";
+import { CreateGenericModule, fakeModuleObject, Module } from "./module-interface";
+import { showCreateModuleErrToast } from "./module-toast";
 
 export const moduleOptions = queryOptions({
     queryKey: ["module"],
@@ -10,7 +11,11 @@ export const moduleOptions = queryOptions({
 export function useAddModule() {
     const queryClient = useQueryClient();
 
-    return useMutation({
+    function retryCreateModule() {
+        mutation.mutate(CreateGenericModule())
+    }
+
+    const mutation = useMutation({
         mutationFn: createModule,
         onMutate: async () => {
             await queryClient.cancelQueries(moduleOptions)
@@ -25,16 +30,19 @@ export function useAddModule() {
 
             return { previousModules }
         },
-        onError: (_, __, context) => {
+        onError: (err, __, context) => {
             if (context?.previousModules) {
                 queryClient.setQueryData<Module[]>(
                     moduleOptions.queryKey,
                     context.previousModules
                 )
+                showCreateModuleErrToast(err, retryCreateModule);
             }
         },
         onSettled: () => {
             queryClient.invalidateQueries({ queryKey: ['module'] });
         },
     });
+
+    return mutation;
 }
