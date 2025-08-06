@@ -64,7 +64,7 @@ class HttpService {
 
             return { data: response.data, error: null } as O;
         } catch (err: any) {
-            const message = err?.response?.data?.message || "Erro desconhecido";
+            const message = err?.response?.data?.message || "Unknown error";
             const status = err?.response?.data?.status || "UNKNOWN";
 
             return { data: null, error: { message, status } } as O;

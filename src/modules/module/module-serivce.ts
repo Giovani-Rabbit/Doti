@@ -41,8 +41,7 @@ type NewModuleName = { name: string }
 
 export async function renameModule(id: string, name: string) {
     const res = await httpService.patch<
-        NewModuleName,
-        null
+        NewModuleName, null
     >({
         url: `/${id}`,
         data: { name: name }
