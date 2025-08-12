@@ -45,7 +45,20 @@ export async function renameModule(id: string, name: string) {
     >({
         url: `/${id}`,
         data: { name: name }
-    })
+    });
+
+    if (res.error != null) {
+        throw new Error(res.error.message);
+    }
+
+    return res.data;
+}
+
+export async function removeModule(id: string) {
+    const res = await httpService.delete<null>({
+        url: `/${id}`,
+        data: null
+    });
 
     if (res.error != null) {
         throw new Error(res.error.message);

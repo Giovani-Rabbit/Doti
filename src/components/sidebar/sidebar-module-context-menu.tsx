@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "../ui/context-menu"
-import { useModuleStore } from "@/modules/module/module-store";
 import { ModuleRenamingState } from "@/hooks/useModuleRenaming";
+import { useRemoveModuleMut } from "@/modules/module/module-query";
 
 type SidebarModuleContextMenuProps = {
     children: ReactNode;
@@ -15,7 +15,7 @@ export default function SidebarModuleContextMenu({
     inputRef
 }: SidebarModuleContextMenuProps
 ) {
-    const { remove } = useModuleStore();
+    const removeModuleMutation = useRemoveModuleMut();
 
     function handleOnClose(e: Event) {
         if (isRenaming) {
@@ -26,6 +26,8 @@ export default function SidebarModuleContextMenu({
             inputRef.current?.select();
         }
     }
+
+    function handleRemoveModule() { removeModuleMutation.mutate(id) }
 
     return (
         <ContextMenu>
@@ -41,7 +43,7 @@ export default function SidebarModuleContextMenu({
                 </ContextMenuItem>
                 <ContextMenuItem
                     variant="destructive"
-                    onClick={() => remove(id)}
+                    onClick={handleRemoveModule}
                 >
                     Excluir
                 </ContextMenuItem>

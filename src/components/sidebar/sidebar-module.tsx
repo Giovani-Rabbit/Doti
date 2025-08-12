@@ -61,25 +61,27 @@ function SidebarModulesMenu({ module }: { module: Module }) {
         >
             <SidebarMenuItem>
                 <SidebarModuleContextMenu {...renamingnHook}>
-                    {renamingnHook.isRenaming ? (
+                    {renamingnHook.isRenaming ?
                         <SidebarMenuButtonMimic>
                             {sidebarButtonContent}
                         </SidebarMenuButtonMimic>
-                    ) : (
+                        :
                         <CollapsibleTrigger asChild>
                             <SidebarMenuButton tooltip={module.name}>
                                 {sidebarButtonContent}
                             </SidebarMenuButton>
                         </CollapsibleTrigger>
-                    )}
+                    }
                 </SidebarModuleContextMenu>
-                <CollapsibleContent>
-                    <SidebarMenuSub>
-                        {module.topics && module.topics.map((topic) => (
-                            <SidebarTopicSubMenu key={topic.name} topic={topic} />
-                        ))}
-                    </SidebarMenuSub>
-                </CollapsibleContent>
+                {module.topics && module.topics.length > 0 &&
+                    <CollapsibleContent>
+                        <SidebarMenuSub>
+                            {module.topics && module.topics.map((topic) => (
+                                <SidebarTopicSubMenu key={topic.name} topic={topic} />
+                            ))}
+                        </SidebarMenuSub>
+                    </CollapsibleContent>
+                }
             </SidebarMenuItem>
         </Collapsible >
     )

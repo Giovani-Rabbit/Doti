@@ -1,5 +1,5 @@
 import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query";
-import { createModule, fetchModules, renameModule } from "./module-serivce";
+import { createModule, fetchModules, removeModule, renameModule } from "./module-serivce";
 import { CreateGenericModule, fakeModuleObject, Module } from "./module-interface";
 import { showCreateModuleErrToast } from "./module-toast";
 
@@ -79,6 +79,40 @@ export function useRenameModuleMut() {
                     id: variables.id,
                     newName: variables.newName
                 }));
+            }
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({ queryKey: ['module'] });
+        },
+    });
+
+    return mutation;
+}
+
+export function useRemoveModuleMut() {
+    const queryClient = useQueryClient();
+
+    const mutation = useMutation({
+        mutationFn: (id: string) => removeModule(id),
+        onMutate: async (id) => {
+            await queryClient.cancelQueries(moduleOptions);
+
+            const prevModules = queryClient.getQueryData(moduleOptions.queryKey);
+
+            if (prevModules) {
+                const updatedModules = prevModules.filter(mod => mod.id !== id && mod);
+
+                queryClient.setQueryData(moduleOptions.queryKey, updatedModules);
+            }
+
+            return { prevModules };
+        },
+        onError: (err, variables, context) => {
+            if (context?.prevModules) {
+                queryClient.setQueryData<Module[]>(
+                    moduleOptions.queryKey,
+                    context.prevModules
+                );
             }
         },
         onSettled: () => {
