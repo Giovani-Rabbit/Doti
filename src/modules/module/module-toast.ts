@@ -25,3 +25,14 @@ export function showRenameModuleErrToast(
         ...toastExternal
     });
 }
+
+export function showErrCouldNotDeleteModuleToast(
+    err: Error,
+    toastExternal?: ExternalToast
+) {
+    toast.error("Error when deleting module", {
+        description: err.message,
+        position: "top-center",
+        ...toastExternal
+    });
+}

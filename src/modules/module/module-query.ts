@@ -1,7 +1,7 @@
 import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query";
 import { createModule, fetchModules, removeModule, renameModule } from "./module-serivce";
 import { CreateGenericModule, fakeModuleObject, Module } from "./module-interface";
-import { showCreateModuleErrToast } from "./module-toast";
+import { showCreateModuleErrToast, showErrCouldNotDeleteModuleToast } from "./module-toast";
 
 export const moduleOptions = queryOptions({
     queryKey: ["module"],
@@ -107,12 +107,13 @@ export function useRemoveModuleMut() {
 
             return { prevModules };
         },
-        onError: (err, variables, context) => {
+        onError: (err, _, context) => {
             if (context?.prevModules) {
                 queryClient.setQueryData<Module[]>(
                     moduleOptions.queryKey,
                     context.prevModules
                 );
+                showErrCouldNotDeleteModuleToast(err)
             }
         },
         onSettled: () => {
