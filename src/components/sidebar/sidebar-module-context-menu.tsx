@@ -36,7 +36,7 @@ export default function SidebarModuleContextMenu({
             </ContextMenuTrigger>
             <ContextMenuContent onCloseAutoFocus={handleOnClose}>
                 <ContextMenuItem>
-                    Icon
+                    Change Icon
                 </ContextMenuItem>
                 <ContextMenuItem onClick={startRenaming}>
                     Rename
