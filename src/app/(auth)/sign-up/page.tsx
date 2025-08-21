@@ -9,7 +9,7 @@ export default function SignUp() {
                 <AlarmClockCheckIcon className="mx-auto h-14 w-auto p-2 bg-zinc-800 stroke-white rounded-lg" />
 
                 <h2 className="mt-4 text-start text-2xl font-bold tracking-tight text-zinc-800">
-                    Criar conta
+                    Create Account
                 </h2>
             </div>
 
@@ -17,12 +17,12 @@ export default function SignUp() {
                 <SignupForm />
 
                 <p className="mt-10 text-center text-sm/6 text-zinc-600">
-                    Já tem uma conta?
+                    Already have an account?
                     <Link
                         href="/sign-in"
                         className="ml-1 font-semibold text-zinc-800 hover:text-zinc-500"
                     >
-                        Entrar
+                        Sign in
                     </Link>
                 </p>
             </div>

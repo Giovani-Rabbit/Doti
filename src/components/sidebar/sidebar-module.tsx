@@ -8,7 +8,7 @@ import {
     SidebarMenuSubButton,
     SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
-import { ChevronRight } from "lucide-react"
+import { ChevronRight, CircleXIcon, SkullIcon } from "lucide-react"
 import SidebarModuleContextMenu from "./sidebar-module-context-menu"
 import { Module } from "@/modules/module/module-interface"
 import { Topic } from "@/modules/topic/topic_interface"
@@ -23,10 +23,13 @@ import { useModuleRenaming } from "@/hooks/useModuleRenaming"
 export function SidebarModules() {
     const { data, isLoading, error } = useQuery(moduleOptions);
 
-    // TODO: Adicionar feedback de erro
-
     if (isLoading) return <SidebarModuleSkeleton />;
-    if (error) return <p>Error loading modules.</p>;
+    if (error) return (
+        <div className="w-full h-full text-zinc-500 flex flex-col items-center justify-center">
+            <SkullIcon />
+            <p>Error loading modules.</p>
+        </div>
+    )
 
     const modules = data ?? [];
 

@@ -1,7 +1,5 @@
 import { AlarmClockCheckIcon, InboxIcon, KanbanIcon, TimerIcon } from "lucide-react";
 
-
-
 export default function SidebarNav() {
     return (
         <nav className="w-12 py-2 gap-1 h-screen flex flex-col items-center justify-start border-r border-zinc-200">

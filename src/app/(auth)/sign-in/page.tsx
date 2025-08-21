@@ -17,12 +17,12 @@ export default function SignIn() {
                 <SigninForm />
 
                 <p className="mt-10 text-center text-sm/6 text-gray-500">
-                    Não tem uma conta?
+                    Don't have an account?
                     <Link
                         href="/sign-up"
                         className="ml-1 font-semibold text-zinc-700 hover:text-zinc-500"
                     >
-                        Criar uma conta
+                        Create an account
                     </Link>
                 </p>
             </div>

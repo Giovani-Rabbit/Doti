@@ -5,7 +5,7 @@ import {
     SidebarMenu,
     SidebarProvider,
 } from "@/components/ui/sidebar"
-import SidebarModuleEllipsis from "./buttons/sidebar-module-ellipsis-button"
+import SidebarModuleEllipsis from "./buttons/sidebar-create-module-button"
 import { SidebarModules } from "./sidebar-module"
 
 export function SidebarModuleBody() {
@@ -14,7 +14,7 @@ export function SidebarModuleBody() {
             <SidebarProvider>
                 <div className="w-[250px] h-screen border-r flex flex-col">
                     <SidebarGroup>
-                        <SidebarGroupLabel>Módulos</SidebarGroupLabel>
+                        <SidebarGroupLabel>Modules</SidebarGroupLabel>
                         <SidebarGroupAction>
                             <SidebarModuleEllipsis />
                         </SidebarGroupAction>

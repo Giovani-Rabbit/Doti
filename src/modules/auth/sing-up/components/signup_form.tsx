@@ -6,7 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback } from "react";
 import { LoaderCircle } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
-import { mapUserErrorCodeToMessage } from "@/modules/account/user_exceptions";
 import { redirect } from "next/navigation";
 import AccountService from "@/modules/account/account_service";
 import { CreateAccountFormDTO, createAccountFormSchema } from "@/modules/account/account_dto";
@@ -28,7 +27,7 @@ export default function SignupForm() {
     const onSubmit: SubmitHandler<CreateAccountFormDTO> = useCallback(async (formData) => {
         if (formData.password !== formData.confirmPassword) {
             return setError("confirmPassword", {
-                message: "As senhas não coincidem. Tente novamente."
+                message: "Passwords do not match. Please try again."
             });
         }
 
@@ -41,7 +40,7 @@ export default function SignupForm() {
         if (error) {
             return setError("root", {
                 type: "manual",
-                message: mapUserErrorCodeToMessage(error.status)
+                message: error.message
             });
         }
 
@@ -64,13 +63,13 @@ export default function SignupForm() {
                     htmlFor="name"
                     className="block text-sm/6 font-medium text-zinc-900"
                 >
-                    Nome
+                    Name
                 </label>
                 <Input
                     {...register("name")}
                     error={errors.name?.message}
                     type="text"
-                    placeholder="Insira um nome"
+                    placeholder="Enter your name"
                     name="name"
                     id="name"
                 />
@@ -87,7 +86,7 @@ export default function SignupForm() {
                     {...register("email")}
                     error={errors.email?.message}
                     type="text"
-                    placeholder="Insira seu email"
+                    placeholder="Enter your email"
                     name="email"
                     id="email"
                 />
@@ -98,13 +97,13 @@ export default function SignupForm() {
                     htmlFor="password"
                     className={"block text-sm/6 font-medium text-zinc-800"}
                 >
-                    Senha
+                    Password
                 </label>
                 <div className="space-y-2">
                     <Input
                         {...register("password")}
                         error={errors.password?.message}
-                        placeholder="Crie uma senha"
+                        placeholder="Create a password"
                         type="password"
                         name="password"
                         id="password"
@@ -112,7 +111,7 @@ export default function SignupForm() {
                     <Input
                         {...register("confirmPassword")}
                         error={errors.confirmPassword?.message}
-                        placeholder="Confirme a senha"
+                        placeholder="Confirm your password"
                         type="password"
                         name="confirmPassword"
                         id="confirmPassword"
@@ -127,7 +126,7 @@ export default function SignupForm() {
                 {
                     isSubmitting
                         ? <LoaderCircle className="animate-spin" />
-                        : "Criar"
+                        : "Sign up"
                 }
             </button>
         </form>

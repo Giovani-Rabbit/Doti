@@ -26,12 +26,12 @@ export default function SigninForm() {
             redirect: false
         });
 
-        await fetch("/api/auth/set-cookie")
+        await fetch("/api/auth/set-cookie");
 
         if (response?.error == "CredentialsSignin") {
             setError("root", {
                 type: "manual",
-                message: "e-mail ou senha incorretos."
+                message: "Incorrect email or password."
             });
 
             return;
@@ -59,10 +59,10 @@ export default function SigninForm() {
                     Email
                 </label>
                 <Input
-                    {...register("email", { required: "Insira um endereço de e-mail" })}
+                    {...register("email", { required: "Please enter your email address" })}
                     error={errors.email?.message}
                     type="text"
-                    placeholder="Insira seu email"
+                    placeholder="Enter your email"
                     name="email"
                     id="email"
                 />
@@ -74,19 +74,19 @@ export default function SigninForm() {
                         htmlFor="password"
                         className="block text-sm/6 font-medium text-zinc-900"
                     >
-                        Senha
+                        Password
                     </label>
                     <a
                         href="#"
                         className="text-sm font-semibold text-zinc-600 hover:text-zinc-500"
                     >
-                        Esqueceu a senha?
+                        Forgot your password?
                     </a>
                 </div>
                 <Input
-                    {...register("password", { required: "Insira uma senha" })}
+                    {...register("password", { required: "Please enter your password" })}
                     error={errors.password?.message}
-                    placeholder="Insira sua senha"
+                    placeholder="Enter your password"
                     type="password"
                     name="password"
                     id="password"
@@ -100,7 +100,7 @@ export default function SigninForm() {
                 {
                     isSubmitting
                         ? <LoaderCircle className="animate-spin" />
-                        : "Enviar"
+                        : "Sign in"
                 }
             </button>
         </form>

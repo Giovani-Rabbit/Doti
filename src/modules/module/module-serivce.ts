@@ -4,7 +4,7 @@ import { Module } from "./module-interface";
 
 export type ModulesResponse = { modules: Module[] };
 
-const httpService = new HttpService("module");
+const httpService = new HttpService("modules");
 
 export async function createModule(module: CreateModuleDTO) {
     const res = await httpService.post<

@@ -36,16 +36,16 @@ export default function SidebarModuleContextMenu({
             </ContextMenuTrigger>
             <ContextMenuContent onCloseAutoFocus={handleOnClose}>
                 <ContextMenuItem>
-                    Ícone
+                    Icon
                 </ContextMenuItem>
                 <ContextMenuItem onClick={startRenaming}>
-                    Renomear
+                    Rename
                 </ContextMenuItem>
                 <ContextMenuItem
                     variant="destructive"
                     onClick={handleRemoveModule}
                 >
-                    Excluir
+                    Delete
                 </ContextMenuItem>
             </ContextMenuContent>
         </ContextMenu>
