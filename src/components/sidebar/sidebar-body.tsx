@@ -13,7 +13,7 @@ export default function SideberBody({
             <div className="grow flex">
                 <SidebarModuleBody />
 
-                <div className="p-8 grow">
+                <div className="grow">
                     {children}
                 </div>
             </div>

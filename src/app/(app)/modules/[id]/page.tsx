@@ -1,29 +1,28 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
+import { useModuleById } from "@/modules/module/module-query";
+import ModuleHeader from "./__components/module_header";
 
 export default function ModulePage() {
     const { id } = useParams<{ id: string }>();
+    const module = useModuleById(id);
 
-    const { data: tasks, isLoading, error } = useQuery({
-        queryKey: ["tasks", id],
-        queryFn: () =>
-            fetch(`/modules/${id}/tasks`).then((res) => res.json()),
-        enabled: !!id,
-    });
+    // const { data: tasks, isLoading, error } = useQuery({
+    //     queryKey: ["tasks", id],
+    //     queryFn: () =>
+    //         fetch(`/modules/${id}/tasks`).then((res) => res.json()),
+    //     enabled: !!id,
+    // });
 
-    if (isLoading) return <p>Loading tasks...</p>;
-    if (error) return <p>Failed to load tasks.</p>;
+    // if (isLoading) return <p>Loading tasks...</p>;
+    // if (error) return <p>Failed to load tasks.</p>;
 
     return (
-        <div>
-            <h1 className="text-xl font-bold mb-2">Tasks for Module {id}</h1>
-            <ul className="space-y-1">
-                {tasks?.map((t: any) => (
-                    <li key={t.id}>{t.title}</li>
-                ))}
-            </ul>
+        <div className="h-full flex items-start justify-center p-8 text-800">
+            <div className="w-[95%]">
+                <ModuleHeader module={module} />
+            </div>
         </div>
     );
 }

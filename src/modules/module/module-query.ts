@@ -8,6 +8,14 @@ export const moduleOptions = queryOptions({
     queryFn: fetchModules,
 });
 
+export function useModuleById(id: string) {
+    const queryClient = useQueryClient();
+
+    const modules = queryClient.getQueryData<Module[]>(moduleOptions.queryKey);
+
+    return modules?.find(m => m.id === id);
+}
+
 export function useCreateModuleMut() {
     const queryClient = useQueryClient();
 
