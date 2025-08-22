@@ -1,12 +1,14 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
 import { useModuleById } from "@/modules/module/module-query";
 import ModuleHeader from "./__components/module_header";
 
 export default function ModulePage() {
     const { id } = useParams<{ id: string }>();
     const module = useModuleById(id);
+
+    if (!module) redirect("/")
 
     // const { data: tasks, isLoading, error } = useQuery({
     //     queryKey: ["tasks", id],

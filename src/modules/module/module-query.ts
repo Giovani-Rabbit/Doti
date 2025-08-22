@@ -97,7 +97,7 @@ export function useRenameModuleMut() {
     return mutation;
 }
 
-export function useRemoveModuleMut() {
+export function useDeleteModuleMut() {
     const queryClient = useQueryClient();
 
     const mutation = useMutation({
