@@ -5,8 +5,8 @@ import {
     SidebarMenu,
     SidebarProvider,
 } from "@/components/ui/sidebar"
-import SidebarModuleEllipsis from "./buttons/sidebar-create-module-button"
 import { SidebarModules } from "./sidebar-module"
+import SidebarCreateModuleButton from "./buttons/sidebar-create-module-button"
 
 export function SidebarModuleBody() {
     return (
@@ -16,7 +16,7 @@ export function SidebarModuleBody() {
                     <SidebarGroup>
                         <SidebarGroupLabel>Modules</SidebarGroupLabel>
                         <SidebarGroupAction>
-                            <SidebarModuleEllipsis />
+                            <SidebarCreateModuleButton />
                         </SidebarGroupAction>
                     </SidebarGroup>
 

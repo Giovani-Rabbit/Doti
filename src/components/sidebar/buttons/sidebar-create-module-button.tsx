@@ -5,7 +5,7 @@ import { CreateGenericModule } from "@/modules/module/module-interface";
 import { useCreateModuleMut } from "@/modules/module/module-query";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
-export default function SidebarModuleCreateModuleButton() {
+export default function SidebarCreateModuleButton() {
     const addModuleMutation = useCreateModuleMut();
 
     function handleNewModule() {
