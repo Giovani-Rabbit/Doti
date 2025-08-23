@@ -1,4 +1,3 @@
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { useDeleteModuleMut } from "@/modules/module/module-query";
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "../ui/context-menu";
 import { redirect } from "next/navigation";
@@ -43,7 +42,6 @@ export default function ModuleContextMenu({ children, id, name }: SidebarModuleC
                     </ContextMenuItem>
                 </ContextMenuContent>
             </ContextMenu>
-
 
             <RenameModuleDialog
                 isOpen={isRenameOpen}
