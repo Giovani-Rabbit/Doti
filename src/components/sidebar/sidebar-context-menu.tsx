@@ -10,7 +10,7 @@ type SidebarModuleContextMenuProps = {
     children: ReactNode;
 } & Module;
 
-export default function ModuleContextMenu({ children, id, name }: SidebarModuleContextMenuProps) {
+export default function ModuleContextMenu({ children, id, name, icon }: SidebarModuleContextMenuProps) {
     const [isRenameOpen, setIsRenameOpen] = useState<boolean>(false);
     const [isChangeIconOpen, setIsChangeIconOpen] = useState(false);
 
@@ -52,6 +52,7 @@ export default function ModuleContextMenu({ children, id, name }: SidebarModuleC
             <ChangeModuleIconDialog
                 isOpen={isChangeIconOpen}
                 setIsOpen={setIsChangeIconOpen}
+                module={{ id, icon }}
             />
         </>
     );

@@ -36,3 +36,14 @@ export function showErrCouldNotDeleteModuleToast(
         ...toastExternal
     });
 }
+
+export function showErrCouldNotUpdateModuleIconToast(
+    err: Error,
+    toastExternal?: ExternalToast
+) {
+    toast.error("Error when updating icon", {
+        description: err.message,
+        position: "top-center",
+        ...toastExternal
+    });
+}

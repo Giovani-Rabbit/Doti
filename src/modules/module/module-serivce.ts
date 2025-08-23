@@ -43,8 +43,8 @@ export async function renameModule(id: string, name: string) {
     const res = await httpService.patch<
         NewModuleName, null
     >({
-        url: `/${id}`,
-        data: { name: name }
+        url: `/${id}/rename`,
+        data: { name }
     });
 
     if (res.error != null) {
@@ -53,6 +53,24 @@ export async function renameModule(id: string, name: string) {
 
     return res.data;
 }
+
+type UpdateIconHttp = { icon: string }
+
+export async function updateModuleIcon(id: string, icon: string) {
+    const res = await httpService.patch<
+        UpdateIconHttp, null
+    >({
+        url: `/${id}/icon`,
+        data: { icon }
+    });
+
+    if (res.error != null) {
+        throw new Error(res.error.message);
+    }
+
+    return res.data;
+}
+
 
 export async function removeModule(id: string) {
     const res = await httpService.delete<null>({

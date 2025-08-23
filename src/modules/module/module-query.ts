@@ -1,7 +1,8 @@
 import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query";
-import { createModule, fetchModules, removeModule, renameModule } from "./module-serivce";
+import { createModule, fetchModules, removeModule, renameModule, updateModuleIcon } from "./module-serivce";
 import { CreateGenericModule, fakeModuleObject, Module } from "./module-interface";
-import { showCreateModuleErrToast, showErrCouldNotDeleteModuleToast } from "./module-toast";
+import { showCreateModuleErrToast, showErrCouldNotDeleteModuleToast, showErrCouldNotUpdateModuleIconToast } from "./module-toast";
+import { LucideIconName } from "@/components/icon/LucideIcon";
 
 export const moduleOptions = queryOptions({
     queryKey: ["module"],
@@ -87,6 +88,45 @@ export function useRenameModuleMut() {
                     id: variables.id,
                     newName: variables.newName
                 }));
+            }
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({ queryKey: ['module'] });
+        },
+    });
+
+    return mutation;
+}
+
+type UpdateIconInput = { id: string, icon: LucideIconName }
+
+export function useUpdateModuleIconMut() {
+    const queryClient = useQueryClient();
+
+    const mutation = useMutation({
+        mutationFn: ({ id, icon }: UpdateIconInput) => updateModuleIcon(id, icon),
+        onMutate: async ({ id, icon }) => {
+            await queryClient.cancelQueries(moduleOptions);
+
+            const prevModules = queryClient.getQueryData(moduleOptions.queryKey);
+
+            if (prevModules) {
+                const updatedModules = prevModules.map(mod =>
+                    mod.id === id ? { ...mod, icon: icon } : mod
+                );
+
+                queryClient.setQueryData(moduleOptions.queryKey, updatedModules);
+            }
+
+            return { prevModules };
+        },
+        onError: (err, _, context) => {
+            if (context?.prevModules) {
+                queryClient.setQueryData<Module[]>(
+                    moduleOptions.queryKey,
+                    context.prevModules
+                );
+                showErrCouldNotUpdateModuleIconToast(err)
             }
         },
         onSettled: () => {

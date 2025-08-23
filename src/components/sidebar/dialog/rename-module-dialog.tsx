@@ -1,6 +1,4 @@
-
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useRenameModuleMut } from "@/modules/module/module-query";
 import { DialogDescription } from "@radix-ui/react-dialog";
@@ -26,7 +24,7 @@ export default function RenameModuleDialog({ isOpen, setIsOpen, module: { id, na
         setIsOpen(false);
     }
 
-    useEffect(() => { if (!isOpen) reset }, [isOpen]);
+    useEffect(() => { if (!isOpen) reset() }, [isOpen]);
 
     return (
         <Dialog
