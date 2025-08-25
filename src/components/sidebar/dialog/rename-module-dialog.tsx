@@ -24,7 +24,7 @@ export default function RenameModuleDialog({ isOpen, setIsOpen, module: { id, na
         setIsOpen(false);
     }
 
-    useEffect(() => { if (!isOpen) reset() }, [isOpen]);
+    useEffect(() => { if (!isOpen) reset() }, [isOpen, reset]);
 
     return (
         <Dialog

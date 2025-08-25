@@ -45,7 +45,7 @@ export default function SignupForm() {
         }
 
         redirect("/sign-in");
-    }, []);
+    }, [setError, handleCreateAccount]);
 
     return (
         <form

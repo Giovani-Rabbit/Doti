@@ -35,7 +35,7 @@ export const iconMap = {
     chart: ChartNoAxesCombinedIcon,
     code: Code,
     cooking: CookingPotIcon,
-    ComponentIcon,
+    component: ComponentIcon,
     cpu: Cpu,
     database: DatabaseIcon,
     drama: DramaIcon,

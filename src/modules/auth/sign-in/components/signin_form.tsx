@@ -38,7 +38,7 @@ export default function SigninForm() {
         }
 
         redirect("/");
-    }, []);
+    }, [setError]);
 
     return (
         <form

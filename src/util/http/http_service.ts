@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { IHttpRequestParams } from './type/http_request_params';
-import { HttpResponse } from './type/http_message_response';
+import { IHttpResponse } from './type/http_message_response';
 
 class HttpService {
     private baseUrl: string;
@@ -15,59 +15,71 @@ class HttpService {
         this.baseUrl = apiUrl.trim();
     }
 
-    public async get<O>(params: IHttpRequestParams<null>): Promise<HttpResponse<O>> {
-        return await this.request<null, HttpResponse<O>>({
+    public async get<O>(params: IHttpRequestParams<null>): Promise<IHttpResponse<O>> {
+        return await this.request<null, O>({
             ...params,
             url: this.getFullUrl(params.url),
             method: "GET"
         });
     }
 
-    public async post<I, O>(params: IHttpRequestParams<I>): Promise<HttpResponse<O>> {
-        return await this.request<I, HttpResponse<O>>({
+    public async post<I, O>(params: IHttpRequestParams<I>): Promise<IHttpResponse<O>> {
+        return await this.request<I, O>({
             ...params,
             url: this.getFullUrl(params.url),
             method: "POST"
         });
     }
 
-    public async put<I, O>(params: IHttpRequestParams<I>): Promise<HttpResponse<O>> {
-        return await this.request<I, HttpResponse<O>>({
+    public async put<I, O>(params: IHttpRequestParams<I>): Promise<IHttpResponse<O>> {
+        return await this.request<I, O>({
             ...params,
             url: this.getFullUrl(params.url),
             method: "PUT"
         });
     }
 
-    public async patch<I, O>(params: IHttpRequestParams<I>): Promise<HttpResponse<O>> {
-        return await this.request<I, HttpResponse<O>>({
+    public async patch<I, O>(params: IHttpRequestParams<I>): Promise<IHttpResponse<O>> {
+        return await this.request<I, O>({
             ...params,
             url: this.getFullUrl(params.url),
             method: "PATCH"
         })
     }
 
-    public async delete<O>(params: IHttpRequestParams<null>): Promise<HttpResponse<O>> {
-        return await this.request<null, HttpResponse<O>>({
+    public async delete<O>(params: IHttpRequestParams<null>): Promise<IHttpResponse<O>> {
+        return await this.request<null, O>({
             ...params,
             url: this.getFullUrl(params.url),
             method: "DELETE"
         });
     }
 
-    private async request<I, O>(params: IHttpRequestParams<I>): Promise<O> {
+    private async request<I, O>(params: IHttpRequestParams<I>): Promise<IHttpResponse<O>> {
         try {
-            const response = await axios.request({
+            const response = await axios.request<O>({
                 ...params,
                 withCredentials: true,
             });
 
-            return { data: response.data, error: null } as O;
-        } catch (err: any) {
-            const message = err?.response?.data?.message || "Unknown error";
-            const status = err?.response?.data?.status || "UNKNOWN";
+            return {
+                data: response.data,
+                error: null,
+            };
+        } catch (err) {
+            let message = "Unknown error";
+            let status: string | number = "UNKNOWN";
 
-            return { data: null, error: { message, status } } as O;
+            if (axios.isAxiosError(err)) {
+                const axiosErr = err as AxiosError<{ message?: string; status?: string | number }>;
+                message = axiosErr.response?.data?.message || axiosErr.message || message;
+                status = axiosErr.response?.data?.status || axiosErr.response?.status || status;
+            }
+
+            return {
+                data: null,
+                error: { message, status },
+            };
         }
     }
 

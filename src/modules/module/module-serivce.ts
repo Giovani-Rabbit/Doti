@@ -2,8 +2,6 @@ import HttpService from "@/util/http/http_service";
 import { CreateModuleDTO } from "./module-dto";
 import { Module } from "./module-interface";
 
-export type ModulesResponse = { modules: Module[] };
-
 const httpService = new HttpService("modules");
 
 export async function createModule(module: CreateModuleDTO) {
@@ -22,7 +20,9 @@ export async function createModule(module: CreateModuleDTO) {
     return res.data;
 }
 
-export async function fetchModules() {
+type ModulesResponse = { modules: Module[] };
+
+export async function fetchModules(): Promise<Module[]> {
     const res = await httpService.get<
         ModulesResponse
     >({
@@ -34,7 +34,11 @@ export async function fetchModules() {
         throw new Error(res.error.message);
     }
 
-    return res.data.modules;
+    if (res.data) {
+        return res.data.modules
+    }
+
+    return [];
 }
 
 type NewModuleName = { name: string }

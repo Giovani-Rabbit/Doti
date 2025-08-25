@@ -6,9 +6,9 @@ import ModuleHeader from "./__components/module_header";
 
 export default function ModulePage() {
     const { id } = useParams<{ id: string }>();
-    const module = useModuleById(id);
+    const myModule = useModuleById(id);
 
-    if (!module) redirect("/")
+    if (!myModule) redirect("/")
 
     // const { data: tasks, isLoading, error } = useQuery({
     //     queryKey: ["tasks", id],
@@ -23,7 +23,7 @@ export default function ModulePage() {
     return (
         <div className="h-full flex items-start justify-center p-8 text-800">
             <div className="w-[95%]">
-                <ModuleHeader module={module} />
+                <ModuleHeader module={myModule} />
             </div>
         </div>
     );

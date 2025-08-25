@@ -17,7 +17,7 @@ export default function SignIn() {
                 <SigninForm />
 
                 <p className="mt-10 text-center text-sm/6 text-gray-500">
-                    Don't have an account?
+                    Don`&apos;`t have an account?
                     <Link
                         href="/sign-up"
                         className="ml-1 font-semibold text-zinc-700 hover:text-zinc-500"

@@ -13,13 +13,13 @@ export type Module = {
 export const CreateGenericModule = (): CreateModuleDTO => {
     return {
         name: "Sem Nome",
-        icon: "ComponentIcon"
+        icon: "component"
     }
 }
 
 export const fakeModuleObject: Module = {
     id: Math.random().toString(),
     name: "Sem Nome",
-    icon: "ComponentIcon",
+    icon: "component",
     isOpen: false,
 }
