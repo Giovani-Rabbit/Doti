@@ -1,15 +1,13 @@
 "use client"
 
-import {
-    SidebarMenuButton,
-} from "@/components/ui/sidebar"
+import { SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar"
 import { SkullIcon } from "lucide-react"
 import { LucideIcon } from "../icon/LucideIcon"
 import { moduleOptions } from "@/modules/module/module-query"
 import { SidebarModuleSkeleton } from "./skeleton/sidebar-module-skeleton"
 import { useQuery } from "@tanstack/react-query"
 import Link from "next/link"
-import SidebarContextMenu from "./sidebar-context-menu"
+import SidebarContextMenu from "./sidebar-module-dropdown"
 
 export function SidebarModules() {
     const { data, isLoading, error } = useQuery(moduleOptions);
@@ -27,14 +25,15 @@ export function SidebarModules() {
     return (
         <>
             {modules.map(module => (
-                <SidebarContextMenu {...module} key={module.id}>
-                    <Link href={`/modules/${module.id}`}>
-                        <SidebarMenuButton tooltip={module.name}>
+                <SidebarMenuItem key={module.id} className="group">
+                    <SidebarMenuButton asChild>
+                        <Link href={`/modules/${module.id}`}>
                             {module.icon && <LucideIcon name={module.icon} />}
                             <span>{module.name}</span>
-                        </SidebarMenuButton>
-                    </Link>
-                </SidebarContextMenu>
+                        </Link>
+                    </SidebarMenuButton>
+                    <SidebarContextMenu {...module} key={module.id} />
+                </SidebarMenuItem>
             ))}
         </>
     );
