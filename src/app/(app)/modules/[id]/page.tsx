@@ -3,6 +3,7 @@
 import { redirect, useParams } from "next/navigation";
 import { useModuleById } from "@/modules/module/module-query";
 import ModuleHeader from "./__components/module_header";
+import Tasks from "./__components/tasks";
 
 export default function ModulePage() {
     const { id } = useParams<{ id: string }>();
@@ -21,10 +22,9 @@ export default function ModulePage() {
     // if (error) return <p>Failed to load tasks.</p>;
 
     return (
-        <div className="h-full flex items-start justify-center p-8 text-800">
-            <div className="w-[95%]">
-                <ModuleHeader module={myModule} />
-            </div>
+        <div className="h-screen flex flex-col text-800">
+            <ModuleHeader module={myModule} />
+            <Tasks />
         </div>
     );
 }
