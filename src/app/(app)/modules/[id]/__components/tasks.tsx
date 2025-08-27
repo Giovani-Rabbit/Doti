@@ -1,18 +1,25 @@
-import { Checkbox } from "@/components/ui/checkbox"
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import TaskItem from '@/components/task/task-item';
+import { DndContext } from '@dnd-kit/core';
+import { useState } from "react";
 
 export default function Tasks() {
+    const [arr] = useState<number[]>([1, 2, 3, 4, 5, 6, 7, 8]);
+
     return (
-        <div className="pb-8 grow overflow-auto">
-            <ul className="divide-y">
-                {[1, 2, 3, 4, 5, 6, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, , 8].map((num) => (
-                    <li className="py-2 px-8">
-                        <div className="flex items-center gap-4">
-                            <Checkbox />
-                            <span>Nome da tarefa {num}</span>
-                        </div>
-                    </li>
-                ))}
-            </ul>
-        </div>
+        <DndContext>
+            <div className="pb-8 grow overflow-auto">
+                <ul className="divide-y">
+                    <SortableContext
+                        items={arr}
+                        strategy={verticalListSortingStrategy}
+                    >
+                        {arr.map((num, idx) => (
+                            <TaskItem id={num} key={idx} />
+                        ))}
+                    </SortableContext>
+                </ul>
+            </div>
+        </DndContext>
     )
-} 
+}
