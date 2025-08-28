@@ -8,7 +8,8 @@ import useTaskProgressStore from "@/modules/task/task-progress-store";
 export default function TaskItem({ id }: { id: string }) {
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
 
-    const { startTimer, stopTimer } = useTaskProgressStore();
+    const startTimer = useTaskProgressStore(state => state.startTimer);
+    const stopTimer = useTaskProgressStore(state => state.stopTimer);
     const progress = useTaskProgressStore(state => state.progress[id] ?? 0);
 
     const style = {
