@@ -5,8 +5,9 @@ import { GripVerticalIcon, MoreHorizontalIcon, PlayIcon } from "lucide-react";
 import { Progress } from "../ui/progress";
 
 export default function TaskItem({ id }: { id: number }) {
-    const { attributes, listeners, setNodeRef, transform, transition } =
-        useSortable({ id });
+    const {
+        attributes, listeners, setNodeRef, transform, transition
+    } = useSortable({ id });
 
     const style = {
         transform: CSS.Transform.toString(transform),

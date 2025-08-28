@@ -1,5 +1,4 @@
 import { LucideIconName } from "@/components/icon/LucideIcon"
-import { Topic } from "../topic/topic_interface"
 import { CreateModuleDTO } from "./module-dto"
 
 export type Module = {
@@ -7,7 +6,6 @@ export type Module = {
     name: string
     isOpen: boolean
     icon: LucideIconName
-    topics?: Topic[]
 }
 
 export const CreateGenericModule = (): CreateModuleDTO => {
