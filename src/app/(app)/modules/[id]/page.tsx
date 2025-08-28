@@ -1,16 +1,7 @@
-"use client";
-
-import { redirect, useParams } from "next/navigation";
-import { useModuleById } from "@/modules/module/module-query";
 import ModuleHeader from "./__components/module_header";
 import Tasks from "./__components/tasks";
 
 export default function ModulePage() {
-    const { id } = useParams<{ id: string }>();
-    const myModule = useModuleById(id);
-
-    if (!myModule) redirect("/")
-
     // const { data: tasks, isLoading, error } = useQuery({
     //     queryKey: ["tasks", id],
     //     queryFn: () =>
@@ -23,7 +14,7 @@ export default function ModulePage() {
 
     return (
         <div className="h-screen flex flex-col text-800">
-            <ModuleHeader module={myModule} />
+            <ModuleHeader />
             <Tasks />
         </div>
     );
