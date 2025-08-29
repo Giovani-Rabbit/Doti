@@ -1,6 +1,7 @@
 "use client"
 
 import { LucideIcon, LucideIconName } from "@/components/icon/LucideIcon";
+import SessionTimePopover from "@/components/task/popover/session-time-popover";
 import { Button } from "@/components/ui/button";
 import InputSearch from "@/components/ui/input-search";
 import { useModuleById } from "@/modules/module/module-query";
@@ -25,9 +26,15 @@ export default function ModuleHeader() {
     return (
         <header className="flex flex-col gap-2 items-start justify-center">
             <div className="w-full px-8 flex flex-col gap-1 pt-8 pb-2">
-                <div className="w-full flex items-center justify-start gap-2">
-                    <LucideIcon width={30} name={myModule.icon as LucideIconName} />
-                    <h1 className="text-2xl font-semibold">{myModule.name}</h1>
+                <div className="w-full flex items-center justify-between gap-2">
+                    <div className="w-full flex items-center justify-start">
+                        <LucideIcon width={30} name={myModule.icon as LucideIconName} />
+                        <h1 className="text-2xl font-semibold">{myModule.name}</h1>
+                    </div>
+                    <SessionTimePopover
+                        sessionTime={myModule.sessionTime}
+                        restTime={myModule.restTime}
+                    />
                 </div>
                 <span className="w-full px-10 text-xs text-zinc-500">Last Session February 28, 2025</span>
             </div>
