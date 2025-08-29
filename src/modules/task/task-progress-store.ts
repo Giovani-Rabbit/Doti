@@ -8,8 +8,10 @@ type TaskProgress = {
     progress: ProgressRecord;
     isRunning: boolean;
     taskInProgress: string | null;
+    sessionTime: number;
     startTimer: (taskId: string) => void;
     stopTimer: () => void;
+    setSessionTime: (time: number) => void;
 };
 
 const useTaskProgressStore = create<TaskProgress>()(
@@ -21,6 +23,7 @@ const useTaskProgressStore = create<TaskProgress>()(
                 progress: {},
                 isRunning: false,
                 taskInProgress: null,
+                sessionTime: 60,
 
                 startTimer: (taskId: string) => {
                     if (intervalId) clearInterval(intervalId);
@@ -55,6 +58,11 @@ const useTaskProgressStore = create<TaskProgress>()(
                         intervalId = null;
                     }
                 },
+
+                setSessionTime: (time: number) => set(state => ({
+                    ...state,
+                    sessionTime: time,
+                }))
             };
         },
         {

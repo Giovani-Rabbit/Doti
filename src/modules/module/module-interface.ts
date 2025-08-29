@@ -6,6 +6,8 @@ export type Module = {
     name: string
     isOpen: boolean
     icon: LucideIconName
+    sessionTime: number
+    restTime: number
 }
 
 export const CreateGenericModule = (): CreateModuleDTO => {
@@ -20,4 +22,6 @@ export const fakeModuleObject: Module = {
     name: "Sem Nome",
     icon: "component",
     isOpen: false,
+    sessionTime: 60,
+    restTime: 15
 }

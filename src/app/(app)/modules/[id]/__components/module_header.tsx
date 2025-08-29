@@ -4,14 +4,23 @@ import { LucideIcon, LucideIconName } from "@/components/icon/LucideIcon";
 import { Button } from "@/components/ui/button";
 import InputSearch from "@/components/ui/input-search";
 import { useModuleById } from "@/modules/module/module-query";
+import useTaskProgressStore from "@/modules/task/task-progress-store";
 import { ListFilterIcon, PlusIcon } from "lucide-react";
 import { redirect, useParams } from "next/navigation";
+import { useEffect } from "react";
 
 export default function ModuleHeader() {
     const { id } = useParams<{ id: string }>();
     const myModule = useModuleById(id);
+    const setSessionTime = useTaskProgressStore(state => state.setSessionTime);
 
-    if (!myModule) redirect("/")
+    if (!myModule) redirect("/");
+
+    useEffect(() => {
+        if (myModule && myModule.sessionTime) {
+            setSessionTime(myModule.sessionTime);
+        }
+    }, [myModule]);
 
     return (
         <header className="flex flex-col gap-2 items-start justify-center">
