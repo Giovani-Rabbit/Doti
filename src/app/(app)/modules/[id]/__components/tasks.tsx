@@ -14,53 +14,10 @@ import {
     SortableContext,
     verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import TaskItem from "@/components/task/task-item";
 import { Task } from "@/modules/task/task-interface";
+import TaskItem from "@/components/task/task-item";
 
-const tasks = [
-    {
-        id: "1",
-        name: "Estudar",
-        isComplete: false,
-        position: 1,
-        created_at: "28/08/2025",
-        updated_at: "28/08/2025"
-    },
-    {
-        id: "2",
-        name: "Estudar",
-        isComplete: false,
-        position: 2,
-        created_at: "28/08/2025",
-        updated_at: "28/08/2025"
-    },
-    {
-        id: "3",
-        name: "Estudar",
-        isComplete: false,
-        position: 3,
-        created_at: "28/08/2025",
-        updated_at: "28/08/2025"
-    },
-    {
-        id: "4",
-        name: "Estudar",
-        isComplete: false,
-        position: 4,
-        created_at: "28/08/2025",
-        updated_at: "28/08/2025"
-    },
-    {
-        id: "5",
-        name: "Estudar",
-        isComplete: false,
-        position: 5,
-        created_at: "28/08/2025",
-        updated_at: "28/08/2025"
-    }
-]
-
-export default function Tasks() {
+export default function Tasks({ tasks }: { tasks: Task[] }) {
     const [myTasks, setMyTasks] = useState<Task[]>(tasks);
     const sensors = useSensors(useSensor(PointerSensor));
 
@@ -88,8 +45,8 @@ export default function Tasks() {
             <div className="pb-8 grow overflow-auto">
                 <ul className="divide-y">
                     <SortableContext items={myTasks} strategy={verticalListSortingStrategy}>
-                        {myTasks.map((num) => (
-                            <TaskItem id={num.id} key={num.id} />
+                        {myTasks.map((task) => (
+                            <TaskItem task={task} key={task.id} />
                         ))}
                     </SortableContext>
                 </ul>

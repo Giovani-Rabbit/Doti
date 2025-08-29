@@ -25,24 +25,32 @@ const useTaskProgressStore = create<TaskProgress>()(
                 startTimer: (taskId: string) => {
                     if (intervalId) clearInterval(intervalId);
 
-                    intervalId = setInterval(() => {
+                    function incrementProgress() {
                         set((state) => {
                             const currentTime = state.progress[taskId] || 0
 
                             return {
                                 isRunning: true,
+                                taskInProgress: taskId,
                                 progress: {
                                     ...state.progress,
                                     [taskId]: currentTime + 1,
                                 },
                             }
                         });
-                    }, 1000);
+                    }
+                    incrementProgress();
+
+                    intervalId = setInterval(incrementProgress, 1000);
                 },
 
                 stopTimer: () => {
                     if (intervalId) {
-                        set(state => ({ ...state, isRunning: false }));
+                        set(state => ({
+                            ...state,
+                            isRunning: false,
+                            taskInProgress: null
+                        }));
                         clearInterval(intervalId);
                         intervalId = null;
                     }

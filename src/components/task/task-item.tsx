@@ -1,16 +1,13 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { CSS } from "@dnd-kit/utilities";
 import { useSortable } from "@dnd-kit/sortable";
-import { GripVerticalIcon, MoreHorizontalIcon, PlayIcon } from "lucide-react";
-import { Progress } from "../ui/progress";
-import useTaskProgressStore from "@/modules/task/task-progress-store";
+import { GripVerticalIcon, MoreHorizontalIcon } from "lucide-react";
+import { Task } from "@/modules/task/task-interface";
+import TaskRunner from "./buttons/task-runner";
+import { memo } from "react";
 
-export default function TaskItem({ id }: { id: string }) {
-    const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
-
-    const startTimer = useTaskProgressStore(state => state.startTimer);
-    const stopTimer = useTaskProgressStore(state => state.stopTimer);
-    const progress = useTaskProgressStore(state => state.progress[id] ?? 0);
+function TaskItem({ task }: { task: Task }) {
+    const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: task.id });
 
     const style = {
         transform: CSS.Transform.toString(transform),
@@ -29,17 +26,12 @@ export default function TaskItem({ id }: { id: string }) {
                     {...listeners}
                     className="opacity-0 group-hover:opacity-100 p-0.5 text-zinc-400 cursor-grab"
                 />
-                <Checkbox />
-                <span className="pl-1">Nome da tarefa {id}</span>
+                <Checkbox checked={task.isComplete} />
+                <span className="pl-1">{task.name}</span>
             </div>
             <div className="pr-8 flex items-center justify-center gap-4">
-                <div className="flex items-center justify-center gap-2">
-                    <button onClick={() => startTimer(id)}>
-                        <PlayIcon className="p-1" />
-                    </button>
-                    <Progress value={progress} className="w-20" />
-                </div>
-                <button onClick={stopTimer}>
+                <TaskRunner task={task} />
+                <button>
                     <MoreHorizontalIcon
                         size={20}
                         className="group-hover:opacity-100 text-zinc-500"
@@ -49,3 +41,5 @@ export default function TaskItem({ id }: { id: string }) {
         </li>
     );
 }
+
+export default memo(TaskItem);
