@@ -40,7 +40,7 @@ export default function ModuleHeader() {
                         />
                     </div>
                 </div>
-                <span className="w-full px-10 text-xs text-zinc-500">Last Session February 28, 2025</span>
+                <span className="w-full px-8 text-xs text-zinc-500">Last Session February 28, 2025</span>
             </div>
             <div className="px-8 pb-2 w-full flex items-center justify-between border-b">
                 <InputSearch />
