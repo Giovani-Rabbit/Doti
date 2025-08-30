@@ -2,6 +2,7 @@
 
 import { LucideIcon, LucideIconName } from "@/components/icon/LucideIcon";
 import SessionTimePopover from "@/components/task/popover/session-time-popover";
+import RemainingTime from "@/components/timer/TimeCounter";
 import { Button } from "@/components/ui/button";
 import InputSearch from "@/components/ui/input-search";
 import { useModuleById } from "@/modules/module/module-query";
@@ -31,10 +32,13 @@ export default function ModuleHeader() {
                         <LucideIcon width={30} name={myModule.icon as LucideIconName} />
                         <h1 className="text-2xl font-semibold">{myModule.name}</h1>
                     </div>
-                    <SessionTimePopover
-                        sessionTime={myModule.sessionTime}
-                        restTime={myModule.restTime}
-                    />
+                    <div className="flex items-center justify-center gap-4">
+                        <RemainingTime />
+                        <SessionTimePopover
+                            sessionTime={myModule.sessionTime}
+                            restTime={myModule.restTime}
+                        />
+                    </div>
                 </div>
                 <span className="w-full px-10 text-xs text-zinc-500">Last Session February 28, 2025</span>
             </div>
