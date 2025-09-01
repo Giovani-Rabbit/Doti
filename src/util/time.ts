@@ -3,8 +3,8 @@ export function calculateTaskProgressPercentage(
     sessionTime: number
 ): number { return ((progressTime / 60) / sessionTime) * 100; }
 
-export function calculateRemainingTime(seconds: number, session: number) {
-    const time = minutesToSeconds(session) - seconds;
+export function calculateRemainingTime(seconds: number, sessionTime: number) {
+    const time = minutesToSeconds(sessionTime) - seconds;
 
     const min = secondsToMinutes(time);
     const sec = time % 60;
