@@ -7,10 +7,12 @@ import { PauseIcon, PlayIcon } from "lucide-react";
 export default function TaskRunner({ task }: { task: Task }) {
     const startTimer = useTaskProgressStore(state => state.startTimer);
     const stopTimer = useTaskProgressStore(state => state.stopTimer);
-    const progress = useTaskProgressStore(state => state.progress[task.id] ?? 0);
 
     const sessionTimePercentage = useTaskProgressStore(state =>
-        calculateTaskProgressPercentage(progress, state.sessionTime)
+        calculateTaskProgressPercentage(
+            state.progress[task.id] ?? 0,
+            state.sessionTime
+        )
     );
 
     const isCurrentTaskRunning = useTaskProgressStore(

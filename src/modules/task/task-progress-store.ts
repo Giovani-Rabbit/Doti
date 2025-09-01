@@ -1,5 +1,4 @@
-import RemainingTime from '@/components/timer/TimeCounter';
-import { calculateRemainingTime } from '@/util/time';
+import { minutesToSeconds } from '@/util/time';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -10,12 +9,11 @@ type TaskProgress = {
     progress: ProgressRecord;
     isRunning: boolean;
     taskInProgress: string | null;
-    remainingTime: number;
-    sessionTime: number; // in minutes
+    sessionTime: number;
     restTime: number;
+
     startTimer: (taskId: string) => void;
     stopTimer: () => void;
-    setSessionTime: (time: number) => void;
 };
 
 const useTaskProgressStore = create<TaskProgress>()(
@@ -27,9 +25,8 @@ const useTaskProgressStore = create<TaskProgress>()(
                 progress: {},
                 isRunning: false,
                 taskInProgress: null,
-                remainingTime: 0,
-                sessionTime: 60,
-                restTime: 10,
+                sessionTime: minutesToSeconds(60),
+                restTime: minutesToSeconds(10),
 
                 startTimer: (taskId: string) => {
                     if (intervalId) clearInterval(intervalId);
@@ -37,36 +34,32 @@ const useTaskProgressStore = create<TaskProgress>()(
                     set(state => ({
                         ...state,
                         taskInProgress: taskId,
-                        isRunning: true
+                        isRunning: true,
                     }));
 
-                    function incrementProgress() {
-                        set((state) => {
-                            const currentTime = state.progress[taskId] || 0
-                            const futureTime = currentTime + 1;
+                    const decrementTime = () => set(state => {
+                        let currentTime = state.progress[taskId];
 
-                            const remainingTime = calculateRemainingTime(
-                                futureTime, state.sessionTime
-                            );
+                        if (currentTime === undefined) {
+                            currentTime = state.sessionTime;
+                        }
 
-                            if (remainingTime <= 0) {
-                                console.log("Hora de descansar");
-                                return state;
-                            }
+                        if (currentTime <= 0) {
+                            console.log("HORA DE DESCANSAR");
+                            return state;
+                        }
 
-                            return {
-                                remainingTime,
-                                progress: {
-                                    ...state.progress,
-                                    [taskId]: futureTime,
-                                },
-                            }
-                        });
-                    }
+                        return {
+                            progress: {
+                                ...state.progress,
+                                [taskId]: currentTime - 1,
+                            },
+                        }
+                    });
 
-                    incrementProgress();
+                    decrementTime();
 
-                    intervalId = setInterval(incrementProgress, 1000);
+                    intervalId = setInterval(decrementTime, 1000);
                 },
 
                 stopTimer: () => {
@@ -80,11 +73,6 @@ const useTaskProgressStore = create<TaskProgress>()(
                         intervalId = null;
                     }
                 },
-
-                setSessionTime: (time: number) => set(state => ({
-                    ...state,
-                    sessionTime: time,
-                }))
             };
         },
         {

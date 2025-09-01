@@ -1,10 +1,9 @@
-export function calculateTaskProgressPercentage(
+export const calculateTaskProgressPercentage = (
     progressTime: number,
     sessionTime: number
-): number { return ((progressTime / 60) / sessionTime) * 100; }
-
-export function calculateRemainingTime(seconds: number, sessionTime: number) {
-    return minutesToSeconds(sessionTime) - seconds;
+) => {
+    if (progressTime === 0 || sessionTime === 0) return 0;
+    return 100 - (progressTime / sessionTime) * 100;
 }
 
 export function formatTime(remainingTime: number) {
@@ -14,6 +13,6 @@ export function formatTime(remainingTime: number) {
     return `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`
 }
 
-const secondsToMinutes = (sec: number) => Math.floor(sec / 60)
+export const secondsToMinutes = (sec: number) => Math.floor(sec / 60)
 
-const minutesToSeconds = (min: number) => min * 60;
+export const minutesToSeconds = (min: number) => min * 60;
