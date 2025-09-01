@@ -1,16 +1,16 @@
 import useTaskProgressStore from "@/modules/task/task-progress-store"
-import { calculateRemainingTime } from "@/util/time";
+import { formatTime } from "@/util/time";
 import { TimerIcon } from "lucide-react";
 
 export default function RemainingTime() {
-    const sessionTime = useTaskProgressStore(state => state.sessionTime);
+    const remainingTime = useTaskProgressStore(state => state.remainingTime);
     const currentTime = useTaskProgressStore(
         state => state.progress[state.taskInProgress!] ?? 0
     );
 
     if (!currentTime) return;
 
-    const time = calculateRemainingTime(currentTime, sessionTime);
+    const time = formatTime(remainingTime);
 
     return (
         <div className="flex gap-1">

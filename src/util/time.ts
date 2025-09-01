@@ -4,10 +4,12 @@ export function calculateTaskProgressPercentage(
 ): number { return ((progressTime / 60) / sessionTime) * 100; }
 
 export function calculateRemainingTime(seconds: number, sessionTime: number) {
-    const time = minutesToSeconds(sessionTime) - seconds;
+    return minutesToSeconds(sessionTime) - seconds;
+}
 
-    const min = secondsToMinutes(time);
-    const sec = time % 60;
+export function formatTime(remainingTime: number) {
+    const min = secondsToMinutes(remainingTime);
+    const sec = remainingTime % 60;
 
     return `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`
 }
