@@ -9,6 +9,7 @@ type TaskProgress = {
     isRunning: boolean;
     taskInProgress: string | null;
     sessionTime: number;
+    restTime: number;
     startTimer: (taskId: string) => void;
     stopTimer: () => void;
     setSessionTime: (time: number) => void;
@@ -24,6 +25,7 @@ const useTaskProgressStore = create<TaskProgress>()(
                 isRunning: false,
                 taskInProgress: null,
                 sessionTime: 60,
+                restTime: 10,
 
                 startTimer: (taskId: string) => {
                     if (intervalId) clearInterval(intervalId);

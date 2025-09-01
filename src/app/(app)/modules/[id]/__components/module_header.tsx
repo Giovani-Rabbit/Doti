@@ -1,28 +1,18 @@
 "use client"
 
 import { LucideIcon, LucideIconName } from "@/components/icon/LucideIcon";
-import SessionTimePopover from "@/components/task/popover/session-time-popover";
 import RemainingTime from "@/components/timer/TimeCounter";
 import { Button } from "@/components/ui/button";
 import InputSearch from "@/components/ui/input-search";
 import { useModuleById } from "@/modules/module/module-query";
-import useTaskProgressStore from "@/modules/task/task-progress-store";
 import { ListFilterIcon, PlusIcon } from "lucide-react";
 import { redirect, useParams } from "next/navigation";
-import { useEffect } from "react";
 
 export default function ModuleHeader() {
     const { id } = useParams<{ id: string }>();
     const myModule = useModuleById(id);
-    const setSessionTime = useTaskProgressStore(state => state.setSessionTime);
 
     if (!myModule) redirect("/");
-
-    useEffect(() => {
-        if (myModule && myModule.sessionTime) {
-            setSessionTime(myModule.sessionTime);
-        }
-    }, [myModule]);
 
     return (
         <header className="flex flex-col gap-2 items-start justify-center">
@@ -34,10 +24,6 @@ export default function ModuleHeader() {
                     </div>
                     <div className="flex items-center justify-center gap-4">
                         <RemainingTime />
-                        <SessionTimePopover
-                            sessionTime={myModule.sessionTime}
-                            restTime={myModule.restTime}
-                        />
                     </div>
                 </div>
                 <span className="w-full px-8 text-xs text-zinc-500">Last Session February 28, 2025</span>
