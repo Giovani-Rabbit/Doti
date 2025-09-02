@@ -16,7 +16,7 @@ export default function TaskRunner({ task }: { task: Task }) {
     );
 
     const isCurrentTaskRunning = useTaskProgressStore(
-        state => state.isRunning && state.taskInProgress === task.id
+        state => state.isSessionRunning && state.taskInProgress === task.id
     );
 
     function handleTimer() {
