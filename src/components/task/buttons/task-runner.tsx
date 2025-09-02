@@ -2,7 +2,7 @@ import { Progress } from "@/components/ui/progress";
 import { Task } from "@/modules/task/task-interface";
 import useTaskProgressStore from "@/modules/task/task-progress-store";
 import { calculateTaskProgressPercentage } from "@/util/time";
-import { PauseIcon, PlayIcon } from "lucide-react";
+import { CoffeeIcon, PauseIcon, PlayIcon } from "lucide-react";
 
 export default function TaskRunner({ task }: { task: Task }) {
     const startTimer = useTaskProgressStore(state => state.startTimer);
@@ -10,13 +10,16 @@ export default function TaskRunner({ task }: { task: Task }) {
 
     const sessionTimePercentage = useTaskProgressStore(state =>
         calculateTaskProgressPercentage(
-            state.progress[task.id] ?? 0,
-            state.sessionTime
+            state.progress[task.id] ?? 0, state.sessionTime
         )
     );
 
     const isCurrentTaskRunning = useTaskProgressStore(
         state => state.isSessionRunning && state.taskInProgress === task.id
+    );
+
+    const isRestAvailable = useTaskProgressStore(
+        state => state.progress[task.id] === state.sessionTime
     );
 
     function handleTimer() {
@@ -26,12 +29,19 @@ export default function TaskRunner({ task }: { task: Task }) {
 
     return (
         <div className="flex items-center justify-center gap-2">
-            <button onClick={handleTimer} className="cursor-pointer">
-                {isCurrentTaskRunning ?
-                    <PauseIcon className="p-1" /> :
-                    <PlayIcon className="p-1" />
+            <div className="flex items-center gap-1">
+                {isRestAvailable &&
+                    <button onClick={handleTimer} className="cursor-pointer rounded-md hover:outline-1">
+                        <CoffeeIcon className="p-1" />
+                    </button>
                 }
-            </button>
+                <button onClick={handleTimer} className="cursor-pointer rounded-md hover:outline-1">
+                    {isCurrentTaskRunning ?
+                        <PauseIcon className="p-1" /> :
+                        <PlayIcon className="p-1" />
+                    }
+                </button>
+            </div>
             <Progress value={sessionTimePercentage} className="w-20" />
         </div>
     );

@@ -11,7 +11,6 @@ type TaskProgress = {
     taskInProgress: string | null;
     sessionTime: number;
 
-    isRestAvailable: boolean;
     isResting: boolean;
     restTime: number;
 
@@ -30,7 +29,6 @@ const useTaskProgressStore = create<TaskProgress>()(
                 taskInProgress: null,
                 sessionTime: minutesToSeconds(0.1),
 
-                isRestAvailable: false,
                 isResting: false,
                 restTime: minutesToSeconds(10),
 
@@ -40,6 +38,7 @@ const useTaskProgressStore = create<TaskProgress>()(
                     set(state => {
                         let currentTime = state.progress[taskId] || 0
 
+                        // Reset timer if session is already completed
                         if (currentTime >= state.sessionTime) currentTime = 0;
 
                         return {
@@ -54,18 +53,17 @@ const useTaskProgressStore = create<TaskProgress>()(
                     });
 
                     const incrementProgress = () => set(state => {
-                        const futureTime = state.progress[taskId] + 1;
+                        const currentTime = state.progress[taskId] ?? 0
+                        const futureTime = currentTime + 1;
 
-                        if (futureTime === state.sessionTime) {
-                            if (intervalId) clearInterval(intervalId);
+                        if (futureTime === state.sessionTime && intervalId) {
+                            clearInterval(intervalId);
 
-                            state.isRestAvailable = true;
                             state.isSessionRunning = false;
                             state.taskInProgress = null;
                         }
 
                         return {
-                            ...state,
                             progress: {
                                 ...state.progress,
                                 [taskId]: futureTime,
