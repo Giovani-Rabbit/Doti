@@ -44,28 +44,26 @@ const useTaskProgressStore = create<TaskProgress>()(
                         isSessionRunning: true
                     }));
 
-                    function incrementProgress() {
-                        set((state) => {
-                            const currentTime = state.progress[taskId] || 0
+                    const incrementProgress = () => set(state => {
+                        const currentTime = state.progress[taskId] || 0
 
-                            if (currentTime === state.sessionTime) {
-                                if (intervalId) clearInterval(intervalId);
-                                return {
-                                    ...state,
-                                    isRestAvailable: true,
-                                    isSessionRunning: false,
-                                    taskInProgress: null
-                                }
-                            }
-
+                        if (currentTime === state.sessionTime) {
+                            if (intervalId) clearInterval(intervalId);
                             return {
-                                progress: {
-                                    ...state.progress,
-                                    [taskId]: currentTime + 1,
-                                },
+                                ...state,
+                                isRestAvailable: true,
+                                isSessionRunning: false,
+                                taskInProgress: null
                             }
-                        });
-                    }
+                        }
+
+                        return {
+                            progress: {
+                                ...state.progress,
+                                [taskId]: currentTime + 1,
+                            },
+                        }
+                    });
 
                     incrementProgress();
 
