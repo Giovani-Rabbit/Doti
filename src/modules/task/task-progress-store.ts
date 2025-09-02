@@ -1,5 +1,4 @@
-import RemainingTime from '@/components/timer/TimeCounter';
-import { calculateRemainingTime, minutesToSeconds } from '@/util/time';
+import { minutesToSeconds } from '@/util/time';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -29,7 +28,7 @@ const useTaskProgressStore = create<TaskProgress>()(
                 progress: {},
                 isSessionRunning: false,
                 taskInProgress: null,
-                sessionTime: minutesToSeconds(60),
+                sessionTime: minutesToSeconds(0.1),
 
                 isRestAvailable: false,
                 isResting: false,
@@ -38,34 +37,41 @@ const useTaskProgressStore = create<TaskProgress>()(
                 startTimer: (taskId: string) => {
                     if (intervalId) clearInterval(intervalId);
 
-                    set(state => ({
-                        ...state,
-                        taskInProgress: taskId,
-                        isSessionRunning: true
-                    }));
+                    set(state => {
+                        let currentTime = state.progress[taskId] || 0
 
-                    const incrementProgress = () => set(state => {
-                        const currentTime = state.progress[taskId] || 0
-
-                        if (currentTime === state.sessionTime) {
-                            if (intervalId) clearInterval(intervalId);
-                            return {
-                                ...state,
-                                isRestAvailable: true,
-                                isSessionRunning: false,
-                                taskInProgress: null
-                            }
-                        }
+                        if (currentTime >= state.sessionTime) currentTime = 0;
 
                         return {
+                            ...state,
+                            taskInProgress: taskId,
+                            isSessionRunning: true,
                             progress: {
                                 ...state.progress,
-                                [taskId]: currentTime + 1,
-                            },
+                                [taskId]: currentTime
+                            }
                         }
                     });
 
-                    incrementProgress();
+                    const incrementProgress = () => set(state => {
+                        const futureTime = state.progress[taskId] + 1;
+
+                        if (futureTime === state.sessionTime) {
+                            if (intervalId) clearInterval(intervalId);
+
+                            state.isRestAvailable = true;
+                            state.isSessionRunning = false;
+                            state.taskInProgress = null;
+                        }
+
+                        return {
+                            ...state,
+                            progress: {
+                                ...state.progress,
+                                [taskId]: futureTime,
+                            },
+                        }
+                    });
 
                     intervalId = setInterval(incrementProgress, 1000);
                 },
