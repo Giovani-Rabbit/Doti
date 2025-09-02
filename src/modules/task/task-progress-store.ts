@@ -6,7 +6,7 @@ type TaskId = string;
 export type ProgressRecord = { [id in TaskId]: number };
 
 type TaskProgress = {
-    progress: ProgressRecord;
+    sessionProgress: ProgressRecord;
     isSessionRunning: boolean;
     taskInProgress: string | null;
     sessionTime: number;
@@ -24,7 +24,7 @@ const useTaskProgressStore = create<TaskProgress>()(
             let intervalId: NodeJS.Timeout | null = null;
 
             return {
-                progress: {},
+                sessionProgress: {},
                 isSessionRunning: false,
                 taskInProgress: null,
                 sessionTime: minutesToSeconds(0.1),
@@ -36,7 +36,7 @@ const useTaskProgressStore = create<TaskProgress>()(
                     if (intervalId) clearInterval(intervalId);
 
                     set(state => {
-                        let currentTime = state.progress[taskId] || 0
+                        let currentTime = state.sessionProgress[taskId] || 0
 
                         // Reset timer if session is already completed
                         if (currentTime >= state.sessionTime) currentTime = 0;
@@ -45,15 +45,15 @@ const useTaskProgressStore = create<TaskProgress>()(
                             ...state,
                             taskInProgress: taskId,
                             isSessionRunning: true,
-                            progress: {
-                                ...state.progress,
+                            sessionProgress: {
+                                ...state.sessionProgress,
                                 [taskId]: currentTime
                             }
                         }
                     });
 
                     const incrementProgress = () => set(state => {
-                        const currentTime = state.progress[taskId] ?? 0
+                        const currentTime = state.sessionProgress[taskId] ?? 0
                         const futureTime = currentTime + 1;
 
                         if (futureTime === state.sessionTime && intervalId) {
@@ -64,8 +64,8 @@ const useTaskProgressStore = create<TaskProgress>()(
                         }
 
                         return {
-                            progress: {
-                                ...state.progress,
+                            sessionProgress: {
+                                ...state.sessionProgress,
                                 [taskId]: futureTime,
                             },
                         }
@@ -93,8 +93,8 @@ const useTaskProgressStore = create<TaskProgress>()(
             };
         },
         {
-            name: 'task-progress-storage',
-            partialize: (state) => ({ progress: state.progress }),
+            name: 'task-session-progress-storage',
+            partialize: (state) => ({ sessionProgress: state.sessionProgress }),
         }
     )
 );

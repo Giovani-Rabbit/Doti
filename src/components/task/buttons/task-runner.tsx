@@ -10,7 +10,7 @@ export default function TaskRunner({ task }: { task: Task }) {
 
     const sessionTimePercentage = useTaskProgressStore(state =>
         calculateTaskProgressPercentage(
-            state.progress[task.id] ?? 0, state.sessionTime
+            state.sessionProgress[task.id] ?? 0, state.sessionTime
         )
     );
 
@@ -19,7 +19,7 @@ export default function TaskRunner({ task }: { task: Task }) {
     );
 
     const isRestAvailable = useTaskProgressStore(
-        state => state.progress[task.id] === state.sessionTime
+        state => state.sessionProgress[task.id] === state.sessionTime
     );
 
     function handleTimer() {

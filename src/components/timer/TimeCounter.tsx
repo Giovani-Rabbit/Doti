@@ -5,7 +5,7 @@ import { TimerIcon } from "lucide-react";
 export default function RemainingTime() {
     const remainingTime = useTaskProgressStore(
         state => calculateRemainingTime(
-            state.progress[state.taskInProgress ?? ""],
+            state.sessionProgress[state.taskInProgress ?? ""],
             state.sessionTime
         )
     );
