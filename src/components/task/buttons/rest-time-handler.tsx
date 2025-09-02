@@ -12,12 +12,12 @@ export default function RestTimeHandler({ taskId }: IRestButton) {
         state => state.sessionProgress[taskId] === state.sessionTime
     );
 
+    if (!isRestAvailable) return;
+
     function handleRestTimer() {
         if (!isResting) startRestTime(taskId)
         else stopTimer();
     }
-
-    if (!isRestAvailable) return;
 
     return (
         <button onClick={handleRestTimer} className="cursor-pointer rounded-md hover:outline-1">
