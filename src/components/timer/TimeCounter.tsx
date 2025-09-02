@@ -3,22 +3,22 @@ import { calculateRemainingTime, formatTime } from "@/util/time";
 import { TimerIcon } from "lucide-react";
 
 export default function RemainingTime() {
-    const remainingTime = useTaskProgressStore(
+    const remainingSessionTime = useTaskProgressStore(
         state => calculateRemainingTime(
             state.sessionProgress[state.taskInProgress ?? ""],
             state.sessionTime
         )
     );
 
-    if (!remainingTime) return;
+    if (!remainingSessionTime) return;
 
-    const time = formatTime(remainingTime);
+    const sessionTime = formatTime(remainingSessionTime);
 
     return (
         <div className="flex gap-1">
             <TimerIcon size={20} />
             <span className="w-14 font-semibold">
-                {time}
+                {sessionTime}
             </span>
         </div>
     )

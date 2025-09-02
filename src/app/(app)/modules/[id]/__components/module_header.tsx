@@ -1,6 +1,7 @@
 "use client"
 
 import { LucideIcon, LucideIconName } from "@/components/icon/LucideIcon";
+import RestTimer from "@/components/timer/restTimer";
 import RemainingTime from "@/components/timer/TimeCounter";
 import { Button } from "@/components/ui/button";
 import InputSearch from "@/components/ui/input-search";
@@ -23,6 +24,7 @@ export default function ModuleHeader() {
                         <h1 className="text-2xl font-semibold">{myModule.name}</h1>
                     </div>
                     <div className="flex items-center justify-center gap-4">
+                        <RestTimer />
                         <RemainingTime />
                     </div>
                 </div>

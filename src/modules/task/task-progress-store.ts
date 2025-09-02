@@ -6,15 +6,18 @@ type TaskId = string;
 export type ProgressRecord = { [id in TaskId]: number };
 
 type TaskProgress = {
-    sessionProgress: ProgressRecord;
-    isSessionRunning: boolean;
     taskInProgress: string | null;
+
+    isSessionRunning: boolean;
+    sessionProgress: ProgressRecord;
     sessionTime: number;
 
     isResting: boolean;
+    restProgress: number;
     restTime: number;
 
-    startTimer: (taskId: string) => void;
+    startSessionTimer: (taskId: string) => void;
+    startRestTimer: (taskId: string) => void;
     stopTimer: () => void;
 };
 
@@ -30,9 +33,10 @@ const useTaskProgressStore = create<TaskProgress>()(
                 sessionTime: minutesToSeconds(0.1),
 
                 isResting: false,
-                restTime: minutesToSeconds(10),
+                restTime: minutesToSeconds(0.1),
+                restProgress: 0,
 
-                startTimer: (taskId: string) => {
+                startSessionTimer: (taskId: string) => {
                     if (intervalId) clearInterval(intervalId);
 
                     set(state => {
@@ -45,6 +49,7 @@ const useTaskProgressStore = create<TaskProgress>()(
                             ...state,
                             taskInProgress: taskId,
                             isSessionRunning: true,
+                            isResting: false,
                             sessionProgress: {
                                 ...state.sessionProgress,
                                 [taskId]: currentTime
@@ -74,22 +79,53 @@ const useTaskProgressStore = create<TaskProgress>()(
                     intervalId = setInterval(incrementProgress, 1000);
                 },
 
+                startRestTimer: (taskId: string) => {
+                    if (intervalId) clearInterval(intervalId);
+
+                    set(state => {
+                        const shouldReset = state.restProgress >= state.restTime;
+                        let initialTime = shouldReset ? 0 : state.restProgress;
+
+                        return {
+                            ...state,
+                            isResting: true,
+                            taskInProgress: taskId,
+                            restProgress: initialTime,
+                        }
+                    });
+
+                    const incrementRestProgress = () => set(state => {
+                        const currentTime = state.restProgress;
+                        const futureTime = currentTime + 1;
+
+                        if (futureTime >= state.restTime && intervalId) {
+                            clearInterval(intervalId);
+                            state.sessionProgress[taskId] = 0;
+                            state.isResting = false;
+                            state.taskInProgress = null;
+                        }
+
+                        return {
+                            ...state,
+                            restProgress: futureTime,
+                        }
+                    });
+
+                    intervalId = setInterval(incrementRestProgress, 1000);
+                },
+
                 stopTimer: () => {
                     if (intervalId) {
                         set(state => ({
                             ...state,
                             isSessionRunning: false,
+                            isResting: false,
                             taskInProgress: null
                         }));
                         clearInterval(intervalId);
                         intervalId = null;
                     }
                 },
-
-                setSessionTime: (time: number) => set(state => ({
-                    ...state,
-                    sessionTime: time,
-                }))
             };
         },
         {
