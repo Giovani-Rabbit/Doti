@@ -16,6 +16,15 @@ export function formatTime(remainingTime: number) {
     return `${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`
 }
 
+export function getFormattedRemainingTime(
+    seconds: number,
+    sessionTime: number
+): string | null {
+    const remainingTime = calculateRemainingTime(seconds, sessionTime);
+    if (!remainingTime) return null;
+    return formatTime(remainingTime);
+}
+
 const secondsToMinutes = (sec: number) => Math.floor(sec / 60)
 
 export const minutesToSeconds = (min: number) => min * 60;
