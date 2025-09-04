@@ -50,5 +50,29 @@ const tasks = [
         position: 5,
         created_at: "28/08/2025",
         updated_at: "28/08/2025"
-    }
+    },
+    {
+        id: "6",
+        name: "Algebra Linear",
+        isComplete: false,
+        position: 6,
+        created_at: "28/08/2025",
+        updated_at: "28/08/2025"
+    },
+    {
+        id: "7",
+        name: "Banco de dados",
+        isComplete: false,
+        position: 7,
+        created_at: "28/08/2025",
+        updated_at: "28/08/2025"
+    },
+    {
+        id: "8",
+        name: "System Design",
+        isComplete: true,
+        position: 8,
+        created_at: "28/08/2025",
+        updated_at: "28/08/2025"
+    },
 ]

@@ -7,7 +7,7 @@ import { moduleOptions } from "@/modules/module/module-query"
 import { SidebarModuleSkeleton } from "./skeleton/sidebar-module-skeleton"
 import { useQuery } from "@tanstack/react-query"
 import Link from "next/link"
-import SidebarContextMenu from "./sidebar-module-dropdown"
+import ModuleDropdown from "./sidebar-module-dropdown"
 
 export function SidebarModules() {
     const { data, isLoading, error } = useQuery(moduleOptions);
@@ -32,7 +32,7 @@ export function SidebarModules() {
                             <span>{module.name}</span>
                         </Link>
                     </SidebarMenuButton>
-                    <SidebarContextMenu {...module} key={module.id} />
+                    <ModuleDropdown {...module} key={module.id} />
                 </SidebarMenuItem>
             ))}
         </>

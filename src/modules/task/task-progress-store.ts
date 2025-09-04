@@ -9,12 +9,12 @@ type TaskProgress = {
     taskInProgress: string | null;
 
     isSessionRunning: boolean;
-    sessionProgress: ProgressRecord;
     sessionTime: number;
+    sessionProgress: ProgressRecord;
 
     isResting: boolean;
-    restProgress: number;
     restTime: number;
+    restProgress: number;
 
     startSessionTimer: (taskId: string) => void;
     startRestTimer: (taskId: string) => void;
@@ -27,10 +27,11 @@ const useTaskProgressStore = create<TaskProgress>()(
             let intervalId: NodeJS.Timeout | null = null;
 
             return {
-                sessionProgress: {},
-                isSessionRunning: false,
                 taskInProgress: null,
+
+                isSessionRunning: false,
                 sessionTime: minutesToSeconds(0.1),
+                sessionProgress: {},
 
                 isResting: false,
                 restTime: minutesToSeconds(0.1),

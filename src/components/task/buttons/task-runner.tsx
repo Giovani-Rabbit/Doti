@@ -5,10 +5,13 @@ import { calculateTaskProgressPercentage } from "@/util/time";
 import RestTimeHandler from "./rest-time-handler";
 import SessionTimeHandler from "./session-time-handler";
 
-export default function TaskRunner({ task }: { task: Task }) {
+type TaskRunnerProps = { task: Task };
+
+export default function TaskRunner({ task }: TaskRunnerProps) {
     const sessionTimePercentage = useTaskProgressStore(state =>
         calculateTaskProgressPercentage(
-            state.sessionProgress[task.id] ?? 0, state.sessionTime
+            state.sessionProgress[task.id] ?? 0,
+            state.sessionTime
         )
     );
 
@@ -18,7 +21,7 @@ export default function TaskRunner({ task }: { task: Task }) {
                 <RestTimeHandler taskId={task.id} />
                 <SessionTimeHandler taskId={task.id} />
             </div>
-            <Progress value={sessionTimePercentage} className="w-20" />
+            <Progress value={sessionTimePercentage} className="w-24" />
         </div>
     );
 }

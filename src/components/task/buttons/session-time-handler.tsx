@@ -1,9 +1,10 @@
 import useTaskProgressStore from "@/modules/task/task-progress-store";
 import { PauseIcon, PlayIcon } from "lucide-react";
+import { memo } from "react";
 
-type ISessionTimeHandler = { taskId: string };
+type SessionTimeHandlerProps = { taskId: string };
 
-export default function SessionTimeHandler({ taskId }: ISessionTimeHandler) {
+function SessionTimeHandler({ taskId }: SessionTimeHandlerProps) {
     const startTimer = useTaskProgressStore(state => state.startSessionTimer);
     const stopTimer = useTaskProgressStore(state => state.stopTimer);
 
@@ -17,7 +18,7 @@ export default function SessionTimeHandler({ taskId }: ISessionTimeHandler) {
     }
 
     return (
-        <button onClick={handleSessionTimer} className="cursor-pointer rounded-md hover:outline-1">
+        <button onClick={handleSessionTimer} className="rounded-md hover:outline-1">
             {isCurrentTaskRunning ?
                 <PauseIcon className="p-1" /> :
                 <PlayIcon className="p-1" />
@@ -25,3 +26,5 @@ export default function SessionTimeHandler({ taskId }: ISessionTimeHandler) {
         </button>
     )
 }
+
+export default memo(SessionTimeHandler);  

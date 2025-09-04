@@ -1,10 +1,11 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { CSS } from "@dnd-kit/utilities";
 import { useSortable } from "@dnd-kit/sortable";
-import { GripVerticalIcon, MoreHorizontalIcon } from "lucide-react";
+import { GripVerticalIcon } from "lucide-react";
 import { Task } from "@/modules/task/task-interface";
 import TaskRunner from "./buttons/task-runner";
 import { memo } from "react";
+import TaskItemKbabMenu from "./buttons/task-item-Kebab-menu";
 
 function TaskItem({ task }: { task: Task }) {
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: task.id });
@@ -31,12 +32,7 @@ function TaskItem({ task }: { task: Task }) {
             </div>
             <div className="pr-8 flex items-center justify-center gap-4">
                 <TaskRunner task={task} />
-                <button>
-                    <MoreHorizontalIcon
-                        size={20}
-                        className="group-hover:opacity-100 text-zinc-500"
-                    />
-                </button>
+                <TaskItemKbabMenu />
             </div>
         </li>
     );
