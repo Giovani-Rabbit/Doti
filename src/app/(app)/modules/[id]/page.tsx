@@ -1,5 +1,5 @@
+import Tasks from "@/components/task/tasks";
 import ModuleHeader from "./__components/module_header";
-import Tasks from "./__components/tasks";
 
 export default function ModulePage() {
     return (

@@ -14,7 +14,7 @@ type IRenameModuleDialog = {
 }
 
 export default function RenameModuleDialog({ isOpen, setIsOpen, module: { id, name } }: IRenameModuleDialog) {
-    const { register, handleSubmit, reset } = useForm<NewModuleName>({
+    const { register, handleSubmit } = useForm<NewModuleName>({
         defaultValues: { name: name }
     });
     const renameModule = useRenameModuleMut();
@@ -23,8 +23,6 @@ export default function RenameModuleDialog({ isOpen, setIsOpen, module: { id, na
         renameModule.mutate({ id, newName: data.name });
         setIsOpen(false);
     }
-
-    useEffect(() => { if (!isOpen) reset() }, [isOpen, reset]);
 
     return (
         <Dialog
