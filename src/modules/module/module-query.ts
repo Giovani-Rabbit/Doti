@@ -14,7 +14,7 @@ export function useModuleById(id: string) {
 
     const modules = queryClient.getQueryData<Module[]>(moduleOptions.queryKey);
 
-    return modules?.find(m => m.id === id);
+    return modules?.find(m => String(m.id) === id);
 }
 
 export function useCreateModuleMut() {
