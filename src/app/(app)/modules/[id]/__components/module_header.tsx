@@ -19,7 +19,7 @@ export default function ModuleHeader() {
         <header className="flex flex-col gap-2 items-start justify-center">
             <div className="w-full px-8 flex flex-col gap-1 pt-8 pb-2">
                 <div className="w-full flex items-center justify-between gap-2">
-                    <div className="w-full flex items-center justify-start">
+                    <div className="w-full flex items-center justify-start gap-1">
                         <LucideIcon width={30} name={myModule.icon as LucideIconName} />
                         <h1 className="text-2xl font-semibold">{myModule.name}</h1>
                     </div>
