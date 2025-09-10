@@ -27,7 +27,7 @@ function RestTimeHandler({ taskId }: RestTimeHandlerProps) {
         >
             <CoffeeIcon className="p-1" />
         </button>
-    )
+    );
 }
 
 export default memo(RestTimeHandler);
