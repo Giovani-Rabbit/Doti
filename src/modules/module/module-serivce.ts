@@ -1,6 +1,8 @@
 import HttpService from "@/util/http/http_service";
 import { CreateModuleDTO } from "./module-dto";
 import { Module } from "./module-interface";
+import { Task } from "../task/task-interface";
+import { IHttpResponse } from "@/util/http/type/http_message_response";
 
 const httpService = new HttpService("modules");
 
@@ -23,9 +25,7 @@ export async function createModule(module: CreateModuleDTO) {
 type ModulesResponse = { modules: Module[] };
 
 export async function fetchModules(): Promise<Module[]> {
-    const res = await httpService.get<
-        ModulesResponse
-    >({
+    const res = await httpService.get<ModulesResponse>({
         url: "/",
         data: null,
     });
@@ -39,6 +39,19 @@ export async function fetchModules(): Promise<Module[]> {
     }
 
     return [];
+}
+
+type TasksResponse = { tasks: Task[] }
+
+export async function getTasksSSR(
+    moduleId: string, authToken: string
+): Promise<IHttpResponse<TasksResponse>> {
+    const res = await httpService.get<TasksResponse>({
+        url: `/${moduleId}/tasks`,
+        headers: { Authorization: authToken }
+    });
+
+    return res;
 }
 
 type NewModuleName = { name: string }

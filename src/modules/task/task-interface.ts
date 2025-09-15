@@ -1,8 +1,9 @@
 
 export interface Task {
-    id: string
+    id: number
     name: string
-    isComplete: boolean
+    module_id: number
+    is_completed: boolean
     position: number
     created_at: string
     updated_at: string
