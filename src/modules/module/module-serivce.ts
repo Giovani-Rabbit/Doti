@@ -2,7 +2,6 @@ import HttpService from "@/util/http/http_service";
 import { CreateModuleDTO } from "./module-dto";
 import { Module } from "./module-interface";
 import { Task } from "../task/task-interface";
-import { IHttpResponse } from "@/util/http/type/http_message_response";
 
 const httpService = new HttpService("modules");
 
@@ -43,20 +42,7 @@ export async function fetchModules(): Promise<Module[]> {
 
 type TasksResponse = { tasks: Task[] }
 
-export async function fetchTasksSSR(
-    moduleId: string, authToken: string
-): Promise<Task[]> {
-    const res = await httpService.get<TasksResponse>({
-        url: `/${moduleId}/tasks`,
-        headers: { Authorization: authToken }
-    });
-
-    if (!res.data?.tasks) return [];
-
-    return res.data.tasks;
-}
-
-export async function fetchTasks(moduleId: string): Promise<Task[]> {
+export async function fetchTasks(moduleId: number): Promise<Task[]> {
     const res = await httpService.get<TasksResponse>({
         url: `/${moduleId}/tasks`,
         data: null,

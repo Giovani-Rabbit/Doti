@@ -27,7 +27,7 @@ function TaskItem({ task }: { task: Task }) {
                     {...listeners}
                     className="opacity-0 group-hover:opacity-100 p-0.5 text-zinc-400 cursor-grab"
                 />
-                <Checkbox checked={task.isComplete} />
+                <Checkbox checked={task.is_completed} />
                 <span className="pl-1">{task.name}</span>
             </div>
             <div className="pr-8 flex items-center justify-center gap-4">

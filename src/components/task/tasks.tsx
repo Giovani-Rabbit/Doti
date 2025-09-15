@@ -9,6 +9,7 @@ import {
     DragEndEvent,
 } from "@dnd-kit/core";
 import {
+    arrayMove,
     SortableContext,
     verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
@@ -17,23 +18,22 @@ import TaskItem from "@/components/task/task-item";
 import { useQuery } from "@tanstack/react-query";
 import { taskOptions } from "@/modules/task/task-query";
 
-export default function Tasks({ moduleId }: { moduleId: string }) {
+export default function Tasks({ moduleId }: { moduleId: number }) {
     const { data } = useQuery(taskOptions(moduleId));
     const sensors = useSensors(useSensor(PointerSensor));
 
     function handleDragEnd(event: DragEndEvent) {
-        //     const { active, over } = event;
+        const { active, over } = event;
 
-        //     if (!over || active.id === over.id) return;
+        if (!over || active.id === over.id) return;
 
-        //     setMyTasks((items) => {
-        //         const oldIndex = items.findIndex(item => item.id === active.id);
-        //         const newIndex = items.findIndex(item => item.id === over.id);
+        const oldIndex = data.findIndex(item => item.id === active.id);
+        const newIndex = data.findIndex(item => item.id === over.id);
 
-        //         if (oldIndex === -1 || newIndex === -1) return items;
+        if (oldIndex === -1 || newIndex === -1) return;
 
-        //         return arrayMove(items, oldIndex, newIndex);
-        //     });
+        const newTasks = arrayMove(data, oldIndex, newIndex);
+        // mutation.mutate({ moduleId, tasks: newTasks });
     }
 
     return (

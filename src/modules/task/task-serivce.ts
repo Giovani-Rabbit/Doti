@@ -1,11 +1,15 @@
+import HttpService from "@/util/http/http_service";
+import { CreateTaskDTO } from "./task-dto";
+import { Task } from "./task-interface";
 
-export async function createModule(module: CreateModuleDTO) {
+const httpService = new HttpService("tasks");
+
+export async function createTask(task: CreateTaskDTO) {
     const res = await httpService.post<
-        CreateModuleDTO,
-        Module
+        CreateTaskDTO, Task
     >({
         url: "/",
-        data: module,
+        data: task,
     });
 
     if (res.error != null) {
