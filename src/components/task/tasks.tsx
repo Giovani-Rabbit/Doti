@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import {
     DndContext,
     closestCenter,
@@ -10,30 +9,31 @@ import {
     DragEndEvent,
 } from "@dnd-kit/core";
 import {
-    arrayMove,
     SortableContext,
     verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { Task } from "@/modules/task/task-interface";
-import TaskItem from "@/components/task/task-item";
 
-export default function Tasks({ tasks }: { tasks: Task[] }) {
-    const [myTasks, setMyTasks] = useState<Task[]>(tasks);
+import TaskItem from "@/components/task/task-item";
+import { useQuery } from "@tanstack/react-query";
+import { taskOptions } from "@/modules/task/task-query";
+
+export default function Tasks({ moduleId }: { moduleId: string }) {
+    const { data } = useQuery(taskOptions(moduleId));
     const sensors = useSensors(useSensor(PointerSensor));
 
     function handleDragEnd(event: DragEndEvent) {
-        const { active, over } = event;
+        //     const { active, over } = event;
 
-        if (!over || active.id === over.id) return;
+        //     if (!over || active.id === over.id) return;
 
-        setMyTasks((items) => {
-            const oldIndex = items.findIndex(item => item.id === active.id);
-            const newIndex = items.findIndex(item => item.id === over.id);
+        //     setMyTasks((items) => {
+        //         const oldIndex = items.findIndex(item => item.id === active.id);
+        //         const newIndex = items.findIndex(item => item.id === over.id);
 
-            if (oldIndex === -1 || newIndex === -1) return items;
+        //         if (oldIndex === -1 || newIndex === -1) return items;
 
-            return arrayMove(items, oldIndex, newIndex);
-        });
+        //         return arrayMove(items, oldIndex, newIndex);
+        //     });
     }
 
     return (
@@ -44,8 +44,8 @@ export default function Tasks({ tasks }: { tasks: Task[] }) {
         >
             <div className="pb-8 grow overflow-auto">
                 <ul className="divide-y">
-                    <SortableContext items={myTasks} strategy={verticalListSortingStrategy}>
-                        {myTasks.map((task) => (
+                    <SortableContext items={data} strategy={verticalListSortingStrategy}>
+                        {data.map((task) => (
                             <TaskItem task={task} key={task.id} />
                         ))}
                     </SortableContext>

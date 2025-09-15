@@ -43,15 +43,34 @@ export async function fetchModules(): Promise<Module[]> {
 
 type TasksResponse = { tasks: Task[] }
 
-export async function getTasksSSR(
+export async function fetchTasksSSR(
     moduleId: string, authToken: string
-): Promise<IHttpResponse<TasksResponse>> {
+): Promise<Task[]> {
     const res = await httpService.get<TasksResponse>({
         url: `/${moduleId}/tasks`,
         headers: { Authorization: authToken }
     });
 
-    return res;
+    if (!res.data?.tasks) return [];
+
+    return res.data.tasks;
+}
+
+export async function fetchTasks(moduleId: string): Promise<Task[]> {
+    const res = await httpService.get<TasksResponse>({
+        url: `/${moduleId}/tasks`,
+        data: null,
+    });
+
+    if (res.error != null) {
+        throw new Error(res.error.message);
+    }
+
+    if (res.data) {
+        return res.data.tasks
+    }
+
+    return [];
 }
 
 type NewModuleName = { name: string }
