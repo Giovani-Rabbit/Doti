@@ -1,12 +1,13 @@
 "use client"
 
 import { LucideIcon, LucideIconName } from "@/components/icon/LucideIcon";
+import CreateTaskButton from "@/components/task/buttons/create-task";
 import RestTimer from "@/components/timer/restTimer";
 import RemainingTime from "@/components/timer/TimeCounter";
 import { Button } from "@/components/ui/button";
 import InputSearch from "@/components/ui/input-search";
 import { useModuleById } from "@/modules/module/module-query";
-import { ListFilterIcon, PlusIcon } from "lucide-react";
+import { ListFilterIcon } from "lucide-react";
 import { redirect, useParams } from "next/navigation";
 
 export default function ModuleHeader() {
@@ -37,10 +38,7 @@ export default function ModuleHeader() {
                         <ListFilterIcon />
                         Filter
                     </Button>
-                    <Button size={"sm"}>
-                        <PlusIcon />
-                        Add Task
-                    </Button>
+                    <CreateTaskButton />
                 </div>
             </div>
         </header>
