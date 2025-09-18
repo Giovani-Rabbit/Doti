@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2, PlusIcon } from "lucide-react";
@@ -11,43 +11,55 @@ import { taskOptions, useCreateTaskMut } from "@/modules/task/task-query";
 import { useQueryClient } from "@tanstack/react-query";
 import { Task } from "@/modules/task/task-interface";
 import { DialogDescription } from "@radix-ui/react-dialog";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 type TaskName = { name: string; };
+
+const createTaskResolver: z.ZodType<TaskName> = z.object({
+    name: z.string().trim().nonempty("Please write a name for the task"),
+});
 
 export default function CreateTaskButton() {
     const queryClient = useQueryClient();
     const { id } = useParams<{ id: string }>();
-    const moduleId = parseInt(id);
+    const moduleId = parseInt(id || "0");
 
-    const [open, setOpen] = useState(false);
-    const { register, handleSubmit, reset } = useForm<TaskName>();
+    const [isDialogOpen, setDialogOpen] = useState(false);
+
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors }
+    } = useForm<TaskName>({
+        resolver: zodResolver(createTaskResolver),
+        defaultValues: { name: "" }
+    });
 
     const createTaskMut = useCreateTaskMut(moduleId);
-    const tasksQueries = queryClient.getQueriesData<Task[]>(taskOptions(moduleId));
+    const tasks = queryClient.getQueryData<Task[]>(taskOptions(moduleId).queryKey) ?? [];
 
     const createTask: SubmitHandler<TaskName> = (data) => {
-        const allTasks = tasksQueries.flatMap(([_, data]) => data ?? []);
-        const taskCount = allTasks.length;
-
         createTaskMut.mutate(
             {
                 module_id: parseInt(id),
                 task_name: data.name,
-                position: taskCount,
+                position: tasks.length + 1,
             },
             {
                 onSuccess: () => {
                     reset();
-                    setOpen(false);
+                    setDialogOpen(false);
                 },
             }
         );
     };
 
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog open={isDialogOpen} onOpenChange={setDialogOpen}>
             <DialogTrigger asChild>
-                <Button size="sm" onClick={() => setOpen(true)}>
+                <Button size="sm" onClick={() => setDialogOpen(true)}>
                     <PlusIcon />
                     Add Task
                 </Button>
@@ -58,19 +70,24 @@ export default function CreateTaskButton() {
                         Create Task
                     </DialogTitle>
                     <DialogDescription>
-                        <span className="flex items-center justify-between">
-                            give your task a name
-                            {createTaskMut.isPending && (
-                                <Loader2 className="animate-spin ml-2 h-4 w-4" />
-                            )}
-                        </span>
+                        give your task a name
                     </DialogDescription>
                 </DialogHeader>
                 <div className="flex items-center gap-2">
                     <div className="grid flex-1 gap-2">
                         <form onSubmit={handleSubmit(createTask)}>
                             <label htmlFor="name" className="sr-only">Task Name</label>
-                            <Input id="name" {...register("name")} />
+                            <Input
+                                error={errors.name?.message}
+                                id="name"
+                                {...register("name")}
+                            />
+                            <DialogFooter className="mt-4">
+                                <Button type="submit" disabled={createTaskMut.isPending}>
+                                    {createTaskMut.isPending ?
+                                        <Loader2 className="animate-spin h-4 w-4" /> : "Create"}
+                                </Button>
+                            </DialogFooter>
                         </form>
                     </div>
                 </div>
