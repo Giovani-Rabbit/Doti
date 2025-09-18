@@ -14,10 +14,10 @@ export interface CreateAccountFormDTO {
 }
 
 export const createAccountFormSchema: z.ZodType<CreateAccountFormDTO> = z.object({
-    name: z.string().nonempty("O nome não pode estar vazio."),
-    email: z.string().email("Insira um e-mail válido"),
-    password: z.string().min(4, "A senha deve conter pelo menos 4 caracteres."),
+    name: z.string().nonempty("Name cannot be empty."),
+    email: z.string().email("Enter a valid email."),
+    password: z.string().min(4, "Password must be at least 4 characters long."),
     confirmPassword: z.string()
-        .min(4, "A senha deve conter pelo menos 4 caracteres.")
-        .nonempty("A confirmação de senha não pode estar vazia."),
+        .min(4, "Password must be at least 4 characters long.")
+        .nonempty("Password confirmation cannot be empty."),
 });
