@@ -1,6 +1,6 @@
 import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query";
 import { fetchTasks } from "../module/module-serivce";
-import { createTask } from "./task-serivce";
+import { createTask, updataTaskPosition } from "./task-serivce";
 import { createFakeTask, Task } from "./task-interface";
 import { showCreateTaskErrToast } from "./task-toast";
 
@@ -39,9 +39,36 @@ export function useCreateTaskMut(moduleId: number) {
                 showCreateTaskErrToast(err);
             }
         },
-        onSettled: () => {
-            queryClient.invalidateQueries({ queryKey: ['task'] });
+        onSettled: () => queryClient.invalidateQueries({ queryKey: options.queryKey })
+    });
+
+    return mutation;
+}
+
+export function useUpdateTaskPosition(moduleId: number) {
+    const queryClient = useQueryClient();
+    const options = taskOptions(moduleId);
+
+    const mutation = useMutation({
+        mutationFn: updataTaskPosition,
+        onMutate: async ({ tasks }) => {
+            await queryClient.cancelQueries(options);
+
+            const prevTasks = queryClient.getQueryData<Task[]>(options.queryKey);
+            if (prevTasks) queryClient.setQueryData(options.queryKey, tasks);
+
+            return { prevTasks };
         },
+        onError: (err, __, context) => {
+            if (context?.prevTasks) {
+                queryClient.setQueryData<Task[]>(
+                    options.queryKey,
+                    context.prevTasks
+                )
+                showCreateTaskErrToast(err);
+            }
+        },
+        onSettled: () => queryClient.invalidateQueries({ queryKey: options.queryKey })
     });
 
     return mutation;

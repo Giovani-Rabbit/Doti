@@ -16,24 +16,31 @@ import {
 
 import TaskItem from "@/components/task/task-item";
 import { useQuery } from "@tanstack/react-query";
-import { taskOptions } from "@/modules/task/task-query";
+import { taskOptions, useUpdateTaskPosition } from "@/modules/task/task-query";
+import { MovedTaskParams } from "@/modules/task/task-dto";
 
 export default function Tasks({ moduleId }: { moduleId: number }) {
     const { data } = useQuery(taskOptions(moduleId));
     const sensors = useSensors(useSensor(PointerSensor));
+    const updateTaskPositionMut = useUpdateTaskPosition(moduleId);
 
     function handleDragEnd(event: DragEndEvent) {
         const { active, over } = event;
 
         if (!over || active.id === over.id) return;
 
-        const oldIndex = data.findIndex(item => item.id === active.id);
-        const newIndex = data.findIndex(item => item.id === over.id);
+        const activeIndex = data.findIndex(item => item.id === active.id);
+        const overIndex = data.findIndex(item => item.id === over.id);
 
-        if (oldIndex === -1 || newIndex === -1) return;
+        if (activeIndex === -1 || overIndex === -1) return;
 
-        const newTasks = arrayMove(data, oldIndex, newIndex);
-        // mutation.mutate({ moduleId, tasks: newTasks });
+        const newTasks = arrayMove(data, activeIndex, overIndex);
+
+        const movedTasks: MovedTaskParams[] = newTasks
+            .map((task, index) => ({ id: task.id, position: index }))
+            .filter((task, index) => data[index].id != task.id);
+
+        updateTaskPositionMut.mutate({ tasks: newTasks, movedTasks })
     }
 
     return (
