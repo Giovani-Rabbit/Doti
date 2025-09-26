@@ -2,7 +2,7 @@ import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query
 import { fetchTasks } from "../module/module-serivce";
 import { createTask, updataTaskPosition } from "./task-serivce";
 import { createFakeTask, Task } from "./task-interface";
-import { showCreateTaskErrToast } from "./task-toast";
+import { showCreateTaskErrToast, showErrMovingTaskToast } from "./task-toast";
 
 export const taskOptions = (moduleId: number) => queryOptions({
     queryKey: ["tasks", moduleId],
@@ -55,7 +55,7 @@ export function useUpdateTaskPosition(moduleId: number) {
             await queryClient.cancelQueries(options);
 
             const prevTasks = queryClient.getQueryData<Task[]>(options.queryKey);
-            if (prevTasks) queryClient.setQueryData(options.queryKey, tasks);
+            if (prevTasks) queryClient.setQueryData<Task[]>(options.queryKey, tasks);
 
             return { prevTasks };
         },
@@ -65,7 +65,7 @@ export function useUpdateTaskPosition(moduleId: number) {
                     options.queryKey,
                     context.prevTasks
                 )
-                showCreateTaskErrToast(err);
+                showErrMovingTaskToast(err);
             }
         },
         onSettled: () => queryClient.invalidateQueries({ queryKey: options.queryKey })

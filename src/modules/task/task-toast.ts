@@ -10,3 +10,14 @@ export function showCreateTaskErrToast(
         ...toastExternal
     });
 }
+
+export function showErrMovingTaskToast(
+    err: Error,
+    toastExternal?: ExternalToast
+) {
+    toast.error("Error on save the task position", {
+        description: err.message,
+        position: "top-center",
+        ...toastExternal
+    });
+}
