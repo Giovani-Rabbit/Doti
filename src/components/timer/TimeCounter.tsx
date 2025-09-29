@@ -1,4 +1,4 @@
-import useTaskProgressStore from "@/modules/task/task-progress-store"
+import useTaskProgressStore from "@/modules/task/store/task-progress-store"
 import { getFormattedRemainingTime } from "@/util/time";
 import { TimerIcon } from "lucide-react";
 

@@ -1,4 +1,4 @@
-import useTaskProgressStore from "@/modules/task/task-progress-store";
+import useTaskProgressStore from "@/modules/task/store/task-progress-store";
 import { calculateRemainingTime, formatTime } from "@/util/time";
 import { CoffeeIcon } from "lucide-react";
 

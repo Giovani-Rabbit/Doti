@@ -1,4 +1,4 @@
-import useTaskProgressStore from "@/modules/task/task-progress-store";
+import useTaskProgressStore from "@/modules/task/store/task-progress-store";
 import { PauseIcon, PlayIcon } from "lucide-react";
 import { memo } from "react";
 

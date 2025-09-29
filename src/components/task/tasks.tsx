@@ -18,11 +18,18 @@ import TaskItem from "@/components/task/task-item";
 import { useQuery } from "@tanstack/react-query";
 import { taskOptions, useUpdateTaskPosition } from "@/modules/task/task-query";
 import { MovedTaskParams } from "@/modules/task/task-dto";
+import { useEffect, useMemo } from "react";
+import useTaskFilterStore from "@/modules/task/store/task-filter-store";
 
 export default function Tasks({ moduleId }: { moduleId: number }) {
     const { data } = useQuery(taskOptions(moduleId));
     const sensors = useSensors(useSensor(PointerSensor));
     const updateTaskPositionMut = useUpdateTaskPosition(moduleId);
+
+    const searchTaskValue = useTaskFilterStore(state => state.searchTaskValue);
+    const searchTask = useTaskFilterStore(state => state.SearchTask);
+
+    useEffect(() => { searchTaskValue != "" && searchTask("") }, []);
 
     function handleDragEnd(event: DragEndEvent) {
         const { active, over } = event;
@@ -43,6 +50,11 @@ export default function Tasks({ moduleId }: { moduleId: number }) {
         updateTaskPositionMut.mutate({ tasks: newTasks, movedTasks })
     }
 
+    const taskFilter = useMemo(() => {
+        return data
+            .filter(task => task.name.toLowerCase().includes(searchTaskValue));
+    }, [data, searchTaskValue]);
+
     return (
         <DndContext
             sensors={sensors}
@@ -51,8 +63,11 @@ export default function Tasks({ moduleId }: { moduleId: number }) {
         >
             <div className="pb-8 grow overflow-auto">
                 <ul className="divide-y">
-                    <SortableContext items={data} strategy={verticalListSortingStrategy}>
-                        {data.map((task) => (
+                    <SortableContext
+                        items={taskFilter.map(task => task.id)}
+                        strategy={verticalListSortingStrategy}
+                    >
+                        {taskFilter.map((task) => (
                             <TaskItem task={task} key={task.id} />
                         ))}
                     </SortableContext>

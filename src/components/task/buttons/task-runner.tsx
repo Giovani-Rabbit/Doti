@@ -1,6 +1,6 @@
 import { Progress } from "@/components/ui/progress";
 import { Task } from "@/modules/task/task-interface";
-import useTaskProgressStore from "@/modules/task/task-progress-store";
+import useTaskProgressStore from "@/modules/task/store/task-progress-store";
 import { calculateTaskProgressPercentage } from "@/util/time";
 import RestTimeHandler from "./rest-time-handler";
 import SessionTimeHandler from "./session-time-handler";
