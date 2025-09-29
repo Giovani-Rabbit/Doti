@@ -7,7 +7,7 @@ import useTaskFilterStore from "@/modules/task/store/task-filter-store"
 type InputSearchType = {}
 
 export default function InputSearch({ }: InputSearchType) {
-    const searchTask = useTaskFilterStore(state => state.SearchTask);
+    const searchTask = useTaskFilterStore(state => state.setSearchValue);
     const id = useId();
 
     return (

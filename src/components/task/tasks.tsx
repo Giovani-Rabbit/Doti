@@ -26,10 +26,15 @@ export default function Tasks({ moduleId }: { moduleId: number }) {
     const sensors = useSensors(useSensor(PointerSensor));
     const updateTaskPositionMut = useUpdateTaskPosition(moduleId);
 
-    const searchTaskValue = useTaskFilterStore(state => state.searchTaskValue);
-    const searchTask = useTaskFilterStore(state => state.SearchTask);
+    const searchTaskValue = useTaskFilterStore(state => state.searchValue);
+    const filterTaskStatus = useTaskFilterStore(state => state.taskStatus);
+    const setSearchValue = useTaskFilterStore(state => state.setSearchValue);
+    const setShowCompleted = useTaskFilterStore(state => state.setTaskStatus);
 
-    useEffect(() => { searchTaskValue != "" && searchTask("") }, []);
+    useEffect(() => {
+        if (searchTaskValue != "") setSearchValue("");
+        if (filterTaskStatus != "all") setShowCompleted("all");
+    }, []);
 
     function handleDragEnd(event: DragEndEvent) {
         const { active, over } = event;
@@ -52,8 +57,13 @@ export default function Tasks({ moduleId }: { moduleId: number }) {
 
     const taskFilter = useMemo(() => {
         return data
-            .filter(task => task.name.toLowerCase().includes(searchTaskValue));
-    }, [data, searchTaskValue]);
+            .filter(task => task.name.toLowerCase().includes(searchTaskValue))
+            .filter(task => {
+                if (filterTaskStatus === "all") return true;
+                if (filterTaskStatus === "completed") return task.is_completed;
+                if (filterTaskStatus === "pending") return !task.is_completed;
+            })
+    }, [data, searchTaskValue, filterTaskStatus]);
 
     return (
         <DndContext
