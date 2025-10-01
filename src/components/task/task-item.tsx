@@ -7,9 +7,12 @@ import TaskRunner from "./buttons/task-runner";
 import { memo } from "react";
 import TaskItemKbabMenu from "./buttons/task-item-Kebab-menu";
 import useTaskFilterStore from "@/modules/task/store/task-filter-store";
+import { useUpdateTaskCompletion } from "@/modules/task/task-query";
 
 function TaskItem({ task }: { task: Task }) {
+    const updateTaskCompletionMut = useUpdateTaskCompletion(task.module_id);
     const isUsingTaskFilter = useTaskFilterStore(state => state.isUsing);
+
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
         id: task.id, disabled: isUsingTaskFilter
     });
@@ -18,6 +21,10 @@ function TaskItem({ task }: { task: Task }) {
         transform: CSS.Transform.toString(transform),
         transition,
     };
+
+    function handleCheckbox(isComplete: boolean) {
+        updateTaskCompletionMut.mutate({ taskId: task.id, isComplete })
+    }
 
     return (
         <li
@@ -31,7 +38,10 @@ function TaskItem({ task }: { task: Task }) {
                     {...listeners}
                     className="opacity-0 group-hover:opacity-100 p-0.5 text-zinc-400 cursor-grab"
                 /> : <span className="w-6" />}
-                <Checkbox checked={task.is_completed} />
+                <Checkbox
+                    checked={task.is_completed}
+                    onCheckedChange={handleCheckbox}
+                />
                 <span className="pl-1">{task.name}</span>
             </div>
             <div className="pr-8 flex items-center justify-center gap-4">

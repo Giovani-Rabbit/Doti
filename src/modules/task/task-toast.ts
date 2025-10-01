@@ -21,3 +21,14 @@ export function showErrMovingTaskToast(
         ...toastExternal
     });
 }
+
+export function showErrUpdatingTaskCompletion(
+    err: Error,
+    toastExternal?: ExternalToast
+) {
+    toast.error("Error on update task completion", {
+        description: err.message,
+        position: "top-center",
+        ...toastExternal
+    });
+}

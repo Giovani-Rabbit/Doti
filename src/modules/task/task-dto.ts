@@ -12,3 +12,8 @@ export type UpdateTaskPositionDTO = {
     tasks: Task[]
     movedTasks: MovedTaskParams[]
 }
+
+export type UpdateTaskCompletionDTO = {
+    taskId: number
+    isComplete: boolean
+}
