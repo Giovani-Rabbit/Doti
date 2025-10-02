@@ -1,8 +1,11 @@
 import { MoreHorizontalIcon, PenLineIcon, TimerResetIcon, Trash2Icon } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../../ui/dropdown-menu";
+import useTaskProgressStore from "@/modules/task/store/task-progress-store";
 
 
-export default function TaskItemKbabMenu() {
+export default function TaskItemKbabMenu({ taskId }: { taskId: number }) {
+    const restartTimer = useTaskProgressStore(state => state.restartTimer);
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -14,7 +17,7 @@ export default function TaskItemKbabMenu() {
                 </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-30" align="start">
-                <DropdownMenuItem>
+                <DropdownMenuItem onSelect={() => restartTimer(taskId.toString())}>
                     <TimerResetIcon />
                     <span>Restart</span>
                 </DropdownMenuItem>
