@@ -16,7 +16,7 @@ import {
 
 import TaskItem from "@/components/task/task-item";
 import { useQuery } from "@tanstack/react-query";
-import { taskOptions, useUpdateTaskPosition } from "@/modules/task/task-query";
+import { taskOptions, useUpdateTaskPositionMut } from "@/modules/task/task-query";
 import { MovedTaskParams } from "@/modules/task/task-dto";
 import { useEffect, useMemo } from "react";
 import useTaskFilterStore from "@/modules/task/store/task-filter-store";
@@ -24,7 +24,7 @@ import useTaskFilterStore from "@/modules/task/store/task-filter-store";
 export default function Tasks({ moduleId }: { moduleId: number }) {
     const { data } = useQuery(taskOptions(moduleId));
     const sensors = useSensors(useSensor(PointerSensor));
-    const updateTaskPositionMut = useUpdateTaskPosition(moduleId);
+    const updateTaskPositionMut = useUpdateTaskPositionMut(moduleId);
 
     const searchTaskValue = useTaskFilterStore(state => state.searchValue);
     const filterTaskStatus = useTaskFilterStore(state => state.taskStatus);

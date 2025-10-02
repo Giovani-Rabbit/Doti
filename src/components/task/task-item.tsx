@@ -7,10 +7,10 @@ import TaskRunner from "./buttons/task-runner";
 import { memo } from "react";
 import TaskItemKbabMenu from "./buttons/task-item-Kebab-menu";
 import useTaskFilterStore from "@/modules/task/store/task-filter-store";
-import { useUpdateTaskCompletion } from "@/modules/task/task-query";
+import { useUpdateTaskCompletionMut } from "@/modules/task/task-query";
 
 function TaskItem({ task }: { task: Task }) {
-    const updateTaskCompletionMut = useUpdateTaskCompletion(task.module_id);
+    const updateTaskCompletionMut = useUpdateTaskCompletionMut(task.module_id);
     const isUsingTaskFilter = useTaskFilterStore(state => state.isUsing);
 
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({

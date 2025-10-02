@@ -45,7 +45,7 @@ export function useCreateTaskMut(moduleId: number) {
     return mutation;
 }
 
-export function useUpdateTaskPosition(moduleId: number) {
+export function useUpdateTaskPositionMut(moduleId: number) {
     const queryClient = useQueryClient();
     const options = taskOptions(moduleId);
 
@@ -74,7 +74,7 @@ export function useUpdateTaskPosition(moduleId: number) {
     return mutation;
 }
 
-export function useUpdateTaskCompletion(moduleId: number) {
+export function useUpdateTaskCompletionMut(moduleId: number) {
     const queryClient = useQueryClient();
     const options = taskOptions(moduleId);
 
