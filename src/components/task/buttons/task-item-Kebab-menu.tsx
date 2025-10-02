@@ -2,9 +2,12 @@ import { MoreHorizontalIcon, PenLineIcon, TimerResetIcon, Trash2Icon } from "luc
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../../ui/dropdown-menu";
 import useTaskProgressStore from "@/modules/task/store/task-progress-store";
 
-
 export default function TaskItemKbabMenu({ taskId }: { taskId: number }) {
     const restartTimer = useTaskProgressStore(state => state.restartTimer);
+
+    function handleRestartTimer() {
+        restartTimer(taskId)
+    }
 
     return (
         <DropdownMenu>
@@ -17,7 +20,7 @@ export default function TaskItemKbabMenu({ taskId }: { taskId: number }) {
                 </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-30" align="start">
-                <DropdownMenuItem onSelect={() => restartTimer(taskId.toString())}>
+                <DropdownMenuItem onSelect={handleRestartTimer}>
                     <TimerResetIcon />
                     <span>Restart</span>
                 </DropdownMenuItem>

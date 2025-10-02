@@ -2,7 +2,7 @@ import useTaskProgressStore from "@/modules/task/store/task-progress-store";
 import { PauseIcon, PlayIcon } from "lucide-react";
 import { memo } from "react";
 
-type SessionTimeHandlerProps = { taskId: string };
+type SessionTimeHandlerProps = { taskId: number };
 
 function SessionTimeHandler({ taskId }: SessionTimeHandlerProps) {
     const startTimer = useTaskProgressStore(state => state.startSessionTimer);

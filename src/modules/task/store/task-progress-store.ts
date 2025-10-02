@@ -2,11 +2,11 @@ import { minutesToSeconds } from '@/util/time';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-type TaskId = string;
+type TaskId = number;
 export type ProgressRecord = { [id in TaskId]: number };
 
 type TaskProgress = {
-    taskInProgress: string | null;
+    taskInProgress: number | null;
 
     isSessionRunning: boolean;
     sessionTime: number;
@@ -16,10 +16,10 @@ type TaskProgress = {
     restTime: number;
     restProgress: number;
 
-    startSessionTimer: (taskId: string) => void;
-    startRestTimer: (taskId: string) => void;
+    startSessionTimer: (taskId: number) => void;
+    startRestTimer: (taskId: number) => void;
     stopTimer: () => void;
-    restartTimer: (taskId: string) => void;
+    restartTimer: (taskId: number) => void;
 };
 
 const useTaskProgressStore = create<TaskProgress>()(
@@ -38,7 +38,7 @@ const useTaskProgressStore = create<TaskProgress>()(
                 restTime: minutesToSeconds(0.1),
                 restProgress: 0,
 
-                startSessionTimer: (taskId: string) => {
+                startSessionTimer: (taskId: number) => {
                     if (intervalId) clearInterval(intervalId);
 
                     set(state => {
@@ -81,12 +81,12 @@ const useTaskProgressStore = create<TaskProgress>()(
                     intervalId = setInterval(incrementProgress, 1000);
                 },
 
-                startRestTimer: (taskId: string) => {
+                startRestTimer: (taskId: number) => {
                     if (intervalId) clearInterval(intervalId);
 
                     set(state => {
                         const shouldReset = state.restProgress >= state.restTime;
-                        let initialTime = shouldReset ? 0 : state.restProgress;
+                        const initialTime = shouldReset ? 0 : state.restProgress;
 
                         return {
                             ...state,
@@ -129,7 +129,7 @@ const useTaskProgressStore = create<TaskProgress>()(
                     }
                 },
 
-                restartTimer: (taskId: string) => {
+                restartTimer: (taskId: number) => {
                     set(state => ({
                         ...state,
                         sessionProgress: {

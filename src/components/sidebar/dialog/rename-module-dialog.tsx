@@ -2,7 +2,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Input } from "@/components/ui/input";
 import { useRenameModuleMut } from "@/modules/module/module-query";
 import { DialogDescription } from "@radix-ui/react-dialog";
-import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 type NewModuleName = { name: string }

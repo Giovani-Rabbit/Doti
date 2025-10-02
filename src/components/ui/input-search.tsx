@@ -4,9 +4,7 @@ import { SearchIcon } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import useTaskFilterStore from "@/modules/task/store/task-filter-store"
 
-type InputSearchType = {}
-
-export default function InputSearch({ }: InputSearchType) {
+export default function InputSearch() {
     const searchTask = useTaskFilterStore(state => state.setSearchValue);
     const id = useId();
 

@@ -2,7 +2,7 @@ import useTaskProgressStore from "@/modules/task/store/task-progress-store";
 import { CoffeeIcon } from "lucide-react";
 import { memo } from "react";
 
-type RestTimeHandlerProps = { taskId: string }
+type RestTimeHandlerProps = { taskId: number }
 
 function RestTimeHandler({ taskId }: RestTimeHandlerProps) {
     const stopTimer = useTaskProgressStore(state => state.stopTimer);
