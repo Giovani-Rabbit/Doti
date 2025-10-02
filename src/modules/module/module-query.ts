@@ -1,4 +1,4 @@
-import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query";
+import { queryOptions, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createModule, fetchModules, removeModule, renameModule, updateModuleIcon } from "./module-serivce";
 import { CreateGenericModule, fakeModuleObject, Module } from "./module-interface";
 import { showCreateModuleErrToast, showErrCouldNotDeleteModuleToast, showErrCouldNotUpdateModuleIconToast } from "./module-toast";
@@ -10,11 +10,11 @@ export const moduleOptions = queryOptions({
 });
 
 export function useModuleById(id: string) {
-    const queryClient = useQueryClient();
-
-    const modules = queryClient.getQueryData<Module[]>(moduleOptions.queryKey);
-
-    return modules?.find(m => String(m.id) === id);
+    return useQuery({
+        ...moduleOptions,
+        select: (modules: Module[] | undefined) =>
+            modules?.find((m) => String(m.id) === id),
+    });
 }
 
 export function useCreateModuleMut() {
