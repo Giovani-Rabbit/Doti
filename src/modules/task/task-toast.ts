@@ -32,3 +32,14 @@ export function showErrUpdatingTaskCompletion(
         ...toastExternal
     });
 }
+
+export function showErrDeletingTask(
+    err: Error,
+    toastExternal?: ExternalToast
+) {
+    toast.error("Error on delete task", {
+        description: err.message,
+        position: "top-center",
+        ...toastExternal
+    });
+}

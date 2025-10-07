@@ -1,13 +1,14 @@
 import { MoreHorizontalIcon, PenLineIcon, TimerResetIcon, Trash2Icon } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../../ui/dropdown-menu";
 import useTaskProgressStore from "@/modules/task/store/task-progress-store";
+import { useDeleteTaskMut } from "@/modules/task/task-query";
 
-export default function TaskItemKbabMenu({ taskId }: { taskId: number }) {
+export default function TaskItemKbabMenu({ taskId, moduleId }: { taskId: number, moduleId: number }) {
     const restartTimer = useTaskProgressStore(state => state.restartTimer);
+    const deleteTaskMutation = useDeleteTaskMut(moduleId);
 
-    function handleRestartTimer() {
-        restartTimer(taskId)
-    }
+    const handleRestartTimer = () => restartTimer(taskId);
+    const handleDeleteTask = () => deleteTaskMutation.mutate(taskId);
 
     return (
         <DropdownMenu>
@@ -30,6 +31,7 @@ export default function TaskItemKbabMenu({ taskId }: { taskId: number }) {
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
+                    onSelect={handleDeleteTask}
                     variant="destructive"
                 >
                     <Trash2Icon />

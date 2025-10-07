@@ -46,7 +46,10 @@ function TaskItem({ task }: { task: Task }) {
             </div>
             <div className="pr-8 flex items-center justify-center gap-4">
                 <TaskRunner task={task} />
-                <TaskItemKbabMenu taskId={task.id} />
+                <TaskItemKbabMenu
+                    moduleId={task.module_id}
+                    taskId={task.id}
+                />
             </div>
         </li>
     );

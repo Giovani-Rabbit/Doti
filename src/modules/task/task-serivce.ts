@@ -48,3 +48,15 @@ export async function updateTaskCompletion({ taskId, isComplete }: UpdateTaskCom
 
     return res.data;
 }
+
+export async function deleteTask(taskId: number) {
+    const res = await httpService.delete<null>({
+        url: `/${taskId}`,
+    });
+
+    if (res.error != null) {
+        throw new Error(res.error.message);
+    }
+
+    return res.data;
+}
