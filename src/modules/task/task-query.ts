@@ -4,6 +4,7 @@ import { createTask, deleteTask, updataTaskPosition, updateTaskCompletion } from
 import { createFakeTask, Task } from "./task-interface";
 import { showCreateTaskErrToast, showErrDeletingTask, showErrMovingTaskToast, showErrUpdatingTaskCompletion } from "./task-toast";
 import useTaskProgressStore from "./store/task-progress-store";
+import { MovedTaskParams } from "./task-dto";
 
 export const taskOptions = (moduleId: number) => queryOptions({
     queryKey: ["tasks", moduleId],
@@ -113,6 +114,7 @@ export function useUpdateTaskCompletionMut(moduleId: number) {
 
 export function useDeleteTaskMut(moduleId: number) {
     const removeTaskProgressStore = useTaskProgressStore(state => state.removeProgress);
+    const updateTaskPosition = useUpdateTaskPositionMut(moduleId);
 
     const queryClient = useQueryClient();
     const options = taskOptions(moduleId);
@@ -124,15 +126,33 @@ export function useDeleteTaskMut(moduleId: number) {
 
             const prevTasks = queryClient.getQueryData<Task[]>(options.queryKey);
 
+            let removedTask: Task[] = [];
             if (prevTasks) {
-                const taskCompletionUpdated = prevTasks.filter(task => task.id !== taskId)
+                removedTask = prevTasks.filter(task => task.id !== taskId)
 
-                queryClient.setQueryData(options.queryKey, [...taskCompletionUpdated])
+                queryClient.setQueryData(options.queryKey, [...removedTask])
             }
 
-            return { prevTasks }
+            return { prevTasks, removedTask }
         },
-        onSuccess: (_, b) => removeTaskProgressStore(b),
+        onSuccess: (_, b, c) => {
+            // update the task position
+            if (c.removedTask && c.prevTasks) {
+                const currentTasks = c.removedTask;
+                const prevTasks = c.prevTasks;
+
+                const movedTasks: MovedTaskParams[] = currentTasks
+                    .map((task, index) => ({ id: task.id, position: index }))
+                    .filter((task, index) => prevTasks[index].id != task.id);
+
+                if (movedTasks.length != 0) updateTaskPosition.mutate({
+                    tasks: currentTasks,
+                    movedTasks
+                });
+            }
+
+            removeTaskProgressStore(b)
+        },
         onError: (err, __, context) => {
             if (context?.prevTasks) {
                 queryClient.setQueryData<Task[]>(
@@ -142,7 +162,6 @@ export function useDeleteTaskMut(moduleId: number) {
                 showErrDeletingTask(err);
             }
         },
-        onSettled: () => queryClient.invalidateQueries({ queryKey: options.queryKey })
     });
 
     return mutation;

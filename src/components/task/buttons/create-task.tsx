@@ -45,7 +45,7 @@ export default function CreateTaskButton() {
             {
                 module_id: parseInt(id),
                 task_name: data.name,
-                position: tasks.length + 1,
+                position: tasks.length,
             },
             {
                 onSuccess: () => {
