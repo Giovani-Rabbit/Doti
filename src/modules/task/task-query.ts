@@ -3,6 +3,7 @@ import { fetchTasks } from "../module/module-serivce";
 import { createTask, deleteTask, updataTaskPosition, updateTaskCompletion } from "./task-serivce";
 import { createFakeTask, Task } from "./task-interface";
 import { showCreateTaskErrToast, showErrDeletingTask, showErrMovingTaskToast, showErrUpdatingTaskCompletion } from "./task-toast";
+import useTaskProgressStore from "./store/task-progress-store";
 
 export const taskOptions = (moduleId: number) => queryOptions({
     queryKey: ["tasks", moduleId],
@@ -111,6 +112,8 @@ export function useUpdateTaskCompletionMut(moduleId: number) {
 }
 
 export function useDeleteTaskMut(moduleId: number) {
+    const removeTaskProgressStore = useTaskProgressStore(state => state.removeProgress);
+
     const queryClient = useQueryClient();
     const options = taskOptions(moduleId);
 
@@ -129,6 +132,7 @@ export function useDeleteTaskMut(moduleId: number) {
 
             return { prevTasks }
         },
+        onSuccess: (_, b) => removeTaskProgressStore(b),
         onError: (err, __, context) => {
             if (context?.prevTasks) {
                 queryClient.setQueryData<Task[]>(

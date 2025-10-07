@@ -18,8 +18,10 @@ type TaskProgress = {
 
     startSessionTimer: (taskId: number) => void;
     startRestTimer: (taskId: number) => void;
+
     stopTimer: () => void;
     restartTimer: (taskId: number) => void;
+    removeProgress: (taskId: number) => void;
 };
 
 const useTaskProgressStore = create<TaskProgress>()(
@@ -137,6 +139,16 @@ const useTaskProgressStore = create<TaskProgress>()(
                             [taskId]: 0
                         }
                     }))
+                },
+
+                removeProgress: (taskId: number) => {
+                    set(state => {
+                        const { [taskId]: _, ...rest } = state.sessionProgress;
+                        return {
+                            ...state,
+                            sessionProgress: rest
+                        }
+                    })
                 }
             };
         },
