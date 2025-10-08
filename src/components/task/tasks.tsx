@@ -46,11 +46,19 @@ export default function Tasks({ moduleId }: { moduleId: number }) {
 
         if (activeIndex === -1 || overIndex === -1) return;
 
-        const newTasks = arrayMove(data, activeIndex, overIndex);
+        const newTasks = arrayMove(data, activeIndex, overIndex)
 
-        const movedTasks: MovedTaskParams[] = newTasks
-            .map((task, index) => ({ id: task.id, position: index }))
-            .filter((task, index) => data[index].id != task.id);
+        const minIndex = Math.min(activeIndex, overIndex);
+        const maxIndex = Math.max(activeIndex, overIndex);
+
+        // Update positions only for the entire list (necessary for consistency, but efficient for small lists)
+        newTasks.forEach((task, idx) => task.position = idx);
+
+        const movedTasks: MovedTaskParams[] = [];
+        for (let i = minIndex; i <= maxIndex; i++) {
+            const task = newTasks[i];
+            movedTasks.push({ id: task.id, position: i });
+        }
 
         updateTaskPositionMut.mutate({ tasks: newTasks, movedTasks })
     }

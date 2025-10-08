@@ -70,7 +70,6 @@ export function useUpdateTaskPositionMut(moduleId: number) {
                 showErrMovingTaskToast(err);
             }
         },
-        onSettled: () => queryClient.invalidateQueries({ queryKey: options.queryKey })
     });
 
     return mutation;
@@ -106,7 +105,6 @@ export function useUpdateTaskCompletionMut(moduleId: number) {
                 showErrUpdatingTaskCompletion(err);
             }
         },
-        onSettled: () => queryClient.invalidateQueries({ queryKey: options.queryKey })
     });
 
     return mutation;
