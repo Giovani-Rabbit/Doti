@@ -48,7 +48,7 @@ function TaskItem({ task }: { task: Task }) {
                 <TaskRunner task={task} />
                 <TaskItemKbabMenu
                     moduleId={task.module_id}
-                    taskId={task.id}
+                    task={task}
                 />
             </div>
         </li>

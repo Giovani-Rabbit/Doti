@@ -1,5 +1,5 @@
 import HttpService from "@/util/http/http_service";
-import { CreateTaskDTO, MovedTaskParams, UpdateTaskCompletionDTO, UpdateTaskPositionDTO } from "./task-dto";
+import { CreateTaskDTO, MovedTaskParams, RenameTaskDTO, UpdateTaskCompletionDTO, UpdateTaskPositionDTO } from "./task-dto";
 import { Task } from "./task-interface";
 
 const httpService = new HttpService("tasks");
@@ -53,6 +53,21 @@ export async function deleteTask(taskId: number) {
     const res = await httpService.delete<null>({
         url: `/${taskId}`,
     });
+
+    if (res.error != null) {
+        throw new Error(res.error.message);
+    }
+
+    return res.data;
+}
+
+type RenameTaskRequest = { taskName: string }
+
+export async function renameTask({ taskId, taskName }: RenameTaskDTO) {
+    const res = await httpService.patch<RenameTaskRequest, null>({
+        url: `/${taskId}/rename`,
+        data: { taskName }
+    })
 
     if (res.error != null) {
         throw new Error(res.error.message);

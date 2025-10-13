@@ -17,3 +17,8 @@ export type UpdateTaskCompletionDTO = {
     taskId: number
     isComplete: boolean
 }
+
+export type RenameTaskDTO = {
+    taskId: number
+    taskName: string
+}

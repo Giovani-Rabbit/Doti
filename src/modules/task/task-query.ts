@@ -1,8 +1,8 @@
 import { queryOptions, useMutation, useQueryClient } from "@tanstack/react-query";
 import { fetchTasks } from "../module/module-serivce";
-import { createTask, deleteTask, updataTaskPosition, updateTaskCompletion } from "./task-serivce";
+import { createTask, deleteTask, renameTask, updataTaskPosition, updateTaskCompletion } from "./task-serivce";
 import { createFakeTask, Task } from "./task-interface";
-import { showCreateTaskErrToast, showErrDeletingTask, showErrMovingTaskToast, showErrUpdatingTaskCompletion } from "./task-toast";
+import { showCreateTaskErrToast, showErrDeletingTask, showErrMovingTaskToast, showErrRenamingTaskToast, showErrUpdatingTaskCompletion } from "./task-toast";
 import useTaskProgressStore from "./store/task-progress-store";
 import { MovedTaskParams } from "./task-dto";
 
@@ -158,6 +158,41 @@ export function useDeleteTaskMut(moduleId: number) {
                     context.prevTasks
                 )
                 showErrDeletingTask(err);
+            }
+        },
+    });
+
+    return mutation;
+}
+
+export function useRenameTaskMut(moduleId: number) {
+    const queryClient = useQueryClient();
+    const options = taskOptions(moduleId);
+
+    const mutation = useMutation({
+        mutationFn: renameTask,
+        onMutate: async ({ taskId, taskName }) => {
+            await queryClient.cancelQueries(options);
+
+            const prevTasks = queryClient.getQueryData<Task[]>(options.queryKey);
+
+            if (prevTasks) {
+                const renameTask = prevTasks.map(task =>
+                    task.id === taskId ? { ...task, name: taskName } : task
+                )
+
+                queryClient.setQueryData<Task[]>(options.queryKey, renameTask);
+            }
+
+            return { prevTasks };
+        },
+        onError: (err, __, context) => {
+            if (context?.prevTasks) {
+                queryClient.setQueryData<Task[]>(
+                    options.queryKey,
+                    context.prevTasks
+                )
+                showErrRenamingTaskToast(err);
             }
         },
     });

@@ -43,3 +43,14 @@ export function showErrDeletingTask(
         ...toastExternal
     });
 }
+
+export function showErrRenamingTaskToast(
+    err: Error,
+    toastExternal?: ExternalToast
+) {
+    toast.error("Error on rename the task", {
+        description: err.message,
+        position: "top-center",
+        ...toastExternal
+    });
+}
