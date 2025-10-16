@@ -1,3 +1,4 @@
+import TaskDetails from "@/components/task_details/task-details";
 
 export default function AppLayout({
     children,
@@ -6,12 +7,12 @@ export default function AppLayout({
 }) {
 
     return (
-        <div className="grid grid-cols-2 h-full">
-            <div className="border-r border-zinc-200">{children}</div>
-
-            <div className="">
-
+        <div className="grid grid-cols-5 h-full">
+            <div className="col-span-3 border-r border-zinc-200">
+                {children}
             </div>
+
+            <TaskDetails />
         </div>
     );
 }
