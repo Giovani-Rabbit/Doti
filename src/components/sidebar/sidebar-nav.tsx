@@ -2,7 +2,7 @@ import { AlarmClockCheckIcon, InboxIcon, KanbanIcon, TimerIcon } from "lucide-re
 
 export default function SidebarNav() {
     return (
-        <nav className="w-30 py-2 gap-1 h-screen flex flex-col items-center justify-start border-r border-zinc-200">
+        <nav className="p-2 gap-1 h-screen flex flex-col items-center justify-start border-r border-zinc-200">
             <AlarmClockCheckIcon className="h-8 w-auto p-1.5 bg-zinc-800 rounded-lg stroke-zinc-100" />
 
             <div className="h-4" />
